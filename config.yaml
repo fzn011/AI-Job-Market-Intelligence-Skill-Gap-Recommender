@@ -1,0 +1,22 @@
+project:
+  name: AI Job Market Intelligence
+  version: 0.1.0
+
+data:
+  raw_data_path: data/raw/
+  processed_data_path: data/processed/
+  sample_data_path: data/sample/
+
+skills:
+  skill_dictionary_path: data/sample/skills_dictionary.json
+
+model:
+  random_state: 42
+  clustering_method: kmeans
+  n_clusters: 5
+  tfidf_max_features: 500
+
+app:
+  title: AI Job Market Intelligence Dashboard
+  page_icon: "📊"
+  layout: wide

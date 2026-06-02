@@ -1,0 +1,92 @@
+{
+  "programming_languages": [
+    "python",
+    "r",
+    "sql",
+    "java",
+    "javascript",
+    "c++"
+  ],
+  "data_analysis": [
+    "pandas",
+    "numpy",
+    "excel",
+    "power bi",
+    "tableau",
+    "data visualization",
+    "looker",
+    "qlik"
+  ],
+  "machine_learning": [
+    "machine learning",
+    "scikit-learn",
+    "classification",
+    "regression",
+    "clustering",
+    "random forest",
+    "xgboost",
+    "lightgbm",
+    "gradient boosting",
+    "feature engineering"
+  ],
+  "deep_learning_ai": [
+    "deep learning",
+    "pytorch",
+    "tensorflow",
+    "computer vision",
+    "nlp",
+    "natural language processing",
+    "llm",
+    "large language models",
+    "rag",
+    "retrieval augmented generation",
+    "generative ai",
+    "transformers",
+    "hugging face"
+  ],
+  "data_engineering": [
+    "etl",
+    "data pipeline",
+    "airflow",
+    "spark",
+    "postgresql",
+    "mysql",
+    "mongodb",
+    "kafka",
+    "dbt",
+    "data warehouse",
+    "snowflake",
+    "databricks"
+  ],
+  "mlops_deployment": [
+    "mlflow",
+    "docker",
+    "fastapi",
+    "streamlit",
+    "github",
+    "ci/cd",
+    "model deployment",
+    "kubernetes",
+    "model monitoring",
+    "a/b testing"
+  ],
+  "cloud_tools": [
+    "aws",
+    "azure",
+    "gcp",
+    "google cloud",
+    "cloud computing",
+    "s3",
+    "bigquery",
+    "sagemaker"
+  ],
+  "soft_skills": [
+    "communication",
+    "problem solving",
+    "stakeholder management",
+    "collaboration",
+    "analytical thinking",
+    "presentation skills",
+    "business acumen"
+  ]
+}
