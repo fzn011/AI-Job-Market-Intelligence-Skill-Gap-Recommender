@@ -15,7 +15,12 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from src.dashboard_utils import load_processed_jobs, load_skill_frequency  # noqa: E402
+from src.dashboard_utils import (  # noqa: E402
+    get_active_dataset_label,
+    load_active_jobs_dataset,
+    load_processed_jobs,
+    load_skill_frequency,
+)
 from src.skill_analysis_utils import (  # noqa: E402
     build_skill_category_lookup,
     explode_skills_dataframe,
@@ -29,16 +34,36 @@ from src.skill_analysis_utils import (  # noqa: E402
     get_top_skills,
     load_skill_dictionary_for_analysis,
 )
+from src.ui_theme import apply_global_theme, render_brand_header, style_plotly_figure  # noqa: E402
 
 
 st.set_page_config(page_title="Skill Demand Analysis", page_icon="🔬", layout="wide")
 
-st.title("🔬 Skill Demand Analysis")
-st.caption(
-    "Explore which technical and soft skills appear most often across data, AI, and analytics roles."
+apply_global_theme()
+
+render_brand_header(
+    app_name="EmberScope AI · Skill Demand Analysis",
+    subtitle="Discover which skills dominate the market and how they connect by role.",
+    logo_mark="◜●◝",
 )
 
-jobs_df = load_processed_jobs()
+dataset_pref = st.sidebar.selectbox(
+    "Dataset source",
+    options=["Auto", "Imported", "Sample"],
+    key="page2_dataset_source",
+)
+pref_value = dataset_pref.strip().lower()
+
+jobs_df = load_active_jobs_dataset(preferred=pref_value)
+if jobs_df.empty and pref_value != "auto":
+    st.info(
+        "Selected dataset was not found. Falling back to auto-detection. "
+        "Use Data Import page or CLI import to create imported outputs."
+    )
+    jobs_df = load_processed_jobs()
+
+st.caption(f"Active dataset: {get_active_dataset_label(preferred=pref_value)}")
+
 skill_freq_df = load_skill_frequency()
 skill_dict = load_skill_dictionary_for_analysis()
 category_lookup = build_skill_category_lookup(skill_dict)
@@ -52,13 +77,11 @@ if jobs_df.empty:
 total_jobs = len(jobs_df)
 filtered_jobs_df = jobs_df.copy()
 
-st.sidebar.header("Filters")
 
-
-def apply_multiselect_filter(df: pd.DataFrame, column: str, label: str) -> pd.DataFrame:
+def get_filter_options(df: pd.DataFrame, column: str) -> list[str]:
     if column not in df.columns:
-        return df
-    options = sorted(
+        return []
+    return sorted(
         df[column]
         .dropna()
         .astype(str)
@@ -68,16 +91,33 @@ def apply_multiselect_filter(df: pd.DataFrame, column: str, label: str) -> pd.Da
         .unique()
         .tolist()
     )
-    selected = st.sidebar.multiselect(label, options=options)
+
+
+def apply_multiselect_filter(df: pd.DataFrame, column: str, selected: list[str]) -> pd.DataFrame:
     if selected:
         return df[df[column].astype(str).isin(selected)].copy()
     return df
 
 
-filtered_jobs_df = apply_multiselect_filter(filtered_jobs_df, "job_type", "Job Type")
-filtered_jobs_df = apply_multiselect_filter(filtered_jobs_df, "job_title", "Job Title")
-filtered_jobs_df = apply_multiselect_filter(filtered_jobs_df, "location", "Location")
-filtered_jobs_df = apply_multiselect_filter(filtered_jobs_df, "company", "Company")
+with st.container():
+    st.subheader("Explore Filters")
+    filter_col_1, filter_col_2 = st.columns(2)
+    filter_col_3, filter_col_4 = st.columns(2)
+
+    with filter_col_1:
+        selected_job_type = st.multiselect("Job Type", options=get_filter_options(filtered_jobs_df, "job_type"))
+    with filter_col_2:
+        selected_job_title = st.multiselect("Job Title", options=get_filter_options(filtered_jobs_df, "job_title"))
+    with filter_col_3:
+        selected_location = st.multiselect("Location", options=get_filter_options(filtered_jobs_df, "location"))
+    with filter_col_4:
+        selected_company = st.multiselect("Company", options=get_filter_options(filtered_jobs_df, "company"))
+
+
+filtered_jobs_df = apply_multiselect_filter(filtered_jobs_df, "job_type", selected_job_type)
+filtered_jobs_df = apply_multiselect_filter(filtered_jobs_df, "job_title", selected_job_title)
+filtered_jobs_df = apply_multiselect_filter(filtered_jobs_df, "location", selected_location)
+filtered_jobs_df = apply_multiselect_filter(filtered_jobs_df, "company", selected_company)
 
 st.write(f"Showing **{len(filtered_jobs_df)}** of **{total_jobs}** jobs after filters")
 
@@ -119,6 +159,7 @@ with left_col:
             orientation="h",
             labels={"frequency": "Frequency", "skill": "Skill"},
         )
+        style_plotly_figure(fig_top_skills)
         st.plotly_chart(fig_top_skills, use_container_width=True)
 
 with right_col:
@@ -133,6 +174,7 @@ with right_col:
             labels={"skill_category": "Skill Category", "frequency": "Frequency"},
         )
         fig_category.update_layout(xaxis_tickangle=-25)
+        style_plotly_figure(fig_category)
         st.plotly_chart(fig_category, use_container_width=True)
 
 split_col, _ = st.columns(2)
@@ -142,6 +184,7 @@ with split_col:
         st.info("Skill-type split unavailable.")
     else:
         fig_split = px.pie(split_df, names="skill_type", values="frequency")
+        style_plotly_figure(fig_split)
         st.plotly_chart(fig_split, use_container_width=True)
 
 st.markdown("---")
@@ -156,6 +199,7 @@ else:
         labels={"x": "Skill", "y": "Job Type", "color": "Frequency"},
         aspect="auto",
     )
+    style_plotly_figure(fig_job_type_heatmap)
     st.plotly_chart(fig_job_type_heatmap, use_container_width=True)
 
 st.subheader("Skills by Job Title Heatmap")
@@ -176,6 +220,7 @@ else:
         labels={"x": "Skill", "y": "Job Title", "color": "Frequency"},
         aspect="auto",
     )
+    style_plotly_figure(fig_job_title_heatmap)
     st.plotly_chart(fig_job_title_heatmap, use_container_width=True)
 
 st.subheader("Skill Co-occurrence Heatmap")
@@ -192,6 +237,7 @@ else:
         )
     )
     fig_cooccurrence.update_layout(xaxis_title="Skill", yaxis_title="Skill")
+    style_plotly_figure(fig_cooccurrence)
     st.plotly_chart(fig_cooccurrence, use_container_width=True)
 
 st.subheader("Top Skill Combinations")
@@ -211,6 +257,7 @@ else:
         orientation="h",
         labels={"frequency": "Frequency", "skill_combination": "Skill Combination"},
     )
+    style_plotly_figure(fig_combinations)
     st.plotly_chart(fig_combinations, use_container_width=True)
     st.dataframe(combination_df, use_container_width=True)
 

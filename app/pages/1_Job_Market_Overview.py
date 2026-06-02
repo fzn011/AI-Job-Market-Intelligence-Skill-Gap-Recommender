@@ -17,24 +17,43 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from src.dashboard_utils import (  # noqa: E402
     add_total_extracted_skills_metric,
+    get_active_dataset_label,
     get_basic_job_metrics,
     get_top_values,
+    load_active_jobs_dataset,
     load_processed_jobs,
-    load_skill_frequency,
     parse_extracted_skills,
     prepare_jobs_preview,
 )
+from src.ui_theme import apply_global_theme, render_brand_header, style_plotly_figure  # noqa: E402
 
 
 st.set_page_config(page_title="Job Market Overview", page_icon="🗺️", layout="wide")
 
-st.title("🗺️ Job Market Overview")
-st.caption(
-    "Analyze job-posting data to understand role distribution, locations, companies, and skill coverage."
+apply_global_theme()
+
+render_brand_header(
+    app_name="EmberScope AI · Job Market Overview",
+    subtitle="Track demand signals across roles, locations, companies, and skills.",
+    logo_mark="◜●◝",
 )
 
-jobs_df = load_processed_jobs()
-skill_frequency_df = load_skill_frequency()
+dataset_pref = st.sidebar.selectbox(
+    "Dataset source",
+    options=["Auto", "Imported", "Sample"],
+    key="page1_dataset_source",
+)
+pref_value = dataset_pref.strip().lower()
+
+jobs_df = load_active_jobs_dataset(preferred=pref_value)
+if jobs_df.empty and pref_value != "auto":
+    st.info(
+        "Selected dataset was not found. Falling back to auto-detection. "
+        "Use Data Import page or CLI import to create imported outputs."
+    )
+    jobs_df = load_processed_jobs()
+
+st.caption(f"Active dataset: {get_active_dataset_label(preferred=pref_value)}")
 
 if jobs_df.empty:
     st.warning(
@@ -45,12 +64,10 @@ if jobs_df.empty:
 original_total = len(jobs_df)
 filtered_df = jobs_df.copy()
 
-st.sidebar.header("Filters")
-
-def apply_multiselect_filter(df: pd.DataFrame, column: str, label: str) -> pd.DataFrame:
+def get_filter_options(df: pd.DataFrame, column: str) -> list[str]:
     if column not in df.columns:
-        return df
-    options = sorted(
+        return []
+    return sorted(
         df[column]
         .dropna()
         .astype(str)
@@ -60,15 +77,29 @@ def apply_multiselect_filter(df: pd.DataFrame, column: str, label: str) -> pd.Da
         .unique()
         .tolist()
     )
-    selected = st.sidebar.multiselect(label, options=options)
+
+
+def apply_multiselect_filter(df: pd.DataFrame, column: str, selected: list[str]) -> pd.DataFrame:
     if selected:
         return df[df[column].astype(str).isin(selected)].copy()
     return df
 
 
-filtered_df = apply_multiselect_filter(filtered_df, "job_type", "Job Type")
-filtered_df = apply_multiselect_filter(filtered_df, "location", "Location")
-filtered_df = apply_multiselect_filter(filtered_df, "company", "Company")
+with st.container():
+    st.subheader("Explore Filters")
+    filter_col_1, filter_col_2, filter_col_3 = st.columns(3)
+
+    with filter_col_1:
+        selected_job_type = st.multiselect("Job Type", options=get_filter_options(filtered_df, "job_type"))
+    with filter_col_2:
+        selected_location = st.multiselect("Location", options=get_filter_options(filtered_df, "location"))
+    with filter_col_3:
+        selected_company = st.multiselect("Company", options=get_filter_options(filtered_df, "company"))
+
+
+filtered_df = apply_multiselect_filter(filtered_df, "job_type", selected_job_type)
+filtered_df = apply_multiselect_filter(filtered_df, "location", selected_location)
+filtered_df = apply_multiselect_filter(filtered_df, "company", selected_company)
 
 st.write(f"Showing **{len(filtered_df)}** of **{original_total}** jobs")
 
@@ -105,6 +136,7 @@ with chart_col_1:
             labels={"value": "Job Title", "count": "Count"},
         )
         fig_titles.update_layout(xaxis_tickangle=-30)
+        style_plotly_figure(fig_titles)
         st.plotly_chart(fig_titles, use_container_width=True)
 
 with chart_col_2:
@@ -120,6 +152,7 @@ with chart_col_2:
             labels={"value": "Location", "count": "Count"},
         )
         fig_locations.update_layout(xaxis_tickangle=-30)
+        style_plotly_figure(fig_locations)
         st.plotly_chart(fig_locations, use_container_width=True)
 
 chart_col_3, chart_col_4 = st.columns(2)
@@ -131,6 +164,7 @@ with chart_col_3:
         st.info("No job type data available for selected filters.")
     else:
         fig_types = px.pie(top_types, values="count", names="value")
+        style_plotly_figure(fig_types)
         st.plotly_chart(fig_types, use_container_width=True)
 
 with chart_col_4:
@@ -144,6 +178,7 @@ with chart_col_4:
             nbins=min(15, max(5, int(skill_count_series.max()) + 1)),
             labels={"x": "Skill Count", "y": "Number of Jobs"},
         )
+        style_plotly_figure(fig_skill_count)
         st.plotly_chart(fig_skill_count, use_container_width=True)
 
 st.subheader("Top Skills Overall")
@@ -163,16 +198,12 @@ if filters_applied and "extracted_skills" in filtered_df.columns:
         filtered_skill_freq.columns = ["skill", "frequency"]
         fig_skills = px.bar(filtered_skill_freq, x="skill", y="frequency")
         fig_skills.update_layout(xaxis_tickangle=-30)
+        style_plotly_figure(fig_skills)
         st.plotly_chart(fig_skills, use_container_width=True)
     else:
         st.info("No extracted skill data available for the selected filters.")
-elif not skill_frequency_df.empty and {"skill", "frequency"}.issubset(skill_frequency_df.columns):
-    top_skills = skill_frequency_df.sort_values("frequency", ascending=False).head(15)
-    fig_skills = px.bar(top_skills, x="skill", y="frequency")
-    fig_skills.update_layout(xaxis_tickangle=-30)
-    st.plotly_chart(fig_skills, use_container_width=True)
 else:
-    st.info("Skill frequency file not found. Run `python scripts/run_project_check.py`.")
+    st.info("No extracted skill data available for the selected filters.")
 
 st.markdown("---")
 st.subheader("Quick Insights")
@@ -207,11 +238,16 @@ if filters_applied and "extracted_skills" in filtered_df.columns:
         top_skill = pd.Series(all_skills_for_insight).value_counts().index[0]
         top_skill_count = int(pd.Series(all_skills_for_insight).value_counts().iloc[0])
         insights.append(f"Most frequent skill (filtered): **{top_skill}** ({top_skill_count} mentions).")
-elif not skill_frequency_df.empty and {"skill", "frequency"}.issubset(skill_frequency_df.columns):
-    top_skill_row = skill_frequency_df.sort_values("frequency", ascending=False).iloc[0]
-    insights.append(
-        f"Most frequent skill overall: **{top_skill_row['skill']}** ({int(top_skill_row['frequency'])} mentions)."
-    )
+else:
+    all_skills_for_insight = []
+    if "extracted_skills" in jobs_df.columns:
+        for value in jobs_df["extracted_skills"]:
+            all_skills_for_insight.extend(parse_extracted_skills(value))
+    if all_skills_for_insight:
+        top_counts = pd.Series(all_skills_for_insight).value_counts()
+        insights.append(
+            f"Most frequent skill overall: **{top_counts.index[0]}** ({int(top_counts.iloc[0])} mentions)."
+        )
 
 for insight in insights:
     st.markdown(f"- {insight}")

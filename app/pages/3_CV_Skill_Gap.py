@@ -24,24 +24,44 @@ from src.cv_gap_utils import (  # noqa: E402
     get_market_skills_by_target_role,
     recommend_learning_path,
 )
-from src.dashboard_utils import load_processed_jobs  # noqa: E402
+from src.dashboard_utils import get_active_dataset_label, load_active_jobs_dataset, load_processed_jobs  # noqa: E402
 from src.skill_analysis_utils import (  # noqa: E402
     build_skill_category_lookup,
     load_skill_dictionary_for_analysis,
 )
+from src.ui_theme import apply_global_theme, render_brand_header, style_plotly_figure  # noqa: E402
 
 
 st.set_page_config(page_title="CV Skill Gap Analyzer", page_icon="📄", layout="wide")
 
-st.title("📄 CV Skill Gap Analyzer")
-st.caption(
-    "Paste your CV or profile text, select a target role, and compare your skills against market demand."
+apply_global_theme()
+
+render_brand_header(
+    app_name="EmberScope AI · CV Skill Gap Analyzer",
+    subtitle="Turn your CV into a clear roadmap for role alignment.",
+    logo_mark="◜●◝",
 )
 
-jobs_df = load_processed_jobs()
+dataset_pref = st.sidebar.selectbox(
+    "Dataset source",
+    options=["Auto", "Imported", "Sample"],
+    key="page3_dataset_source",
+)
+pref_value = dataset_pref.strip().lower()
+
+jobs_df = load_active_jobs_dataset(preferred=pref_value)
+if jobs_df.empty and pref_value != "auto":
+    st.info(
+        "Selected dataset was not found. Falling back to auto-detection. "
+        "Use Data Import page or CLI import to create imported outputs."
+    )
+    jobs_df = load_processed_jobs()
+
 if jobs_df.empty:
     st.warning("Processed job data was not found. Please run: python scripts/run_project_check.py")
     st.stop()
+
+st.caption(f"Active dataset: {get_active_dataset_label(preferred=pref_value)}")
 
 skill_dictionary = load_skill_dictionary_for_analysis()
 if not skill_dictionary:
@@ -64,18 +84,23 @@ target_role_options = [
     "Junior Data Scientist",
 ]
 
-left_col, right_col = st.columns([1.5, 1])
+st.subheader("Analysis Controls")
+ctrl_col_1, ctrl_col_2, ctrl_col_3 = st.columns([1.2, 1, 0.8])
+with ctrl_col_1:
+    target_role = st.selectbox("Select Target Role", options=target_role_options, index=0)
+with ctrl_col_2:
+    use_top_25 = st.checkbox("Use top 25 market skills only", value=True)
+with ctrl_col_3:
+    analyze_clicked = st.button("Analyze Skill Gap", type="primary", use_container_width=True)
+
+left_col, right_col = st.columns([1.45, 1])
 
 with left_col:
     cv_text = st.text_area(
         "Paste CV / Resume / Profile Text",
-        height=300,
+        height=340,
         placeholder="Paste your resume, LinkedIn About section, or project profile here...",
     )
-
-    target_role = st.selectbox("Select Target Role", options=target_role_options, index=0)
-    use_top_25 = st.checkbox("Use top 25 market skills only", value=True)
-    analyze_clicked = st.button("Analyze Skill Gap", type="primary")
 
 with right_col:
     st.subheader("How to use")
@@ -168,6 +193,7 @@ if run_analysis:
             y="count",
             labels={"status": "Skill Status", "count": "Count"},
         )
+        style_plotly_figure(fig_status)
         st.plotly_chart(fig_status, use_container_width=True)
 
     with chart_col_2:
@@ -178,6 +204,7 @@ if run_analysis:
             values="count",
             hole=0.5,
         )
+        style_plotly_figure(fig_donut)
         st.plotly_chart(fig_donut, use_container_width=True)
 
     chart_col_3, chart_col_4 = st.columns(2)
@@ -198,6 +225,7 @@ if run_analysis:
                 labels={"count": "Count", "category": "Skill Category"},
             )
             fig_category.update_layout(xaxis_tickangle=-25)
+            style_plotly_figure(fig_category)
             st.plotly_chart(fig_category, use_container_width=True)
 
     with chart_col_4:
@@ -216,6 +244,7 @@ if run_analysis:
                 orientation="h",
                 labels={"covered": "Coverage (1=Matched, 0=Missing)", "market_skill": "Market Skill"},
             )
+            style_plotly_figure(fig_coverage)
             st.plotly_chart(fig_coverage, use_container_width=True)
 
     st.markdown("---")

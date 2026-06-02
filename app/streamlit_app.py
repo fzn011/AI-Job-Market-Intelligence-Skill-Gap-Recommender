@@ -63,7 +63,7 @@ with st.sidebar:
         """
     )
     st.markdown("---")
-    dataset_preference = st.selectbox("Dataset Source", options=["Auto", "Imported", "Sample"], index=0)
+    dataset_preference = st.selectbox("Dataset source", options=["Auto", "Imported", "Sample"], index=0)
     preferred_mode = dataset_preference.strip().lower()
     st.caption(f"Active dataset: {get_active_dataset_label(preferred=preferred_mode)}")
     st.markdown("---")

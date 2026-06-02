@@ -47,7 +47,7 @@ render_brand_header(
 )
 
 dataset_pref = st.sidebar.selectbox(
-    "Dataset Source",
+    "Dataset source",
     options=["Auto", "Imported", "Sample"],
     key="page4_dataset_source",
 )
