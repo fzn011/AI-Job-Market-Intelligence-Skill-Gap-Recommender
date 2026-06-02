@@ -270,6 +270,24 @@ Current capabilities:
 - Rule-based insights
 - Data quality notes
 
+### 3. CV Skill Gap Analyzer
+
+The third working dashboard page is available at:
+
+- `app/pages/3_CV_Skill_Gap.py`
+
+Current capabilities:
+
+- CV/resume text input
+- Target role selection
+- CV skill extraction
+- Role-based market skill comparison
+- Match score
+- Matched/missing/extra skills
+- Learning and project recommendations
+- Downloadable skill-gap report
+- Rule-based insights
+
 ---
 
 ## Recommended Local Run Order

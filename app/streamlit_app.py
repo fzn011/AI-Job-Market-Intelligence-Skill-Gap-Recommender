@@ -95,6 +95,11 @@ st.info(
     "Open it from the Streamlit sidebar: `Pages -> 2_Skill_Analysis`."
 )
 
+st.info(
+    "✅ The third working dashboard page is **CV Skill Gap Analyzer**. "
+    "Open it from the Streamlit sidebar: `Pages -> 3_CV_Skill_Gap`."
+)
+
 st.markdown("---")
 
 st.markdown(
@@ -125,6 +130,8 @@ with col1:
     st.info(
         """
         **📄 3. CV Skill Gap Analyzer**
+
+        ✅ **Working now**
 
         Paste or upload your CV.
         See exactly which skills you have and which you are missing
