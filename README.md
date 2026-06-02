@@ -252,6 +252,24 @@ Current capabilities:
 >
 > `python scripts/run_project_check.py`
 
+### 2. Skill Demand Analysis
+
+The second working dashboard page is available at:
+
+- `app/pages/2_Skill_Analysis.py`
+
+Current capabilities:
+
+- Top skills overall
+- Skill categories
+- Technical vs soft skill split
+- Role-wise skill heatmaps
+- Skill co-occurrence
+- Common skill combinations
+- Downloadable skill table
+- Rule-based insights
+- Data quality notes
+
 ---
 
 ## Recommended Local Run Order

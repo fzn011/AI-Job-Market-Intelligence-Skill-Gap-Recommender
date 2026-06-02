@@ -90,6 +90,11 @@ st.info(
     "Open it from the Streamlit sidebar: `Pages -> 1_Job_Market_Overview`."
 )
 
+st.info(
+    "✅ The second working dashboard page is **Skill Demand Analysis**. "
+    "Open it from the Streamlit sidebar: `Pages -> 2_Skill_Analysis`."
+)
+
 st.markdown("---")
 
 st.markdown(
@@ -132,8 +137,10 @@ with col2:
         """
         **🔬 2. Skill Demand Analysis**
 
-        See which skills appear most frequently across job postings.
-        Drill down by job category or role type.
+        ✅ **Working now**
+
+        Analyze top skills, category distribution, skill co-occurrence,
+        and role-wise skill demand patterns.
         """
     )
     st.info(
