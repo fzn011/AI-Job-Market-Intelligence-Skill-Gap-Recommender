@@ -242,30 +242,4 @@ streamlit run app/streamlit_app.py
 
 ---
 
-## Current Status
-
-| Milestone | Status |
-|---|---|
-| Project structure setup | ✅ Complete |
-| Sample data and skills dictionary | ✅ Complete |
-| Validation + health check pipeline | ✅ Complete |
-| Data cleaning module | ✅ Baseline complete |
-| Skill extraction module | ✅ Baseline complete |
-| Job clustering | ⏳ Planned |
-| CV analyzer | ⏳ Planned |
-| Recommendation engine | ✅ Baseline complete |
-| Streamlit dashboard | 🔄 Landing + placeholders ready |
-
----
-
-## Future Improvements
-
-- Live job scraping from public job boards
-- Resume PDF parsing
-- Semantic similarity using sentence-transformers
-- Trend tracking over time (which skills are growing)
-- Exportable PDF skill gap reports
-- Deployment on Streamlit Community Cloud
-
----
 
