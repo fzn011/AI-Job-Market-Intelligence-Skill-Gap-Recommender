@@ -269,14 +269,3 @@ streamlit run app/streamlit_app.py
 
 ---
 
-## Author
-
-**[Your Name]**
-Data Scientist | AI Engineer | Portfolio Project
-
-- GitHub: [github.com/YOUR_USERNAME](https://github.com/YOUR_USERNAME)
-- LinkedIn: [linkedin.com/in/YOUR_PROFILE](https://linkedin.com/in/YOUR_PROFILE)
-
----
-
-*This project is built as part of a professional data science portfolio. All job data used during development is synthetic.*
