@@ -307,6 +307,25 @@ Current capabilities:
 - Downloadable project roadmap
 - Rule-based insights
 
+### 5. Role Segmentation + Job Clustering
+
+The fifth working dashboard page is available at:
+
+- `app/pages/5_Role_Clustering.py`
+
+Current capabilities:
+
+- Job filtering by type and location
+- Configurable number of clusters
+- TF-IDF + KMeans clustering pipeline
+- 2D cluster visualization (SVD projection)
+- Cluster-level summaries and interpretable labels
+- Top terms and top skills per cluster
+- Cluster vs job-type heatmap
+- Downloadable clustered-jobs CSV
+- Downloadable cluster summary report
+- Rule-based insights and interpretation notes
+
 ---
 
 ## Recommended Local Run Order

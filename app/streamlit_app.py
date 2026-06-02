@@ -60,6 +60,7 @@ with st.sidebar:
         - 🔬 Skill Demand Analysis
         - 📄 CV Skill Gap Analyzer
         - 🚀 Project Recommendations
+        - 🧠 Role Segmentation + Job Clustering
         """
     )
     st.markdown("---")
@@ -112,6 +113,11 @@ st.info(
 st.info(
     "✅ The fourth working dashboard page is **Project Recommendation Engine**. "
     "Open it from the Streamlit sidebar: `Pages -> 4_Project_Recommendations`."
+)
+
+st.info(
+    "✅ The fifth working dashboard page is **Role Segmentation + Job Clustering**. "
+    "Open it from the Streamlit sidebar: `Pages -> 5_Role_Clustering`."
 )
 
 st.markdown("---")
@@ -172,6 +178,16 @@ with col2:
 
         Get a personalised list of portfolio projects to build
         in order to close your skill gap efficiently.
+        """
+    )
+    st.info(
+        """
+        **🧠 5. Role Segmentation + Job Clustering**
+
+        ✅ **Working now**
+
+        Group jobs into role segments using unsupervised learning,
+        then explore cluster-level themes, skills, and market patterns.
         """
     )
 
