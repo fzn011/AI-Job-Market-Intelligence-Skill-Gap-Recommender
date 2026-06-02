@@ -26,10 +26,8 @@ This repository is designed as a professional, GitHub-ready, end-to-end portfoli
 - [Folder Structure](#folder-structure)
 - [How to Run Locally](#how-to-run-locally)
 - [Project Health Check](#project-health-check)
+- [Current Dashboard Pages](#current-dashboard-pages)
 - [Recommended Local Run Order](#recommended-local-run-order)
-- [Current Status](#current-status)
-- [Future Improvements](#future-improvements)
-- [Author](#author)
 
 ---
 
@@ -226,6 +224,33 @@ Top 10 skills:
 2. sql - 7
 ...
 ```
+
+---
+
+## Current Dashboard Pages
+
+### 1. Job Market Overview
+
+The first working dashboard page is available at:
+
+- `app/pages/1_Job_Market_Overview.py`
+
+Current capabilities:
+
+- KPI metrics
+- Dataset preview
+- Filters (job type, location, company)
+- Job-title distribution chart
+- Location distribution chart
+- Job-type distribution chart
+- Skill-count distribution chart
+- Top skills chart
+- Quick rule-based insights
+- Data quality notes
+
+> Before launching Streamlit, run:
+>
+> `python scripts/run_project_check.py`
 
 ---
 

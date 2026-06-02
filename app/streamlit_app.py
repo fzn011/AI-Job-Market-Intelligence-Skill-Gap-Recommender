@@ -85,6 +85,11 @@ else:
         "from the project root first."
     )
 
+st.info(
+    "✅ The first working dashboard page is **Job Market Overview**. "
+    "Open it from the Streamlit sidebar: `Pages -> 1_Job_Market_Overview`."
+)
+
 st.markdown("---")
 
 st.markdown(
@@ -106,8 +111,10 @@ with col1:
         """
         **🗺️ 1. Job Market Overview**
 
-        Explore the current AI and data job market.
-        View top job titles, locations, and hiring trends.
+        ✅ **Working now**
+
+        Explore role distributions, company/location patterns,
+        skills-per-job, and quick market insights.
         """
     )
     st.info(
