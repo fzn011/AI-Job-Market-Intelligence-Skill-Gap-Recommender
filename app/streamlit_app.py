@@ -1,9 +1,17 @@
 """Main Streamlit dashboard entry point."""
 
+import sys
 from pathlib import Path
 import ast
 import pandas as pd
 import streamlit as st
+
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from src.ui_theme import apply_global_theme, render_brand_header  # noqa: E402
 
 # ── Page configuration ────────────────────────────────────────────────────────
 st.set_page_config(
@@ -37,9 +45,11 @@ def _safe_count_extracted_skills(df: pd.DataFrame) -> int:
 project_root = Path(__file__).resolve().parents[1]
 processed_path = project_root / "data" / "processed" / "processed_sample_jobs.csv"
 
+apply_global_theme()
+
 # ── Sidebar ───────────────────────────────────────────────────────────────────
 with st.sidebar:
-    st.title("📊 AI Job Market Intelligence")
+    st.title("EmberScope AI")
     st.markdown("---")
     st.markdown(
         """
@@ -56,11 +66,10 @@ with st.sidebar:
     st.caption("v0.1.0 · Open-source · Free tools only")
 
 # ── Main content ──────────────────────────────────────────────────────────────
-st.title("📊 AI Job Market Intelligence Dashboard")
-st.markdown(
-    """
-    **Understand the AI job market. Identify your skill gaps. Get actionable recommendations.**
-    """
+render_brand_header(
+    app_name="EmberScope AI",
+    subtitle="Understand the market. Map your skill gap. Build your next move.",
+    logo_mark="◜●◝",
 )
 
 st.markdown("---")
@@ -98,6 +107,11 @@ st.info(
 st.info(
     "✅ The third working dashboard page is **CV Skill Gap Analyzer**. "
     "Open it from the Streamlit sidebar: `Pages -> 3_CV_Skill_Gap`."
+)
+
+st.info(
+    "✅ The fourth working dashboard page is **Project Recommendation Engine**. "
+    "Open it from the Streamlit sidebar: `Pages -> 4_Project_Recommendations`."
 )
 
 st.markdown("---")
@@ -153,6 +167,8 @@ with col2:
     st.info(
         """
         **🚀 4. Project Recommendation Engine**
+
+        ✅ **Working now**
 
         Get a personalised list of portfolio projects to build
         in order to close your skill gap efficiently.

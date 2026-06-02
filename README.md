@@ -288,6 +288,25 @@ Current capabilities:
 - Downloadable skill-gap report
 - Rule-based insights
 
+### 4. Project Recommendation Engine
+
+The fourth working dashboard page is available at:
+
+- `app/pages/4_Project_Recommendations.py`
+
+Current capabilities:
+
+- Target role selection
+- Role-based or manual skill selection
+- Project recommendations
+- Project coverage scoring
+- Difficulty and project type filtering
+- Project-skill coverage matrix
+- Project cards with deliverables and tech stack
+- Downloadable recommendations CSV
+- Downloadable project roadmap
+- Rule-based insights
+
 ---
 
 ## Recommended Local Run Order
