@@ -54,10 +54,20 @@ def main() -> int:
     requirements = root / "requirements.txt"
     deployment_config = root / ".streamlit" / "config.toml"
 
+    packaging_docs = [
+        root / "docs" / "recruiter_one_pager.md",
+        root / "docs" / "demo" / "demo_recording_checklist.md",
+        root / "docs" / "demo" / "linkedin_launch_post.md",
+        root / "docs" / "demo" / "resume_bullets.md",
+        root / "docs" / "demo" / "interview_talking_points.md",
+        root / "docs" / "screenshots" / "screenshot_checklist.md",
+    ]
+
     pages_found = sum(1 for p in pages if exists(p))
     modules_found = sum(1 for p in core_modules if exists(p))
     folders_ok = all(exists(p) for p in required_folders)
     scripts_ok = all(exists(p) for p in required_scripts)
+    packaging_found = sum(1 for p in packaging_docs if exists(p))
 
     print("Final Project Audit")
     print("-------------------")
@@ -68,6 +78,7 @@ def main() -> int:
     print(f"Import guide: {'Yes' if exists(import_guide) else 'No'}")
     print(f"README: {'Yes' if exists(readme) else 'No'}")
     print(f"Deployment config: {'Yes' if exists(deployment_config) else 'No'}")
+    print(f"Portfolio packaging docs: {packaging_found}/{len(packaging_docs)}")
     print(f"Requirements file: {'Yes' if exists(requirements) else 'No'}")
     print(f"Required folders ready: {'Yes' if folders_ok else 'No'}")
     print(f"Required scripts ready: {'Yes' if scripts_ok else 'No'}")

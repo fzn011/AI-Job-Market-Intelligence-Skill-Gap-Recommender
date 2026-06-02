@@ -178,6 +178,20 @@ See also: `docs/limitations.md`
 
 ---
 
+## Portfolio & Demo Materials
+
+- Recruiter one-pager: `docs/recruiter_one_pager.md`
+- Demo script: `docs/demo/demo_script.md`
+- Demo recording checklist: `docs/demo/demo_recording_checklist.md`
+- LinkedIn launch post draft: `docs/demo/linkedin_launch_post.md`
+- GitHub project description assets: `docs/demo/github_project_description.md`
+- Resume bullet options: `docs/demo/resume_bullets.md`
+- Interview talking points: `docs/demo/interview_talking_points.md`
+- Portfolio website section copy: `docs/demo/portfolio_website_section.md`
+- Screenshot checklist: `docs/screenshots/screenshot_checklist.md`
+
+---
+
 ## Author
 
 - _Your Name Here_ (replace before final portfolio submission)
