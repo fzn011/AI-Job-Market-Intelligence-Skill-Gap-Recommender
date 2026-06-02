@@ -14,7 +14,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from src.dashboard_utils import load_processed_jobs  # noqa: E402
+from src.dashboard_utils import get_active_dataset_label, load_active_jobs_dataset, load_processed_jobs  # noqa: E402
 from src.job_clustering import (  # noqa: E402
     create_cluster_report_text,
     generate_cluster_insights,
@@ -32,10 +32,25 @@ render_brand_header(
     logo_mark="◜●◝",
 )
 
-jobs_df = load_processed_jobs()
+dataset_pref = st.sidebar.selectbox(
+    "Dataset Source",
+    options=["Auto", "Imported", "Sample"],
+    key="page5_dataset_source",
+)
+pref_value = dataset_pref.strip().lower()
+jobs_df = load_active_jobs_dataset(preferred=pref_value)
+if jobs_df.empty and pref_value != "auto":
+    st.info(
+        "Selected dataset was not found. Falling back to auto-detection. "
+        "Use the Data Import page or CLI importer to generate imported outputs."
+    )
+    jobs_df = load_processed_jobs()
+
 if jobs_df.empty:
     st.warning("Processed job data was not found. Please run: python scripts/run_project_check.py")
     st.stop()
+
+st.caption(f"Active dataset: {get_active_dataset_label(preferred=pref_value)}")
 
 st.subheader("Clustering Controls")
 

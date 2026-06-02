@@ -10,10 +10,56 @@ import pandas as pd
 from src.config import get_project_root
 
 
+def load_active_jobs_dataset(preferred: str = "auto") -> pd.DataFrame:
+    """Load active jobs dataset from imported/sample processed outputs."""
+    root = get_project_root()
+    imported_path = root / "data" / "processed" / "processed_imported_jobs.csv"
+    sample_path = root / "data" / "processed" / "processed_sample_jobs.csv"
+
+    mode = str(preferred).strip().lower()
+
+    if mode == "imported":
+        path = imported_path
+    elif mode == "sample":
+        path = sample_path
+    else:
+        path = imported_path if imported_path.exists() else sample_path
+
+    if not path.exists():
+        return pd.DataFrame()
+
+    try:
+        return pd.read_csv(path)
+    except Exception:
+        return pd.DataFrame()
+
+
+def get_active_dataset_label(preferred: str = "auto") -> str:
+    """Return a user-friendly label for currently selected available dataset."""
+    root = get_project_root()
+    imported_path = root / "data" / "processed" / "processed_imported_jobs.csv"
+    sample_path = root / "data" / "processed" / "processed_sample_jobs.csv"
+
+    mode = str(preferred).strip().lower()
+
+    if mode == "imported":
+        return "Imported Dataset" if imported_path.exists() else "No Dataset Found"
+    if mode == "sample":
+        return "Sample Dataset" if sample_path.exists() else "No Dataset Found"
+
+    if imported_path.exists():
+        return "Imported Dataset"
+    if sample_path.exists():
+        return "Sample Dataset"
+    return "No Dataset Found"
+
+
 def load_processed_jobs(processed_path: str | Path | None = None) -> pd.DataFrame:
     """Load processed jobs data, returning an empty DataFrame if missing."""
-    root = get_project_root()
-    path = Path(processed_path) if processed_path is not None else root / "data" / "processed" / "processed_sample_jobs.csv"
+    if processed_path is None:
+        return load_active_jobs_dataset(preferred="auto")
+
+    path = Path(processed_path)
 
     if not path.exists():
         return pd.DataFrame()

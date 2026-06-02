@@ -326,6 +326,44 @@ Current capabilities:
 - Downloadable cluster summary report
 - Rule-based insights and interpretation notes
 
+### 6. Data Import & Dataset Manager
+
+The sixth working dashboard page is available at:
+
+- `app/pages/6_Data_Import.py`
+
+Current capabilities:
+
+- Upload CSV file for processing
+- Validate schema before processing
+- Process imported data into dashboard-ready outputs
+- Download job-template CSV
+- View import summary and top extracted skills
+
+---
+
+## Job Data Import
+
+The project supports sample data by default, and also supports safe free CSV-based import workflows.
+
+- Process expanded synthetic demo data:
+
+`python scripts/import_jobs_from_csv.py --demo expanded`
+
+- Process custom CSV data:
+
+`python scripts/import_jobs_from_csv.py --input data/raw/my_jobs.csv`
+
+- CSV schema reference:
+
+`docs/job_data_import_guide.md`
+
+Imported outputs:
+
+- `data/processed/processed_imported_jobs.csv`
+- `data/processed/imported_skill_frequency.csv`
+- `reports/generated_reports/import_summary.json`
+
 ---
 
 ## Recommended Local Run Order

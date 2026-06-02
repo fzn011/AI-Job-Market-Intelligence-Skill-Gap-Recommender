@@ -102,6 +102,11 @@ def main() -> int:
             for idx, row in enumerate(top10.itertuples(index=False), start=1):
                 print(f"{idx}. {row.skill} - {row.frequency}")
 
+        print(
+            "To process expanded demo or custom CSV data, run: "
+            "python scripts/import_jobs_from_csv.py --demo expanded"
+        )
+
         return 0
 
     except FileNotFoundError as exc:

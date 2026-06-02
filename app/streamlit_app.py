@@ -11,6 +11,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
+from src.dashboard_utils import get_active_dataset_label, load_active_jobs_dataset  # noqa: E402
 from src.ui_theme import apply_global_theme, render_brand_header  # noqa: E402
 
 # ── Page configuration ────────────────────────────────────────────────────────
@@ -42,9 +43,6 @@ def _safe_count_extracted_skills(df: pd.DataFrame) -> int:
     return total
 
 
-project_root = Path(__file__).resolve().parents[1]
-processed_path = project_root / "data" / "processed" / "processed_sample_jobs.csv"
-
 apply_global_theme()
 
 # ── Sidebar ───────────────────────────────────────────────────────────────────
@@ -61,8 +59,13 @@ with st.sidebar:
         - 📄 CV Skill Gap Analyzer
         - 🚀 Project Recommendations
         - 🧠 Role Segmentation + Job Clustering
+        - 📥 Data Import & Dataset Manager
         """
     )
+    st.markdown("---")
+    dataset_preference = st.selectbox("Dataset Source", options=["Auto", "Imported", "Sample"], index=0)
+    preferred_mode = dataset_preference.strip().lower()
+    st.caption(f"Active dataset: {get_active_dataset_label(preferred=preferred_mode)}")
     st.markdown("---")
     st.caption("v0.1.0 · Open-source · Free tools only")
 
@@ -77,10 +80,10 @@ st.markdown("---")
 
 st.subheader("Project Status")
 
-if processed_path.exists():
+processed_df = load_active_jobs_dataset(preferred=preferred_mode)
+if not processed_df.empty:
     try:
-        processed_df = pd.read_csv(processed_path)
-        st.success("✅ Processed sample data found.")
+        st.success(f"✅ {get_active_dataset_label(preferred=preferred_mode)} found.")
         st.write(f"**Number of jobs:** {len(processed_df)}")
         st.dataframe(processed_df.head(10), use_container_width=True)
 
@@ -91,8 +94,8 @@ if processed_path.exists():
         st.warning(f"Processed file exists but could not be loaded: {exc}")
 else:
     st.info(
-        "Processed sample data not found yet. Run `python scripts/run_project_check.py` "
-        "from the project root first."
+        "No processed dataset found for this selection. Run `python scripts/run_project_check.py` "
+        "or import data via `python scripts/import_jobs_from_csv.py --demo expanded`."
     )
 
 st.info(
@@ -118,6 +121,11 @@ st.info(
 st.info(
     "✅ The fifth working dashboard page is **Role Segmentation + Job Clustering**. "
     "Open it from the Streamlit sidebar: `Pages -> 5_Role_Clustering`."
+)
+
+st.info(
+    "✅ The sixth working dashboard page is **Data Import & Dataset Manager**. "
+    "Open it from the Streamlit sidebar: `Pages -> 6_Data_Import`."
 )
 
 st.markdown("---")
@@ -188,6 +196,16 @@ with col2:
 
         Group jobs into role segments using unsupervised learning,
         then explore cluster-level themes, skills, and market patterns.
+        """
+    )
+    st.info(
+        """
+        **📥 6. Data Import & Dataset Manager**
+
+        ✅ **Working now**
+
+        Upload a CSV, validate schema quality, process imported jobs,
+        and generate dashboard-ready outputs.
         """
     )
 

@@ -4,7 +4,9 @@ import pandas as pd
 
 from src.dashboard_utils import (
     add_total_extracted_skills_metric,
+    get_active_dataset_label,
     get_basic_job_metrics,
+    load_active_jobs_dataset,
     get_top_values,
     parse_extracted_skills,
     prepare_jobs_preview,
@@ -131,3 +133,18 @@ def test_add_total_extracted_skills_metric_counts_string_lists():
 def test_add_total_extracted_skills_metric_handles_missing_column():
     df = pd.DataFrame({"job_title": ["data scientist"]})
     assert add_total_extracted_skills_metric(df) == 0
+
+
+def test_load_active_jobs_dataset_preferred_sample():
+    df = load_active_jobs_dataset(preferred="sample")
+    assert isinstance(df, pd.DataFrame)
+
+
+def test_load_active_jobs_dataset_preferred_imported_or_empty():
+    df = load_active_jobs_dataset(preferred="imported")
+    assert isinstance(df, pd.DataFrame)
+
+
+def test_get_active_dataset_label_returns_known_value():
+    label = get_active_dataset_label(preferred="auto")
+    assert label in {"Imported Dataset", "Sample Dataset", "No Dataset Found"}
