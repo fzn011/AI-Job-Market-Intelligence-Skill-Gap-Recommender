@@ -1,364 +1,102 @@
 # AI Job Market Intelligence + Skill Gap Recommender
 
-> Analyze job descriptions, extract in-demand skills, compare them with your profile, and get actionable recommendations — all locally, with open-source tools.
+![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?logo=streamlit&logoColor=white)
+![scikit--learn](https://img.shields.io/badge/scikit--learn-ML-F7931E?logo=scikitlearn&logoColor=white)
+![Tests](https://img.shields.io/badge/tests-99%20passed-brightgreen)
 
-This repository is designed as a professional, GitHub-ready, end-to-end portfolio project for AI/Data Science career intelligence.
-
----
-
-## At a Glance
-
-- ✅ **Local-first and free**: no paid APIs, no proprietary services required
-- ✅ **Production-style structure**: modular `src/`, `app/`, `tests/`, `docs/`, `scripts/`
-- ✅ **Validation workflow included**: one command to verify project health and generate processed data
-- ✅ **Beginner-friendly code**: clear functions, typed signatures, readable pipeline steps
-- ✅ **Deployment-friendly**: ready to move to Streamlit Community Cloud
+A local-first, open-source AI/Data Science project that turns job-posting text into practical career intelligence: market trends, skill gaps, project recommendations, and role clustering.
 
 ---
 
-## Table of Contents
+## Project pitch
 
-- [Problem Statement](#problem-statement)
-- [Why This Project Matters](#why-this-project-matters)
-- [Key Features (Planned)](#key-features-planned)
-- [Tech Stack](#tech-stack)
-- [Project Architecture](#project-architecture)
-- [Folder Structure](#folder-structure)
-- [How to Run Locally](#how-to-run-locally)
-- [Project Health Check](#project-health-check)
-- [Current Dashboard Pages](#current-dashboard-pages)
-- [Recommended Local Run Order](#recommended-local-run-order)
+This project helps AI/Data job seekers understand demand, assess profile alignment, and decide what to build next using transparent, free, and reproducible workflows.
 
----
+## Problem statement
 
-## Problem Statement
+Job seekers in AI and data roles often receive generic advice, but need role-specific and market-backed guidance on which skills to prioritize.
 
-Job seekers in AI and data science face a consistent challenge: they don't know exactly which skills are most in demand right now, or how their current profile compares to the market. Generic advice like "learn Python" is not useful when you already know Python.
+## Why this project matters
 
-This project addresses that by:
-
-- Scraping or loading real/synthetic job postings
-- Extracting the actual skills mentioned in those postings
-- Clustering jobs by skill profile
-- Comparing a user's CV against those clusters
-- Recommending the most impactful skills and projects to work on next
+- Converts job text into structured skill signals
+- Maps current profile skills vs market demand
+- Recommends project ideas aligned with hiring trends
+- Supports safe, legal CSV import without paid APIs
 
 ---
 
-## Why This Project Matters
+## Current features
 
-- Job descriptions contain structured signal about what the market wants
-- NLP and clustering can turn that signal into actionable intelligence
-- A skill gap recommender has real personal and commercial value
-- This project is a realistic end-to-end data/AI product pipeline
-
----
-
-## Key Features (Planned)
-
-| Feature | Description |
-|---|---|
-| Job data ingestion | Load job posts from CSV or scrape open job boards |
-| Skill extraction | NLP-based extraction of skills from job descriptions |
-| Job clustering | Group jobs by skill profiles using unsupervised ML |
-| CV analyzer | Parse a user's CV/profile and identify their current skills |
-| Skill gap engine | Compare user profile against market demand |
-| Recommendations | Suggest skills and portfolio projects to close the gap |
-| Interactive dashboard | Streamlit UI for exploration and personal use |
+- Job data cleaning and validation pipeline
+- Rule-based skill extraction from descriptions
+- Job market overview analytics
+- Skill demand and co-occurrence analysis
+- CV skill gap analysis and downloadable report
+- Project recommendation engine
+- Role segmentation with unsupervised clustering
+- Data Import & Dataset Manager (CSV upload + schema validation)
+- CLI import script for expanded demo and custom CSV
+- Active dataset loading (`Auto`, `Imported`, `Sample`)
 
 ---
 
-## Tech Stack
+## Dashboard pages
 
-| Layer | Tools |
-|---|---|
-| Language | Python 3.10+ |
-| Data handling | Pandas, NumPy |
-| NLP | spaCy, NLTK, sentence-transformers |
-| Machine learning | scikit-learn (KMeans, TF-IDF) |
-| Vector search | FAISS |
-| Visualization | Plotly, Matplotlib |
-| Dashboard | Streamlit |
-| Config | PyYAML, python-dotenv |
-| Testing | pytest |
-| Storage | CSV / SQLite |
-
-All tools are free and open-source. No paid APIs required.
+1. `app/pages/1_Job_Market_Overview.py` — Job Market Overview
+2. `app/pages/2_Skill_Analysis.py` — Skill Demand Analysis
+3. `app/pages/3_CV_Skill_Gap.py` — CV Skill Gap Analyzer
+4. `app/pages/4_Project_Recommendations.py` — Project Recommendation Engine
+5. `app/pages/5_Role_Clustering.py` — Role Segmentation & Job Clustering
+6. `app/pages/6_Data_Import.py` — Data Import & Dataset Manager
 
 ---
 
-## Project Architecture
+## Tech stack
 
-```
-Job Data (CSV / Web)
-        │
-        ▼
-  Data Cleaning Layer
-        │
-        ▼
-  NLP Skill Extraction  ◄── Skills Dictionary
-        │
-        ▼
-  Job Clustering Layer
-        │
-  ┌─────┴──────┐
-  │            │
-  ▼            ▼
-CV Input    Market Overview
-  │
-  ▼
-Skill Gap Analysis
-  │
-  ▼
-Recommendation Engine
-  │
-  ▼
-Streamlit Dashboard
-```
+- **Language:** Python
+- **Data:** Pandas, NumPy
+- **ML:** scikit-learn
+- **Visualization:** Plotly
+- **App:** Streamlit
+- **Config/IO:** PyYAML, python-dotenv
+- **Testing:** pytest
 
 ---
 
-## Folder Structure
-
-```
-ai-job-market-intelligence/
-│
-├── README.md
-├── requirements.txt
-├── .gitignore
-├── config.yaml
-│
-├── data/
-│   ├── raw/              # Raw job data files
-│   ├── processed/        # Cleaned and transformed data
-│   └── sample/           # Sample datasets and dictionaries
-│
-├── notebooks/            # Exploration and prototyping notebooks
-│
-├── src/                  # Core Python modules
-│   ├── config.py
-│   ├── data_collection.py
-│   ├── data_cleaning.py
-│   ├── skill_extraction.py
-│   ├── job_clustering.py
-│   ├── cv_analyzer.py
-│   ├── recommendation_engine.py
-│   └── utils.py
-│
-├── app/                  # Streamlit application
-│   ├── streamlit_app.py
-│   └── pages/
-│
-├── reports/              # Generated figures and reports
-├── tests/                # Unit tests
-└── docs/                 # Project documentation
-```
-
----
-
-## How to Run Locally
-
-```bash
-# 1. Clone the repository
-git clone https://github.com/YOUR_USERNAME/ai-job-market-intelligence.git
-cd ai-job-market-intelligence
-
-# 2. Create and activate a virtual environment
-python -m venv .venv
-
-# On Windows
-.venv\Scripts\activate
-
-# On macOS/Linux
-source .venv/bin/activate
-
-# 3. Install dependencies
-pip install -r requirements.txt
-
-# 4. Run project health check
-python scripts/run_project_check.py
-
-# 5. Run tests
-python -m pytest tests/
-
-# 6. Run the Streamlit app
-streamlit run app/streamlit_app.py
-```
-
----
-
-## Project Health Check
-
-Before opening the dashboard, run:
-
-```bash
-python scripts/run_project_check.py
-```
-
-This command:
-
-- validates the sample dataset schema
-- cleans job descriptions
-- extracts skills from descriptions
-- saves processed outputs in `data/processed/`
-- prepares data used by the Streamlit dashboard
-
-Expected generated files:
-
-- `data/processed/processed_sample_jobs.csv`
-- `data/processed/sample_skill_frequency.csv`
-
-Example terminal summary:
+## Architecture overview
 
 ```text
-Project Health Check
---------------------
-Config loaded: Yes
-Sample jobs loaded: 10 rows
-Required columns present: Yes
-Skills dictionary loaded: Yes
-Processed jobs saved: data/processed/processed_sample_jobs.csv
-Skill frequency saved: data/processed/sample_skill_frequency.csv
-Top 10 skills:
-1. python - 10
-2. sql - 7
-...
+Raw/Demo/User CSV Data
+        ↓
+Schema Validation + Standardization
+        ↓
+Data Cleaning
+        ↓
+Skill Extraction + Frequency
+        ↓
+Processed Datasets
+        ↓
+Streamlit Analytics Pages (1–6)
 ```
 
 ---
 
-## Current Dashboard Pages
+## Job data import
 
-### 1. Job Market Overview
+Schema reference:
 
-The first working dashboard page is available at:
+- `docs/job_data_import_guide.md`
 
-- `app/pages/1_Job_Market_Overview.py`
+Process expanded synthetic demo data:
 
-Current capabilities:
+- `python scripts/import_jobs_from_csv.py --demo expanded`
 
-- KPI metrics
-- Dataset preview
-- Filters (job type, location, company)
-- Job-title distribution chart
-- Location distribution chart
-- Job-type distribution chart
-- Skill-count distribution chart
-- Top skills chart
-- Quick rule-based insights
-- Data quality notes
+Process custom CSV data:
 
-> Before launching Streamlit, run:
->
-> `python scripts/run_project_check.py`
+- `python scripts/import_jobs_from_csv.py --input data/raw/my_jobs.csv`
 
-### 2. Skill Demand Analysis
-
-The second working dashboard page is available at:
-
-- `app/pages/2_Skill_Analysis.py`
-
-Current capabilities:
-
-- Top skills overall
-- Skill categories
-- Technical vs soft skill split
-- Role-wise skill heatmaps
-- Skill co-occurrence
-- Common skill combinations
-- Downloadable skill table
-- Rule-based insights
-- Data quality notes
-
-### 3. CV Skill Gap Analyzer
-
-The third working dashboard page is available at:
-
-- `app/pages/3_CV_Skill_Gap.py`
-
-Current capabilities:
-
-- CV/resume text input
-- Target role selection
-- CV skill extraction
-- Role-based market skill comparison
-- Match score
-- Matched/missing/extra skills
-- Learning and project recommendations
-- Downloadable skill-gap report
-- Rule-based insights
-
-### 4. Project Recommendation Engine
-
-The fourth working dashboard page is available at:
-
-- `app/pages/4_Project_Recommendations.py`
-
-Current capabilities:
-
-- Target role selection
-- Role-based or manual skill selection
-- Project recommendations
-- Project coverage scoring
-- Difficulty and project type filtering
-- Project-skill coverage matrix
-- Project cards with deliverables and tech stack
-- Downloadable recommendations CSV
-- Downloadable project roadmap
-- Rule-based insights
-
-### 5. Role Segmentation + Job Clustering
-
-The fifth working dashboard page is available at:
-
-- `app/pages/5_Role_Clustering.py`
-
-Current capabilities:
-
-- Job filtering by type and location
-- Configurable number of clusters
-- TF-IDF + KMeans clustering pipeline
-- 2D cluster visualization (SVD projection)
-- Cluster-level summaries and interpretable labels
-- Top terms and top skills per cluster
-- Cluster vs job-type heatmap
-- Downloadable clustered-jobs CSV
-- Downloadable cluster summary report
-- Rule-based insights and interpretation notes
-
-### 6. Data Import & Dataset Manager
-
-The sixth working dashboard page is available at:
-
-- `app/pages/6_Data_Import.py`
-
-Current capabilities:
-
-- Upload CSV file for processing
-- Validate schema before processing
-- Process imported data into dashboard-ready outputs
-- Download job-template CSV
-- View import summary and top extracted skills
-
----
-
-## Job Data Import
-
-The project supports sample data by default, and also supports safe free CSV-based import workflows.
-
-- Process expanded synthetic demo data:
-
-`python scripts/import_jobs_from_csv.py --demo expanded`
-
-- Process custom CSV data:
-
-`python scripts/import_jobs_from_csv.py --input data/raw/my_jobs.csv`
-
-- CSV schema reference:
-
-`docs/job_data_import_guide.md`
-
-Imported outputs:
+Default imported outputs:
 
 - `data/processed/processed_imported_jobs.csv`
 - `data/processed/imported_skill_frequency.csv`
@@ -366,17 +104,80 @@ Imported outputs:
 
 ---
 
-## Recommended Local Run Order
+## Local setup
 
-```bash
-python -m venv .venv
-.venv\Scripts\activate
-pip install -r requirements.txt
-python scripts/run_project_check.py
-python -m pytest tests/
-streamlit run app/streamlit_app.py
-```
+1. Create and activate virtual environment
+2. Install dependencies from `requirements.txt`
+3. Run health check
+4. Optionally import expanded demo data
+5. Run test suite
+6. Start Streamlit app
 
 ---
 
+## Run commands
 
+- `python scripts/run_project_check.py`
+- `python scripts/import_jobs_from_csv.py --demo expanded`
+- `python -m pytest tests/`
+- `python -m streamlit run app/streamlit_app.py`
+
+---
+
+## Deployment notes
+
+- Streamlit config: `.streamlit/config.toml`
+- Python runtime pin: `runtime.txt`
+- App is compatible with Streamlit Community Cloud
+- Uploaded/generated files may be temporary in cloud environments
+
+---
+
+## Testing status
+
+- Current suite status: **99 passed**
+- Tests cover cleaning, extraction, recommendations, clustering, and import utilities
+
+---
+
+## Screenshots (placeholders)
+
+Store screenshots in:
+
+- `docs/screenshots/`
+
+Suggested captures:
+
+- Landing page
+- Skill analysis heatmap
+- CV gap summary
+- Project recommendation table
+- Clustering scatter view
+- Data import validation report
+
+---
+
+## Limitations
+
+- Default data is synthetic unless users import custom CSV
+- Skill extraction is rule-based and dictionary-dependent
+- Cluster labels are heuristic
+- No paid LLM APIs are used
+- Outputs are decision-support, not hiring decisions
+
+See also: `docs/limitations.md`
+
+---
+
+## Future improvements
+
+- Additional legal public-data connectors
+- Better skill synonym normalization
+- Time-based trend tracking on larger datasets
+- User profile persistence and progress tracking
+
+---
+
+## Author
+
+- _Your Name Here_ (replace before final portfolio submission)
