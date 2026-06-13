@@ -66,7 +66,8 @@ def fetch_usajobs_jobs(
 
     if not api_key:
         return _demo_fallback(
-            "USAJOBS_API_KEY not configured. Add it to `.streamlit/secrets.toml` or enter credentials below."
+            "USAJOBS_API_KEY not configured. Add it to `.streamlit/secrets.toml` in the project root "
+            "(same folder as setup.ps1), then restart the app."
         )
 
     if not email or "@" not in email:

@@ -196,7 +196,8 @@ $SecretsExample = Join-Path $ProjectRoot ".streamlit\secrets.example.toml"
 $SecretsFile = Join-Path $ProjectRoot ".streamlit\secrets.toml"
 if ((Test-Path $SecretsExample) -and -not (Test-Path $SecretsFile)) {
     Copy-Item $SecretsExample $SecretsFile
-    Write-Host 'Created .streamlit\secrets.toml from example - add USAJobs/SMTP keys if needed.' -ForegroundColor DarkYellow
+    Write-Host "Created .streamlit\secrets.toml from example - add your USAJobs key and email." -ForegroundColor DarkYellow
+    Write-Host "  Path: $SecretsFile" -ForegroundColor DarkYellow
 }
 
 Write-Host "[9/9] Verifying app startup..." -ForegroundColor Yellow

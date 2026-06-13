@@ -6,7 +6,16 @@ import os
 
 import pytest
 
-from src.secrets_utils import _is_placeholder, _normalize_secret, get_secret, get_usajobs_credentials
+from src.secrets_utils import (  # noqa: E402
+    _is_placeholder,
+    _normalize_secret,
+    _parse_secrets_toml_fallback,
+    get_project_root,
+    get_secret,
+    get_usajobs_credentials,
+    get_usajobs_diagnostics,
+    load_secrets_toml,
+)
 
 
 def test_normalize_secret_strips_quotes():
@@ -34,3 +43,34 @@ def test_get_usajobs_credentials_use_overrides():
     )
     assert key == "+test-key="
     assert email == "faiazzahin@gmail.com"
+
+
+def test_parse_secrets_toml_fallback():
+    text = """
+    # comment
+    USAJOBS_API_KEY = "+abc+123="
+    USAJOBS_USER_EMAIL = "user@example.com"
+    """
+    parsed = _parse_secrets_toml_fallback(text)
+    assert parsed["USAJOBS_API_KEY"] == "+abc+123="
+    assert parsed["USAJOBS_USER_EMAIL"] == "user@example.com"
+
+
+def test_get_project_root_points_to_repo():
+    root = get_project_root()
+    assert (root / "app" / "streamlit_app.py").exists()
+    assert (root / "src" / "secrets_utils.py").exists()
+
+
+def test_load_secrets_toml_finds_workspace_file():
+    data, path = load_secrets_toml()
+    if path is not None:
+        assert path.name == "secrets.toml"
+        assert "USAJOBS_API_KEY" in data or "USAJOBS_USER_EMAIL" in data
+
+
+def test_usajobs_diagnostics_reports_status():
+    status = get_usajobs_diagnostics()
+    assert "configured" in status
+    assert "checked_paths" in status
+    assert isinstance(status["checked_paths"], list)
