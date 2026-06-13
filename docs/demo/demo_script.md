@@ -18,8 +18,11 @@ Generate portfolio project ideas based on selected skills and role alignment.
 ## 6) Role Segmentation + Job Clustering (1:30–1:45)
 Run clustering, explain cluster themes, and show role-segment insights.
 
-## 7) Data Import & Dataset Manager (1:45–1:55)
+## 7) Career Explorer (1:45–1:52)
+Browse role profiles across 12 career categories — core skills, helpful skills, and recommended actions without needing job data.
+
+## 8) Data Import & Dataset Manager (1:52–1:58)
 Upload or import CSV data, validate schema, and process dashboard-ready outputs.
 
-## 8) Final value proposition (1:55–2:00)
-This project turns job-posting text into actionable career intelligence: market analysis, gap detection, and build-ready project roadmaps.
+## 9) Final value proposition (1:58–2:00)
+CareerCompass turns job-posting text and curated role profiles into actionable career intelligence: market analysis, gap detection, and build-ready project and career action roadmaps.

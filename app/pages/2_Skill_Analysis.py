@@ -42,7 +42,7 @@ st.set_page_config(page_title="Skill Demand Analysis", page_icon="🔬", layout=
 apply_global_theme()
 
 render_brand_header(
-    app_name="EmberScope AI · Skill Demand Analysis",
+    app_name="CareerCompass · Skill Demand Analysis",
     subtitle="Discover which skills dominate the market and how they connect by role.",
     logo_mark="◜●◝",
 )

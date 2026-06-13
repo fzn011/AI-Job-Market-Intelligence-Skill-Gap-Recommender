@@ -27,7 +27,7 @@ st.set_page_config(page_title="Role Segmentation + Job Clustering", page_icon="�
 
 apply_global_theme()
 render_brand_header(
-    app_name="EmberScope AI · Role Segmentation + Job Clustering",
+    app_name="CareerCompass · Role Segmentation + Job Clustering",
     subtitle="Discover natural role segments in job postings using unsupervised clustering.",
     logo_mark="◜●◝",
 )

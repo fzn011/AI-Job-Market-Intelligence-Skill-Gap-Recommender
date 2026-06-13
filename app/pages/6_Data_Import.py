@@ -21,16 +21,15 @@ from src.data_collection import (  # noqa: E402
     validate_job_schema,
 )
 from src.dashboard_utils import get_active_dataset_label  # noqa: E402
-from src.ui_theme import apply_global_theme, render_brand_header  # noqa: E402
+from src.ui_theme import apply_global_theme, render_brand_header, render_info_box  # noqa: E402
 
 
 st.set_page_config(page_title="Data Import & Dataset Manager", page_icon="📥", layout="wide")
 
 apply_global_theme()
 render_brand_header(
-    app_name="EmberScope AI · Data Import & Dataset Manager",
-    subtitle="Validate and process local CSV job data for dashboard analysis.",
-    logo_mark="◜●◝",
+    app_name="CareerCompass · Data Import & Dataset Manager",
+    subtitle="Validate and process local CSV job data for dashboard analysis — or use Career Explorer without job data.",
 )
 
 st.caption(
@@ -48,6 +47,12 @@ col_b.metric("Imported Processed Data", "Available" if imported_processed_path.e
 col_c.metric("Expanded Demo Source", "Available" if expanded_source_path.exists() else "Missing")
 
 st.info(f"Active dataset preference (auto): **{get_active_dataset_label('auto')}**")
+
+render_info_box(
+    "Two paths for career guidance",
+    "1. Import your own job-post CSV for data-driven market analysis. "
+    "2. Use Career Explorer or Career Category mode on the CV and Recommendations pages for curated guidance without job data.",
+)
 
 st.markdown("---")
 st.subheader("Upload Job CSV")

@@ -1,0 +1,1505 @@
+{
+  "Data & AI": {
+    "Data Analyst": {
+      "level": "Entry to Mid",
+      "core_skills": [
+        "sql",
+        "excel",
+        "power bi",
+        "python",
+        "data visualization"
+      ],
+      "helpful_skills": [
+        "statistics",
+        "pandas",
+        "stakeholder management"
+      ],
+      "typical_outputs": [
+        "dashboards",
+        "reports",
+        "business insights"
+      ],
+      "recommended_actions": [
+        "build a dashboard portfolio",
+        "practice SQL case studies"
+      ]
+    },
+    "Data Scientist": {
+      "level": "Mid",
+      "core_skills": [
+        "python",
+        "sql",
+        "machine learning",
+        "statistics",
+        "pandas"
+      ],
+      "helpful_skills": [
+        "scikit-learn",
+        "a/b testing",
+        "communication"
+      ],
+      "typical_outputs": [
+        "models",
+        "experiments",
+        "insights reports"
+      ],
+      "recommended_actions": [
+        "build an end-to-end ML project",
+        "document experiment results"
+      ]
+    },
+    "Machine Learning Engineer": {
+      "level": "Mid to Senior",
+      "core_skills": [
+        "python",
+        "machine learning",
+        "docker",
+        "mlflow",
+        "sql"
+      ],
+      "helpful_skills": [
+        "fastapi",
+        "aws",
+        "feature engineering"
+      ],
+      "typical_outputs": [
+        "deployed models",
+        "pipelines",
+        "monitoring dashboards"
+      ],
+      "recommended_actions": [
+        "build an ML API deployment project",
+        "practice MLOps workflows"
+      ]
+    },
+    "AI Engineer": {
+      "level": "Mid",
+      "core_skills": [
+        "python",
+        "llm",
+        "rag",
+        "fastapi",
+        "docker"
+      ],
+      "helpful_skills": [
+        "nlp",
+        "mlflow",
+        "aws"
+      ],
+      "typical_outputs": [
+        "AI applications",
+        "RAG systems",
+        "API services"
+      ],
+      "recommended_actions": [
+        "build a RAG document assistant",
+        "deploy an AI API"
+      ]
+    },
+    "BI Analyst": {
+      "level": "Entry to Mid",
+      "core_skills": [
+        "power bi",
+        "sql",
+        "excel",
+        "data visualization",
+        "reporting"
+      ],
+      "helpful_skills": [
+        "tableau",
+        "business analysis",
+        "stakeholder management"
+      ],
+      "typical_outputs": [
+        "BI dashboards",
+        "KPI reports",
+        "executive summaries"
+      ],
+      "recommended_actions": [
+        "create a sales KPI dashboard",
+        "practice DAX/SQL reporting"
+      ]
+    },
+    "Data Engineer": {
+      "level": "Mid",
+      "core_skills": [
+        "python",
+        "sql",
+        "etl",
+        "spark",
+        "aws"
+      ],
+      "helpful_skills": [
+        "docker",
+        "airflow",
+        "data governance"
+      ],
+      "typical_outputs": [
+        "data pipelines",
+        "warehouse models",
+        "quality checks"
+      ],
+      "recommended_actions": [
+        "build an ETL pipeline project",
+        "document data lineage"
+      ]
+    }
+  },
+  "Software & IT": {
+    "Frontend Developer": {
+      "level": "Entry to Mid",
+      "core_skills": [
+        "html",
+        "css",
+        "javascript",
+        "react",
+        "git"
+      ],
+      "helpful_skills": [
+        "typescript",
+        "testing",
+        "responsive design"
+      ],
+      "typical_outputs": [
+        "web interfaces",
+        "component libraries",
+        "UI prototypes"
+      ],
+      "recommended_actions": [
+        "build a responsive portfolio site",
+        "create a React component library"
+      ]
+    },
+    "Backend Developer": {
+      "level": "Mid",
+      "core_skills": [
+        "python",
+        "sql",
+        "rest api",
+        "git",
+        "postgresql"
+      ],
+      "helpful_skills": [
+        "docker",
+        "testing",
+        "system design"
+      ],
+      "typical_outputs": [
+        "APIs",
+        "database schemas",
+        "service modules"
+      ],
+      "recommended_actions": [
+        "build a REST API with auth",
+        "add automated tests"
+      ]
+    },
+    "Full Stack Developer": {
+      "level": "Mid",
+      "core_skills": [
+        "javascript",
+        "react",
+        "node.js",
+        "sql",
+        "rest api"
+      ],
+      "helpful_skills": [
+        "docker",
+        "aws",
+        "git"
+      ],
+      "typical_outputs": [
+        "full web apps",
+        "deployed products",
+        "documentation"
+      ],
+      "recommended_actions": [
+        "build a full-stack CRUD app",
+        "deploy to cloud"
+      ]
+    },
+    "QA Tester": {
+      "level": "Entry to Mid",
+      "core_skills": [
+        "testing",
+        "bug reporting",
+        "agile",
+        "documentation"
+      ],
+      "helpful_skills": [
+        "automation basics",
+        "sql",
+        "communication"
+      ],
+      "typical_outputs": [
+        "test cases",
+        "bug reports",
+        "regression plans"
+      ],
+      "recommended_actions": [
+        "create a test plan portfolio",
+        "practice API testing"
+      ]
+    },
+    "IT Support Specialist": {
+      "level": "Entry",
+      "core_skills": [
+        "troubleshooting",
+        "linux",
+        "networking basics",
+        "documentation"
+      ],
+      "helpful_skills": [
+        "customer service",
+        "security basics",
+        "ticketing systems"
+      ],
+      "typical_outputs": [
+        "support tickets resolved",
+        "knowledge base articles"
+      ],
+      "recommended_actions": [
+        "build a troubleshooting guide",
+        "practice help desk scenarios"
+      ]
+    },
+    "DevOps Engineer": {
+      "level": "Mid to Senior",
+      "core_skills": [
+        "docker",
+        "kubernetes",
+        "ci/cd",
+        "linux",
+        "aws"
+      ],
+      "helpful_skills": [
+        "python",
+        "monitoring",
+        "security basics"
+      ],
+      "typical_outputs": [
+        "pipelines",
+        "infrastructure configs",
+        "deployment automation"
+      ],
+      "recommended_actions": [
+        "set up CI/CD for a sample app",
+        "document infra as code"
+      ]
+    }
+  },
+  "Banking & Finance": {
+    "Bank Officer": {
+      "level": "Entry to Mid",
+      "core_skills": [
+        "banking operations",
+        "customer onboarding",
+        "excel",
+        "communication"
+      ],
+      "helpful_skills": [
+        "kyc",
+        "financial products",
+        "regulatory compliance"
+      ],
+      "typical_outputs": [
+        "account opening files",
+        "customer service reports"
+      ],
+      "recommended_actions": [
+        "prepare a customer onboarding process summary",
+        "practice product comparison notes"
+      ]
+    },
+    "Credit Analyst": {
+      "level": "Entry to Mid",
+      "core_skills": [
+        "financial analysis",
+        "credit analysis",
+        "risk assessment",
+        "excel"
+      ],
+      "helpful_skills": [
+        "sql",
+        "power bi",
+        "regulatory compliance"
+      ],
+      "typical_outputs": [
+        "credit reports",
+        "risk summaries",
+        "financial analysis notes"
+      ],
+      "recommended_actions": [
+        "prepare a credit risk case study",
+        "build an Excel financial workbook"
+      ]
+    },
+    "Financial Analyst": {
+      "level": "Mid",
+      "core_skills": [
+        "financial modeling",
+        "excel",
+        "financial reporting",
+        "budgeting"
+      ],
+      "helpful_skills": [
+        "sql",
+        "power bi",
+        "accounting"
+      ],
+      "typical_outputs": [
+        "forecasts",
+        "variance reports",
+        "investment memos"
+      ],
+      "recommended_actions": [
+        "build a 3-statement model",
+        "create a budget variance dashboard"
+      ]
+    },
+    "Accounts Officer": {
+      "level": "Entry to Mid",
+      "core_skills": [
+        "accounting",
+        "excel",
+        "financial reporting",
+        "tally"
+      ],
+      "helpful_skills": [
+        "quickbooks",
+        "attention to detail",
+        "reconciliation"
+      ],
+      "typical_outputs": [
+        "ledgers",
+        "month-end reports",
+        "reconciliation sheets"
+      ],
+      "recommended_actions": [
+        "practice journal entry case studies",
+        "build a reconciliation checklist"
+      ]
+    },
+    "Risk Analyst": {
+      "level": "Mid",
+      "core_skills": [
+        "risk assessment",
+        "financial analysis",
+        "excel",
+        "regulatory compliance"
+      ],
+      "helpful_skills": [
+        "sql",
+        "power bi",
+        "anti money laundering"
+      ],
+      "typical_outputs": [
+        "risk reports",
+        "compliance summaries",
+        "monitoring dashboards"
+      ],
+      "recommended_actions": [
+        "prepare a risk assessment case study",
+        "document compliance controls"
+      ]
+    },
+    "Compliance Officer": {
+      "level": "Mid",
+      "core_skills": [
+        "regulatory compliance",
+        "anti money laundering",
+        "kyc",
+        "documentation"
+      ],
+      "helpful_skills": [
+        "financial products",
+        "communication",
+        "audit support"
+      ],
+      "typical_outputs": [
+        "compliance checklists",
+        "audit responses",
+        "policy summaries"
+      ],
+      "recommended_actions": [
+        "create a compliance checklist",
+        "prepare an AML scenario analysis"
+      ]
+    }
+  },
+  "Business & Administration": {
+    "Admin Officer": {
+      "level": "Entry",
+      "core_skills": [
+        "office administration",
+        "microsoft office",
+        "organization",
+        "communication"
+      ],
+      "helpful_skills": [
+        "scheduling tools",
+        "data entry",
+        "vendor management"
+      ],
+      "typical_outputs": [
+        "schedules",
+        "office reports",
+        "coordination logs"
+      ],
+      "recommended_actions": [
+        "create an office operations SOP",
+        "build a scheduling template pack"
+      ]
+    },
+    "HR Executive": {
+      "level": "Entry to Mid",
+      "core_skills": [
+        "hr operations",
+        "recruitment support",
+        "communication",
+        "microsoft office"
+      ],
+      "helpful_skills": [
+        "crm software",
+        "policy compliance",
+        "interview coordination"
+      ],
+      "typical_outputs": [
+        "candidate pipelines",
+        "onboarding checklists",
+        "HR reports"
+      ],
+      "recommended_actions": [
+        "build a recruitment tracker",
+        "create an onboarding checklist"
+      ]
+    },
+    "Business Analyst": {
+      "level": "Mid",
+      "core_skills": [
+        "business analysis",
+        "excel",
+        "process improvement",
+        "communication"
+      ],
+      "helpful_skills": [
+        "sql",
+        "power bi",
+        "stakeholder management"
+      ],
+      "typical_outputs": [
+        "requirements docs",
+        "process maps",
+        "impact analyses"
+      ],
+      "recommended_actions": [
+        "prepare a process improvement case study",
+        "create a requirements template"
+      ]
+    },
+    "Operations Executive": {
+      "level": "Entry to Mid",
+      "core_skills": [
+        "operations management",
+        "excel",
+        "process improvement",
+        "kpi tracking"
+      ],
+      "helpful_skills": [
+        "vendor management",
+        "inventory tracking",
+        "reporting"
+      ],
+      "typical_outputs": [
+        "operations reports",
+        "SOPs",
+        "KPI dashboards"
+      ],
+      "recommended_actions": [
+        "map an end-to-end process",
+        "build a KPI tracker in Excel"
+      ]
+    },
+    "Office Coordinator": {
+      "level": "Entry",
+      "core_skills": [
+        "meeting coordination",
+        "organization",
+        "communication",
+        "scheduling"
+      ],
+      "helpful_skills": [
+        "google workspace",
+        "vendor coordination",
+        "multitasking"
+      ],
+      "typical_outputs": [
+        "meeting agendas",
+        "event plans",
+        "coordination calendars"
+      ],
+      "recommended_actions": [
+        "create an event planning checklist",
+        "build a meeting agenda template"
+      ]
+    }
+  },
+  "Marketing & Sales": {
+    "Digital Marketing Executive": {
+      "level": "Entry to Mid",
+      "core_skills": [
+        "social media marketing",
+        "google analytics",
+        "content marketing",
+        "seo"
+      ],
+      "helpful_skills": [
+        "copywriting",
+        "canva",
+        "email marketing"
+      ],
+      "typical_outputs": [
+        "campaign reports",
+        "content calendars",
+        "analytics summaries"
+      ],
+      "recommended_actions": [
+        "run a mock digital campaign",
+        "build a content calendar portfolio"
+      ]
+    },
+    "SEO Specialist": {
+      "level": "Mid",
+      "core_skills": [
+        "seo",
+        "google analytics",
+        "content marketing",
+        "keyword research"
+      ],
+      "helpful_skills": [
+        "sem",
+        "copywriting",
+        "technical seo basics"
+      ],
+      "typical_outputs": [
+        "SEO audits",
+        "ranking reports",
+        "optimization plans"
+      ],
+      "recommended_actions": [
+        "perform an SEO audit case study",
+        "create an optimization roadmap"
+      ]
+    },
+    "Sales Executive": {
+      "level": "Entry to Mid",
+      "core_skills": [
+        "sales pipeline",
+        "communication",
+        "lead generation",
+        "crm"
+      ],
+      "helpful_skills": [
+        "negotiation",
+        "presentation skills",
+        "market research"
+      ],
+      "typical_outputs": [
+        "sales decks",
+        "pipeline reports",
+        "client proposals"
+      ],
+      "recommended_actions": [
+        "create a sales pitch deck",
+        "build a CRM pipeline case study"
+      ]
+    },
+    "Content Marketer": {
+      "level": "Entry to Mid",
+      "core_skills": [
+        "content marketing",
+        "copywriting",
+        "seo",
+        "social media marketing"
+      ],
+      "helpful_skills": [
+        "canva",
+        "email marketing",
+        "analytics"
+      ],
+      "typical_outputs": [
+        "blog posts",
+        "campaign copy",
+        "editorial calendars"
+      ],
+      "recommended_actions": [
+        "build a content portfolio",
+        "write a campaign case study"
+      ]
+    },
+    "Social Media Manager": {
+      "level": "Entry to Mid",
+      "core_skills": [
+        "social media marketing",
+        "content marketing",
+        "canva",
+        "analytics"
+      ],
+      "helpful_skills": [
+        "copywriting",
+        "community management",
+        "paid ads basics"
+      ],
+      "typical_outputs": [
+        "content plans",
+        "engagement reports",
+        "brand campaigns"
+      ],
+      "recommended_actions": [
+        "create a 30-day content plan",
+        "design a campaign mockup"
+      ]
+    },
+    "Brand Executive": {
+      "level": "Mid",
+      "core_skills": [
+        "brand management",
+        "market research",
+        "communication",
+        "campaign planning"
+      ],
+      "helpful_skills": [
+        "copywriting",
+        "presentation skills",
+        "competitive analysis"
+      ],
+      "typical_outputs": [
+        "brand guidelines",
+        "campaign briefs",
+        "positioning docs"
+      ],
+      "recommended_actions": [
+        "create a brand identity mock project",
+        "prepare a positioning statement"
+      ]
+    }
+  },
+  "Design & Creative": {
+    "Graphic Designer": {
+      "level": "Entry to Mid",
+      "core_skills": [
+        "adobe photoshop",
+        "adobe illustrator",
+        "visual design",
+        "typography"
+      ],
+      "helpful_skills": [
+        "brand identity",
+        "social media design",
+        "creativity"
+      ],
+      "typical_outputs": [
+        "posters",
+        "social graphics",
+        "brand assets"
+      ],
+      "recommended_actions": [
+        "build a branding portfolio",
+        "create a social media design pack"
+      ]
+    },
+    "UI/UX Designer": {
+      "level": "Mid",
+      "core_skills": [
+        "figma",
+        "ui design",
+        "ux design",
+        "wireframing",
+        "prototyping"
+      ],
+      "helpful_skills": [
+        "user research",
+        "design systems",
+        "accessibility design"
+      ],
+      "typical_outputs": [
+        "UI case studies",
+        "prototypes",
+        "design systems"
+      ],
+      "recommended_actions": [
+        "create a mobile app UI case study",
+        "redesign a landing page in Figma"
+      ]
+    },
+    "Motion Designer": {
+      "level": "Mid",
+      "core_skills": [
+        "after effects",
+        "visual design",
+        "storyboarding",
+        "adobe illustrator"
+      ],
+      "helpful_skills": [
+        "adobe photoshop",
+        "brand identity",
+        "presentation skills"
+      ],
+      "typical_outputs": [
+        "motion graphics",
+        "animated explainers",
+        "social video assets"
+      ],
+      "recommended_actions": [
+        "create a 30-second motion reel",
+        "animate a product explainer"
+      ]
+    },
+    "Brand Designer": {
+      "level": "Mid",
+      "core_skills": [
+        "brand identity",
+        "visual design",
+        "figma",
+        "typography"
+      ],
+      "helpful_skills": [
+        "adobe illustrator",
+        "presentation skills",
+        "user research"
+      ],
+      "typical_outputs": [
+        "logo systems",
+        "brand guides",
+        "marketing kits"
+      ],
+      "recommended_actions": [
+        "build a brand identity mock project",
+        "document a brand style guide"
+      ]
+    },
+    "Product Designer": {
+      "level": "Mid to Senior",
+      "core_skills": [
+        "figma",
+        "ux design",
+        "user research",
+        "prototyping",
+        "design systems"
+      ],
+      "helpful_skills": [
+        "ui design",
+        "accessibility design",
+        "collaboration"
+      ],
+      "typical_outputs": [
+        "product flows",
+        "design specs",
+        "usability findings"
+      ],
+      "recommended_actions": [
+        "create an end-to-end product case study",
+        "run a usability test summary"
+      ]
+    }
+  },
+  "Education & Teaching": {
+    "School Teacher": {
+      "level": "Entry to Mid",
+      "core_skills": [
+        "lesson planning",
+        "classroom management",
+        "subject knowledge",
+        "communication"
+      ],
+      "helpful_skills": [
+        "assessment design",
+        "educational technology",
+        "patience"
+      ],
+      "typical_outputs": [
+        "lesson plans",
+        "assessments",
+        "student progress reports"
+      ],
+      "recommended_actions": [
+        "create a lesson plan portfolio",
+        "record a short teaching demo"
+      ]
+    },
+    "Physics Teacher": {
+      "level": "Entry to Mid",
+      "core_skills": [
+        "subject knowledge",
+        "lesson planning",
+        "assessment design",
+        "communication"
+      ],
+      "helpful_skills": [
+        "classroom management",
+        "experiment design",
+        "curriculum design"
+      ],
+      "typical_outputs": [
+        "lab plans",
+        "worksheets",
+        "assessment rubrics"
+      ],
+      "recommended_actions": [
+        "build a physics lab portfolio",
+        "create assessment materials"
+      ]
+    },
+    "Mathematics Teacher": {
+      "level": "Entry to Mid",
+      "core_skills": [
+        "subject knowledge",
+        "lesson planning",
+        "assessment design",
+        "communication"
+      ],
+      "helpful_skills": [
+        "differentiated instruction",
+        "problem solving",
+        "classroom management"
+      ],
+      "typical_outputs": [
+        "problem sets",
+        "lesson sequences",
+        "assessment sheets"
+      ],
+      "recommended_actions": [
+        "create a topic-wise worksheet pack",
+        "design a diagnostic assessment"
+      ]
+    },
+    "English Teacher": {
+      "level": "Entry to Mid",
+      "core_skills": [
+        "subject knowledge",
+        "lesson planning",
+        "communication",
+        "assessment design"
+      ],
+      "helpful_skills": [
+        "creative writing",
+        "classroom management",
+        "feedback skills"
+      ],
+      "typical_outputs": [
+        "reading guides",
+        "writing prompts",
+        "assessment rubrics"
+      ],
+      "recommended_actions": [
+        "build a writing skills module",
+        "create a reading comprehension pack"
+      ]
+    },
+    "Academic Coordinator": {
+      "level": "Mid",
+      "core_skills": [
+        "academic coordination",
+        "curriculum design",
+        "communication",
+        "organization"
+      ],
+      "helpful_skills": [
+        "assessment design",
+        "stakeholder reporting",
+        "leadership"
+      ],
+      "typical_outputs": [
+        "academic calendars",
+        "program reports",
+        "quality reviews"
+      ],
+      "recommended_actions": [
+        "prepare an academic calendar plan",
+        "create a program review template"
+      ]
+    },
+    "Online Course Instructor": {
+      "level": "Entry to Mid",
+      "core_skills": [
+        "online teaching tools",
+        "lesson planning",
+        "communication",
+        "presentation tools"
+      ],
+      "helpful_skills": [
+        "lms",
+        "video recording",
+        "student engagement"
+      ],
+      "typical_outputs": [
+        "course modules",
+        "video lessons",
+        "quizzes"
+      ],
+      "recommended_actions": [
+        "record a mini-course module",
+        "build a course outline portfolio"
+      ]
+    }
+  },
+  "Healthcare": {
+    "Nurse": {
+      "level": "Entry to Mid",
+      "core_skills": [
+        "patient care",
+        "vital signs monitoring",
+        "medication administration",
+        "communication"
+      ],
+      "helpful_skills": [
+        "electronic health records",
+        "infection control",
+        "empathy"
+      ],
+      "typical_outputs": [
+        "care plans",
+        "patient notes",
+        "handover reports"
+      ],
+      "recommended_actions": [
+        "prepare a patient care case study",
+        "practice clinical documentation"
+      ]
+    },
+    "Medical Assistant": {
+      "level": "Entry",
+      "core_skills": [
+        "patient care",
+        "vital signs monitoring",
+        "medical records",
+        "communication"
+      ],
+      "helpful_skills": [
+        "appointment scheduling",
+        "infection control",
+        "first aid"
+      ],
+      "typical_outputs": [
+        "patient intake forms",
+        "clinical support logs"
+      ],
+      "recommended_actions": [
+        "create a patient intake workflow",
+        "practice vital signs documentation"
+      ]
+    },
+    "Healthcare Administrator": {
+      "level": "Mid",
+      "core_skills": [
+        "healthcare compliance",
+        "medical records",
+        "operations management",
+        "communication"
+      ],
+      "helpful_skills": [
+        "budget tracking",
+        "staff coordination",
+        "reporting"
+      ],
+      "typical_outputs": [
+        "admin reports",
+        "compliance checklists",
+        "scheduling plans"
+      ],
+      "recommended_actions": [
+        "build a clinic operations checklist",
+        "prepare a compliance summary"
+      ]
+    },
+    "Lab Technician": {
+      "level": "Entry to Mid",
+      "core_skills": [
+        "lab procedures",
+        "quality control",
+        "medical terminology",
+        "attention to detail"
+      ],
+      "helpful_skills": [
+        "infection control",
+        "documentation",
+        "equipment maintenance"
+      ],
+      "typical_outputs": [
+        "lab reports",
+        "quality logs",
+        "sample tracking records"
+      ],
+      "recommended_actions": [
+        "create a lab SOP sample",
+        "practice result reporting format"
+      ]
+    },
+    "Public Health Officer": {
+      "level": "Mid",
+      "core_skills": [
+        "public health basics",
+        "health education",
+        "data collection",
+        "communication"
+      ],
+      "helpful_skills": [
+        "report writing",
+        "community outreach",
+        "program coordination"
+      ],
+      "typical_outputs": [
+        "health campaigns",
+        "survey reports",
+        "awareness materials"
+      ],
+      "recommended_actions": [
+        "design a community health campaign",
+        "prepare a survey analysis report"
+      ]
+    }
+  },
+  "Engineering": {
+    "Civil Engineer": {
+      "level": "Mid",
+      "core_skills": [
+        "autocad",
+        "structural analysis",
+        "project estimation",
+        "site supervision"
+      ],
+      "helpful_skills": [
+        "construction management",
+        "safety standards",
+        "cost estimation"
+      ],
+      "typical_outputs": [
+        "drawings",
+        "site reports",
+        "cost estimates"
+      ],
+      "recommended_actions": [
+        "prepare a structural design case study",
+        "create a site inspection checklist"
+      ]
+    },
+    "Electrical Engineer": {
+      "level": "Mid",
+      "core_skills": [
+        "electrical systems",
+        "technical drawing",
+        "safety standards",
+        "troubleshooting"
+      ],
+      "helpful_skills": [
+        "autocad",
+        "project coordination",
+        "maintenance planning"
+      ],
+      "typical_outputs": [
+        "circuit designs",
+        "maintenance plans",
+        "inspection reports"
+      ],
+      "recommended_actions": [
+        "document an electrical maintenance plan",
+        "create a load calculation case study"
+      ]
+    },
+    "Mechanical Engineer": {
+      "level": "Mid",
+      "core_skills": [
+        "solidworks",
+        "mechanical systems",
+        "materials knowledge",
+        "quality control"
+      ],
+      "helpful_skills": [
+        "matlab",
+        "project estimation",
+        "iso standards"
+      ],
+      "typical_outputs": [
+        "CAD models",
+        "maintenance schedules",
+        "quality reports"
+      ],
+      "recommended_actions": [
+        "build a CAD portfolio piece",
+        "prepare a quality inspection report"
+      ]
+    },
+    "Site Engineer": {
+      "level": "Entry to Mid",
+      "core_skills": [
+        "site supervision",
+        "construction management",
+        "safety standards",
+        "communication"
+      ],
+      "helpful_skills": [
+        "autocad",
+        "project coordination",
+        "quality control"
+      ],
+      "typical_outputs": [
+        "daily site reports",
+        "progress logs",
+        "safety checklists"
+      ],
+      "recommended_actions": [
+        "create a daily site report template",
+        "prepare a safety audit checklist"
+      ]
+    },
+    "Quality Engineer": {
+      "level": "Mid",
+      "core_skills": [
+        "quality control",
+        "iso standards",
+        "process improvement",
+        "documentation"
+      ],
+      "helpful_skills": [
+        "statistical analysis basics",
+        "audit support",
+        "problem solving"
+      ],
+      "typical_outputs": [
+        "inspection reports",
+        "CAPA documents",
+        "quality dashboards"
+      ],
+      "recommended_actions": [
+        "prepare a quality audit case study",
+        "build a defect tracking log"
+      ]
+    }
+  },
+  "Customer Support": {
+    "Customer Service Representative": {
+      "level": "Entry",
+      "core_skills": [
+        "customer service",
+        "communication",
+        "active listening",
+        "crm"
+      ],
+      "helpful_skills": [
+        "complaint handling",
+        "product knowledge",
+        "patience"
+      ],
+      "typical_outputs": [
+        "resolved tickets",
+        "customer feedback summaries"
+      ],
+      "recommended_actions": [
+        "create a support response template pack",
+        "practice complaint scenarios"
+      ]
+    },
+    "Call Center Agent": {
+      "level": "Entry",
+      "core_skills": [
+        "phone support",
+        "communication",
+        "customer service",
+        "active listening"
+      ],
+      "helpful_skills": [
+        "crm",
+        "multitasking",
+        "conflict resolution"
+      ],
+      "typical_outputs": [
+        "call summaries",
+        "resolution logs",
+        "QA scorecards"
+      ],
+      "recommended_actions": [
+        "practice call handling scripts",
+        "build a resolution tracking sheet"
+      ]
+    },
+    "Client Support Executive": {
+      "level": "Entry to Mid",
+      "core_skills": [
+        "email support",
+        "customer service",
+        "crm",
+        "communication"
+      ],
+      "helpful_skills": [
+        "escalation management",
+        "documentation",
+        "product knowledge"
+      ],
+      "typical_outputs": [
+        "support emails",
+        "client updates",
+        "knowledge base articles"
+      ],
+      "recommended_actions": [
+        "create a client onboarding FAQ",
+        "write knowledge base samples"
+      ]
+    },
+    "Technical Support Specialist": {
+      "level": "Mid",
+      "core_skills": [
+        "troubleshooting",
+        "technical documentation",
+        "communication",
+        "ticketing systems"
+      ],
+      "helpful_skills": [
+        "product knowledge",
+        "remote support tools",
+        "problem solving"
+      ],
+      "typical_outputs": [
+        "troubleshooting guides",
+        "resolved technical tickets"
+      ],
+      "recommended_actions": [
+        "build a troubleshooting guide",
+        "document common issue resolutions"
+      ]
+    }
+  },
+  "Operations & Project Management": {
+    "Project Coordinator": {
+      "level": "Entry to Mid",
+      "core_skills": [
+        "project planning",
+        "communication",
+        "organization",
+        "stakeholder reporting"
+      ],
+      "helpful_skills": [
+        "jira",
+        "excel",
+        "meeting coordination"
+      ],
+      "typical_outputs": [
+        "project schedules",
+        "status reports",
+        "meeting minutes"
+      ],
+      "recommended_actions": [
+        "create a project tracker template",
+        "prepare a status report sample"
+      ]
+    },
+    "Project Manager": {
+      "level": "Mid to Senior",
+      "core_skills": [
+        "project planning",
+        "risk register",
+        "stakeholder reporting",
+        "leadership"
+      ],
+      "helpful_skills": [
+        "budget tracking",
+        "jira",
+        "negotiation"
+      ],
+      "typical_outputs": [
+        "project plans",
+        "risk logs",
+        "delivery reports"
+      ],
+      "recommended_actions": [
+        "build a full project plan case study",
+        "create a risk register sample"
+      ]
+    },
+    "Operations Manager": {
+      "level": "Mid to Senior",
+      "core_skills": [
+        "operations management",
+        "kpi tracking",
+        "process improvement",
+        "leadership"
+      ],
+      "helpful_skills": [
+        "vendor management",
+        "budget tracking",
+        "continuous improvement"
+      ],
+      "typical_outputs": [
+        "operations dashboards",
+        "SOP updates",
+        "efficiency reports"
+      ],
+      "recommended_actions": [
+        "map an operations workflow",
+        "build a KPI dashboard in Excel"
+      ]
+    },
+    "Supply Chain Executive": {
+      "level": "Mid",
+      "core_skills": [
+        "supply chain basics",
+        "inventory tracking",
+        "vendor coordination",
+        "excel"
+      ],
+      "helpful_skills": [
+        "logistics coordination",
+        "procurement support",
+        "kpi tracking"
+      ],
+      "typical_outputs": [
+        "inventory reports",
+        "supplier evaluations",
+        "delivery schedules"
+      ],
+      "recommended_actions": [
+        "create an inventory tracking model",
+        "prepare a supplier scorecard"
+      ]
+    },
+    "Logistics Coordinator": {
+      "level": "Entry to Mid",
+      "core_skills": [
+        "logistics coordination",
+        "inventory tracking",
+        "communication",
+        "scheduling"
+      ],
+      "helpful_skills": [
+        "vendor coordination",
+        "excel",
+        "problem solving"
+      ],
+      "typical_outputs": [
+        "shipment schedules",
+        "delivery logs",
+        "exception reports"
+      ],
+      "recommended_actions": [
+        "build a shipment tracking sheet",
+        "document a delivery escalation process"
+      ]
+    }
+  },
+  "General Entry-Level Jobs": {
+    "Office Assistant": {
+      "level": "Entry",
+      "core_skills": [
+        "office support",
+        "data entry",
+        "communication",
+        "organization"
+      ],
+      "helpful_skills": [
+        "microsoft office",
+        "scheduling",
+        "filing systems"
+      ],
+      "typical_outputs": [
+        "filing records",
+        "support logs",
+        "schedules"
+      ],
+      "recommended_actions": [
+        "create an office filing system guide",
+        "build a daily task checklist"
+      ]
+    },
+    "Receptionist": {
+      "level": "Entry",
+      "core_skills": [
+        "front desk management",
+        "communication",
+        "scheduling",
+        "customer service"
+      ],
+      "helpful_skills": [
+        "multitasking",
+        "professionalism",
+        "basic computer skills"
+      ],
+      "typical_outputs": [
+        "visitor logs",
+        "appointment schedules",
+        "call summaries"
+      ],
+      "recommended_actions": [
+        "prepare a front desk SOP",
+        "create a visitor management template"
+      ]
+    },
+    "Retail Assistant": {
+      "level": "Entry",
+      "core_skills": [
+        "retail operations",
+        "customer service",
+        "cash handling",
+        "communication"
+      ],
+      "helpful_skills": [
+        "inventory management",
+        "product knowledge",
+        "teamwork"
+      ],
+      "typical_outputs": [
+        "sales summaries",
+        "stock checks",
+        "customer feedback notes"
+      ],
+      "recommended_actions": [
+        "practice customer service scenarios",
+        "create a product knowledge sheet"
+      ]
+    },
+    "Data Entry Operator": {
+      "level": "Entry",
+      "core_skills": [
+        "data entry",
+        "typing",
+        "attention to detail",
+        "basic computer skills"
+      ],
+      "helpful_skills": [
+        "excel",
+        "quality control",
+        "time management"
+      ],
+      "typical_outputs": [
+        "clean datasets",
+        "entry logs",
+        "accuracy reports"
+      ],
+      "recommended_actions": [
+        "complete a data cleaning practice task",
+        "build a data validation checklist"
+      ]
+    },
+    "Junior Executive": {
+      "level": "Entry",
+      "core_skills": [
+        "communication",
+        "organization",
+        "report writing",
+        "microsoft office"
+      ],
+      "helpful_skills": [
+        "meeting coordination",
+        "basic reporting",
+        "teamwork"
+      ],
+      "typical_outputs": [
+        "meeting notes",
+        "status updates",
+        "support documents"
+      ],
+      "recommended_actions": [
+        "prepare a weekly report template",
+        "create a meeting notes sample pack"
+      ]
+    }
+  }
+}

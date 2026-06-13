@@ -1,26 +1,28 @@
 # Recruiter One-Pager
 
 ## Project Title
-AI Job Market Intelligence + Skill Gap Recommender
+CareerCompass: Job Market Intelligence & Skill Gap Analyzer
 
 ## One-line Summary
-A 6-page Streamlit application that transforms job-posting text into practical career guidance through skill extraction, CV gap analysis, project recommendations, and role clustering.
+A 7-page Streamlit application that transforms job-posting text and curated role profiles into practical career guidance through skill extraction, CV gap analysis, project recommendations, career actions, and role clustering.
 
 ## Problem Solved
 AI/Data job seekers often receive generic advice and lack a structured, evidence-based way to prioritize learning and portfolio projects.
 
 ## What the App Does
 - Analyzes job-posting trends and skill demand
-- Compares CV skills against role-relevant market skills
-- Recommends portfolio projects to close skill gaps
+- Compares CV skills against role-relevant market skills or curated role profiles
+- Recommends portfolio projects and broader career actions to close skill gaps
+- Supports 12 career categories beyond Data/AI (Software, Finance, Marketing, Design, etc.)
 - Segments roles with unsupervised clustering
 - Supports custom CSV import via a safe schema-first pipeline
 
 ## Core Features
 - Job Market Overview
 - Skill Demand Analysis
-- CV Skill Gap Analyzer
-- Project Recommendation Engine
+- CV Skill Gap Analyzer (market + career category modes)
+- Project & Career Action Recommendations
+- Career Explorer (browse roles without job data)
 - Role Segmentation & Job Clustering (TF-IDF + KMeans)
 - Data Import & Dataset Manager
 
