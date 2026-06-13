@@ -3,10 +3,13 @@
 #   Set-ExecutionPolicy -Scope CurrentUser RemoteSigned   # first time only
 #   .\setup.ps1
 #   .\setup.ps1 -RunApp
+#   .\setup.ps1 -SkipHeavyPackages
+#   .\setup.ps1 -RepairRepo
 
 param(
     [switch]$RunApp,
-    [switch]$SkipHeavyPackages
+    [switch]$SkipHeavyPackages,
+    [switch]$RepairRepo
 )
 
 $ErrorActionPreference = "Stop"
@@ -19,47 +22,90 @@ Write-Host " CareerCompass Windows Setup" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
 
-$RequiredScripts = @(
-    "scripts\generate_career_taxonomies.py",
-    "scripts\generate_advanced_features_data.py",
-    "scripts\generate_premium_features_data.py",
-    "scripts\run_project_check.py"
-)
-$MissingScripts = @($RequiredScripts | Where-Object { -not (Test-Path (Join-Path $ProjectRoot $_)) })
-if ($MissingScripts.Count -gt 0) {
-    Write-Host "ERROR: This folder is missing CareerCompass files:" -ForegroundColor Red
-    foreach ($item in $MissingScripts) { Write-Host "  - $item" -ForegroundColor Red }
-    Write-Host ""
-    Write-Host "Your git pull likely failed due to local changes. Run:" -ForegroundColor Yellow
-    Write-Host "  git fetch origin main" -ForegroundColor White
-    Write-Host "  git reset --hard origin/main" -ForegroundColor White
-    Write-Host "  .\setup.ps1 -RunApp" -ForegroundColor White
-    Write-Host ""
-    Write-Host "Or stash local edits first: git stash push -u -m backup" -ForegroundColor DarkYellow
-    exit 1
-}
-
 function Clear-PythonCache {
     Get-ChildItem -Path $ProjectRoot -Recurse -Directory -Filter "__pycache__" -ErrorAction SilentlyContinue |
         Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
 }
 
-function Test-CareerCompassImports {
+function Test-RepoUpToDate {
     $UiThemePath = Join-Path $ProjectRoot "src\ui_theme.py"
+    $AppPath = Join-Path $ProjectRoot "app\streamlit_app.py"
+    $SetupPath = Join-Path $ProjectRoot "setup.ps1"
+
     if (-not (Test-Path $UiThemePath)) {
         Write-Host "ERROR: Missing src\ui_theme.py" -ForegroundColor Red
         return $false
     }
     if (-not (Select-String -Path $UiThemePath -Pattern 'APP_NAME\s*=' -Quiet)) {
         Write-Host "ERROR: src\ui_theme.py is outdated (missing APP_NAME)." -ForegroundColor Red
-        Write-Host "Run: git fetch origin main" -ForegroundColor Yellow
-        Write-Host "     git reset --hard origin/main" -ForegroundColor Yellow
+        return $false
+    }
+    if (-not (Select-String -Path $AppPath -Pattern 'CareerCompass' -Quiet)) {
+        Write-Host "ERROR: app\streamlit_app.py is outdated." -ForegroundColor Red
+        return $false
+    }
+    if (-not (Test-Path $SetupPath)) {
+        Write-Host "ERROR: setup.ps1 missing from project root." -ForegroundColor Red
+        return $false
+    }
+    return $true
+}
+
+function Repair-RepoFromOrigin {
+    Write-Host "Repairing repo from origin/main..." -ForegroundColor Yellow
+    git fetch origin main
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "ERROR: git fetch failed. Check your internet and git remote." -ForegroundColor Red
+        return $false
+    }
+    git reset --hard origin/main
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "ERROR: git reset failed." -ForegroundColor Red
         return $false
     }
     Clear-PythonCache
-    & $VenvPython -c "from src.ui_theme import APP_NAME; print('Import check OK:', APP_NAME)"
-    return ($LASTEXITCODE -eq 0)
+    return $true
 }
+
+$RequiredScripts = @(
+    "scripts\generate_career_taxonomies.py",
+    "scripts\generate_advanced_features_data.py",
+    "scripts\generate_premium_features_data.py",
+    "scripts\run_project_check.py",
+    "scripts\verify_app_startup.py",
+    "scripts\import_jobs_from_csv.py"
+)
+$MissingScripts = @($RequiredScripts | Where-Object { -not (Test-Path (Join-Path $ProjectRoot $_)) })
+if ($MissingScripts.Count -gt 0 -or -not (Test-RepoUpToDate)) {
+    Write-Host "ERROR: This folder is missing CareerCompass files or has an outdated checkout." -ForegroundColor Red
+    if ($MissingScripts.Count -gt 0) {
+        foreach ($item in $MissingScripts) { Write-Host "  - $item" -ForegroundColor Red }
+    }
+    Write-Host ""
+    Write-Host "Attempting automatic repair from GitHub main..." -ForegroundColor Yellow
+    if (-not (Repair-RepoFromOrigin)) {
+        Write-Host "Manual fix:" -ForegroundColor Yellow
+        Write-Host "  git fetch origin main" -ForegroundColor White
+        Write-Host "  git reset --hard origin/main" -ForegroundColor White
+        Write-Host "  .\setup.ps1 -RunApp" -ForegroundColor White
+        exit 1
+    }
+    $MissingScripts = @($RequiredScripts | Where-Object { -not (Test-Path (Join-Path $ProjectRoot $_)) })
+    if ($MissingScripts.Count -gt 0 -or -not (Test-RepoUpToDate)) {
+        Write-Host "ERROR: Repair completed but files are still missing." -ForegroundColor Red
+        exit 1
+    }
+    Write-Host "Repair OK." -ForegroundColor Green
+}
+
+if ($RepairRepo) {
+    if (Repair-RepoFromOrigin) {
+        Write-Host "Repo repaired. Run .\setup.ps1 -RunApp to finish setup." -ForegroundColor Green
+    }
+    exit 0
+}
+
+Clear-PythonCache
 
 function Find-Python {
     $candidates = @("python", "py", "python3")
@@ -81,44 +127,58 @@ if (-not $Python) {
     exit 1
 }
 
-Write-Host "[1/7] Using: $Python" -ForegroundColor Green
+Write-Host "[1/8] Using: $Python" -ForegroundColor Green
 & $Python --version
 
 $VenvPath = Join-Path $ProjectRoot ".venv"
 $VenvPython = Join-Path $VenvPath "Scripts\python.exe"
 
 if (-not (Test-Path $VenvPython)) {
-    Write-Host "[2/7] Creating virtual environment..." -ForegroundColor Yellow
+    Write-Host "[2/8] Creating virtual environment..." -ForegroundColor Yellow
     & $Python -m venv $VenvPath
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "ERROR: Failed to create venv. Close other Python/Streamlit windows and retry." -ForegroundColor Red
+        exit 1
+    }
 } else {
-    Write-Host "[2/7] Virtual environment already exists." -ForegroundColor Green
+    Write-Host "[2/8] Virtual environment already exists." -ForegroundColor Green
 }
 
-Write-Host "[3/7] Upgrading pip..." -ForegroundColor Yellow
+Write-Host "[3/8] Upgrading pip..." -ForegroundColor Yellow
 & $VenvPython -m pip install --upgrade pip setuptools wheel
 
-Write-Host "[4/7] Installing dependencies (this may take several minutes)..." -ForegroundColor Yellow
+Write-Host "[4/8] Installing dependencies (this may take several minutes)..." -ForegroundColor Yellow
 if ($SkipHeavyPackages) {
-    Write-Host "      Lightweight mode: skipping sentence-transformers download hint." -ForegroundColor DarkYellow
-    & $VenvPython -m pip install pandas numpy scikit-learn plotly streamlit pyyaml python-dotenv pytest reportlab joblib matplotlib
+    Write-Host "      Lightweight mode: skipping sentence-transformers." -ForegroundColor DarkYellow
+    & $VenvPython -m pip install pandas numpy scikit-learn plotly streamlit pyyaml python-dotenv pytest reportlab joblib matplotlib requests
 } else {
     & $VenvPython -m pip install -r requirements.txt
 }
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "ERROR: pip install failed. Try: .\setup.ps1 -SkipHeavyPackages" -ForegroundColor Red
+    exit 1
+}
 
-Write-Host "[5/7] Generating career data files..." -ForegroundColor Yellow
+Write-Host "[5/8] Generating career data files..." -ForegroundColor Yellow
 & $VenvPython scripts/generate_career_taxonomies.py
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 & $VenvPython scripts/generate_advanced_features_data.py
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 & $VenvPython scripts/generate_premium_features_data.py
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-Write-Host "[6/7] Running health check..." -ForegroundColor Yellow
+Write-Host "[6/8] Running health check..." -ForegroundColor Yellow
 & $VenvPython scripts/run_project_check.py
 if ($LASTEXITCODE -ne 0) {
     Write-Host "Health check reported issues. Review output above." -ForegroundColor Red
     exit $LASTEXITCODE
 }
 
-Write-Host "[7/7] Optional: import expanded demo jobs..." -ForegroundColor Yellow
+Write-Host "[7/8] Importing expanded demo jobs (optional)..." -ForegroundColor Yellow
 & $VenvPython scripts/import_jobs_from_csv.py --demo expanded
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "WARNING: Demo import failed. Core app will still run with sample data." -ForegroundColor DarkYellow
+}
 
 $SecretsExample = Join-Path $ProjectRoot ".streamlit\secrets.example.toml"
 $SecretsFile = Join-Path $ProjectRoot ".streamlit\secrets.toml"
@@ -127,9 +187,11 @@ if ((Test-Path $SecretsExample) -and -not (Test-Path $SecretsFile)) {
     Write-Host 'Created .streamlit\secrets.toml from example - add USAJobs/SMTP keys if needed.' -ForegroundColor DarkYellow
 }
 
-Write-Host "Verifying CareerCompass imports..." -ForegroundColor Yellow
-if (-not (Test-CareerCompassImports)) {
-    exit 1
+Write-Host "[8/8] Verifying app startup..." -ForegroundColor Yellow
+Clear-PythonCache
+& $VenvPython scripts/verify_app_startup.py
+if ($LASTEXITCODE -ne 0) {
+    exit $LASTEXITCODE
 }
 
 Write-Host ""
@@ -137,14 +199,11 @@ Write-Host "========================================" -ForegroundColor Green
 Write-Host " Setup complete!" -ForegroundColor Green
 Write-Host "========================================" -ForegroundColor Green
 Write-Host ""
-Write-Host "Activate the environment:" -ForegroundColor Cyan
-Write-Host "  .\.venv\Scripts\Activate.ps1" -ForegroundColor White
-Write-Host ""
 Write-Host "Start the app:" -ForegroundColor Cyan
+Write-Host "  .\run_app.ps1" -ForegroundColor White
 Write-Host "  python -m streamlit run app/streamlit_app.py" -ForegroundColor White
 Write-Host ""
 
 if ($RunApp) {
-    Write-Host "Starting Streamlit..." -ForegroundColor Green
     & $VenvPython -m streamlit run app/streamlit_app.py
 }

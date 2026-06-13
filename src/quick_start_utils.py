@@ -31,7 +31,11 @@ and Docker experience. You will build dashboards, run SQL analyses, and present 
 
 def get_default_category() -> str:
     categories = list_career_categories()
-    return "Data & AI" if "Data & AI" in categories else categories[0]
+    if not categories:
+        return "Data & AI"
+    if "Data & AI" in categories:
+        return "Data & AI"
+    return categories[0]
 
 
 def get_default_role(category: str) -> str:

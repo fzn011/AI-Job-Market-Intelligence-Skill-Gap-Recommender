@@ -44,6 +44,16 @@ render_brand_header(
     subtitle="Company prep packs, salary estimates, LinkedIn optimization, peer benchmarks, voice interview practice, and study calendars.",
 )
 
+career_categories = list_career_categories()
+if not career_categories:
+    st.error("Career taxonomies not found. Run: python scripts/generate_career_taxonomies.py or .\\setup.ps1")
+    career_categories = ["Data & AI"]
+
+companies = list_companies()
+if not companies:
+    st.warning("Company prep packs not found. Run: python scripts/generate_premium_features_data.py")
+    companies = ["General"]
+
 available, model_info = semantic_model_available()
 render_info_box(
     "Semantic skill matching",
@@ -63,7 +73,6 @@ tabs = st.tabs([
 
 with tabs[0]:
     st.subheader("Company-Specific Prep Packs")
-    companies = list_companies()
     c1, c2 = st.columns(2)
     with c1:
         company = st.selectbox("Company", options=companies)
@@ -107,7 +116,7 @@ with tabs[2]:
     with l1:
         li_role = st.text_input("Target role", value="Data Analyst", key="li_role")
     with l2:
-        li_cat = st.selectbox("Category", options=list_career_categories(), key="li_cat")
+        li_cat = st.selectbox("Category", options=career_categories, key="li_cat")
     li_roles = get_roles_for_category(li_cat)
     li_role_name = st.selectbox("Role profile", options=li_roles or ["General"], key="li_role_name")
     target_skills = get_regional_target_skills(li_cat, li_role_name, "Global") if li_roles else []
@@ -187,7 +196,7 @@ with tabs[4]:
 
 with tabs[5]:
     st.subheader("4-Week Study Plan Calendar")
-    cat = st.selectbox("Category", options=list_career_categories(), key="cal_cat")
+    cat = st.selectbox("Category", options=career_categories, key="cal_cat")
     roles = get_roles_for_category(cat)
     cal_role = st.selectbox("Role", options=roles or ["General"], key="cal_role")
     default_skills = get_regional_target_skills(cat, cal_role, "Global") if roles else []
