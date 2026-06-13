@@ -2,8 +2,12 @@
 
 from __future__ import annotations
 
+import shutil
 import sys
 from pathlib import Path
+
+
+MIN_UI_THEME_BYTES = 12000
 
 
 def _project_root() -> Path:
@@ -11,6 +15,58 @@ def _project_root() -> Path:
     if str(root) not in sys.path:
         sys.path.insert(0, str(root))
     return root
+
+
+def _clear_pycache(root: Path) -> None:
+    for cache_dir in root.rglob("__pycache__"):
+        if cache_dir.is_dir():
+            shutil.rmtree(cache_dir, ignore_errors=True)
+
+
+def _bootstrap_ui_theme(root: Path) -> bool:
+    """Restore ui_theme.py from bundled backup without importing src modules."""
+    target = root / "src" / "ui_theme.py"
+    backup = root / "src" / "_repair" / "ui_theme.py"
+    if not backup.exists():
+        return False
+
+    needs_restore = True
+    if target.exists():
+        try:
+            text = target.read_text(encoding="utf-8", errors="replace")
+            if "render_feature_card" in text and target.stat().st_size >= MIN_UI_THEME_BYTES:
+                needs_restore = False
+        except OSError:
+            needs_restore = True
+
+    if needs_restore:
+        shutil.copy2(backup, target)
+        print("Bootstrap: restored src/ui_theme.py from src/_repair/ui_theme.py")
+        return True
+    return False
+
+
+def _bootstrap_source_repair(root: Path) -> bool:
+    """Restore source_repair.py if emergency script cannot import it."""
+    target = root / "src" / "source_repair.py"
+    backup = root / "src" / "_repair" / "source_repair.py"
+    if not backup.exists():
+        return False
+
+    needs_restore = True
+    if target.exists():
+        try:
+            text = target.read_text(encoding="utf-8", errors="replace")
+            if "file_has_markers" in text and "ui_theme_is_valid" in text:
+                needs_restore = False
+        except OSError:
+            needs_restore = True
+
+    if needs_restore:
+        shutil.copy2(backup, target)
+        print("Bootstrap: restored src/source_repair.py from src/_repair/source_repair.py")
+        return True
+    return False
 
 
 def main() -> int:
@@ -21,14 +77,17 @@ def main() -> int:
     print(f"Project: {root}")
     print()
 
+    _clear_pycache(root)
+    _bootstrap_ui_theme(root)
+    _bootstrap_source_repair(root)
+    _clear_pycache(root)
+
     from src.source_repair import (  # noqa: WPS433
         clear_python_cache,
         ensure_careercompass_sources,
-        file_has_markers,
         repair_report,
         repair_ui_theme_from_backup,
         repair_with_git,
-        ui_theme_imports_work,
         ui_theme_is_valid,
     )
 
