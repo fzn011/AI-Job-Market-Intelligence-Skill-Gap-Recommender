@@ -29,5 +29,16 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
 
+Write-Host "Checking CV upload dependencies..." -ForegroundColor Cyan
+& $VenvPython -c "import pypdf; import docx"
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "Installing pypdf and python-docx for CV/resume upload..." -ForegroundColor Yellow
+    & $VenvPython -m pip install pypdf python-docx
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "ERROR: Failed to install CV upload packages." -ForegroundColor Red
+        exit 1
+    }
+}
+
 Write-Host "Starting Streamlit at http://localhost:8501" -ForegroundColor Green
 & $VenvPython -m streamlit run app/streamlit_app.py

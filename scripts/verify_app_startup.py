@@ -95,6 +95,17 @@ def main() -> int:
     except Exception as exc:
         warnings.append(f"Company prep check skipped: {exc}")
 
+    try:
+        import docx  # noqa: F401
+        import pypdf  # noqa: F401
+
+        print("CV upload deps OK: pypdf, python-docx")
+    except ImportError as exc:
+        errors.append(
+            "CV upload packages missing (pypdf, python-docx). "
+            "Run: pip install pypdf python-docx  OR  .\\setup.ps1"
+        )
+
     processed_jobs = root / "data" / "processed" / "processed_sample_jobs.csv"
     if not processed_jobs.exists():
         warnings.append(
