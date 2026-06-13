@@ -1,0 +1,146 @@
+{
+  "javascript": [
+    "js",
+    "javascript",
+    "ecmascript",
+    "node",
+    "nodejs",
+    "node.js"
+  ],
+  "typescript": [
+    "ts",
+    "typescript"
+  ],
+  "python": [
+    "python",
+    "py",
+    "python3"
+  ],
+  "sql": [
+    "sql",
+    "mysql",
+    "postgresql",
+    "postgres",
+    "t-sql",
+    "pl/sql"
+  ],
+  "power bi": [
+    "power bi",
+    "powerbi",
+    "power-bi",
+    "pbi"
+  ],
+  "machine learning": [
+    "machine learning",
+    "ml",
+    "machine-learning"
+  ],
+  "scikit-learn": [
+    "scikit-learn",
+    "sklearn",
+    "scikit learn"
+  ],
+  "docker": [
+    "docker",
+    "containerization",
+    "containers"
+  ],
+  "fastapi": [
+    "fastapi",
+    "fast api"
+  ],
+  "react": [
+    "react",
+    "reactjs",
+    "react.js"
+  ],
+  "excel": [
+    "excel",
+    "ms excel",
+    "microsoft excel",
+    "spreadsheet"
+  ],
+  "figma": [
+    "figma",
+    "figma design"
+  ],
+  "communication": [
+    "communication",
+    "communicator",
+    "verbal communication",
+    "written communication"
+  ],
+  "problem solving": [
+    "problem solving",
+    "problem-solving",
+    "analytical thinking"
+  ],
+  "llm": [
+    "llm",
+    "large language model",
+    "large language models",
+    "gpt"
+  ],
+  "rag": [
+    "rag",
+    "retrieval augmented generation",
+    "retrieval-augmented generation"
+  ],
+  "aws": [
+    "aws",
+    "amazon web services",
+    "amazon aws"
+  ],
+  "git": [
+    "git",
+    "github",
+    "gitlab",
+    "version control"
+  ],
+  "tableau": [
+    "tableau",
+    "tableau desktop"
+  ],
+  "seo": [
+    "seo",
+    "search engine optimization",
+    "search engine optimisation"
+  ],
+  "crm": [
+    "crm",
+    "salesforce",
+    "hubspot crm",
+    "customer relationship management"
+  ],
+  "autocad": [
+    "autocad",
+    "auto cad",
+    "cad"
+  ],
+  "project planning": [
+    "project planning",
+    "project management",
+    "pm"
+  ],
+  "data visualization": [
+    "data visualization",
+    "data visualisation",
+    "dataviz",
+    "data viz"
+  ],
+  "nlp": [
+    "nlp",
+    "natural language processing"
+  ],
+  "kubernetes": [
+    "kubernetes",
+    "k8s",
+    "kube"
+  ],
+  "ci/cd": [
+    "ci/cd",
+    "cicd",
+    "continuous integration",
+    "continuous deployment"
+  ]
+}

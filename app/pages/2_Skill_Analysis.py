@@ -35,6 +35,7 @@ from src.skill_analysis_utils import (  # noqa: E402
     load_skill_dictionary_for_analysis,
 )
 from src.ui_theme import apply_global_theme, render_brand_header, style_plotly_figure  # noqa: E402
+from src.timeseries_utils import build_skill_timeseries, get_timeseries_summary  # noqa: E402
 
 
 st.set_page_config(page_title="Skill Demand Analysis", page_icon="🔬", layout="wide")
@@ -282,6 +283,29 @@ if not detailed_skill_df.empty:
     )
 else:
     st.info("Skill table not available.")
+
+st.markdown("---")
+st.subheader("Skill Demand Over Time")
+
+ts_summary = get_timeseries_summary(filtered_jobs_df)
+if not ts_summary.get("available"):
+    st.info(ts_summary.get("message", "Time-series unavailable."))
+else:
+    st.caption(f"Date range: {ts_summary['min_date']} → {ts_summary['max_date']} ({ts_summary['date_count']} jobs with dates)")
+    ts_df = build_skill_timeseries(filtered_jobs_df, top_n_skills=8)
+    if ts_df.empty:
+        st.info("Not enough dated job rows to plot skill trends.")
+    else:
+        fig_ts = px.line(
+            ts_df,
+            x="period",
+            y="job_count",
+            color="skill",
+            markers=True,
+            labels={"period": "Period", "job_count": "Job Count", "skill": "Skill"},
+        )
+        style_plotly_figure(fig_ts)
+        st.plotly_chart(fig_ts, use_container_width=True)
 
 st.markdown("---")
 st.subheader("Quick Insights")

@@ -38,6 +38,9 @@ from src.cv_gap_utils import (  # noqa: E402
 )
 from src.dashboard_utils import get_active_dataset_label, load_active_jobs_dataset, load_processed_jobs  # noqa: E402
 from src.skill_analysis_utils import build_skill_category_lookup, load_skill_dictionary_for_analysis  # noqa: E402
+from src.progress_tracker_utils import record_gap_analysis  # noqa: E402
+from src.learning_resource_utils import get_resources_for_skills  # noqa: E402
+from src.regional_profiles_utils import get_regional_role_profile, list_regions  # noqa: E402
 from src.ui_theme import apply_global_theme, render_brand_header, render_info_box, style_plotly_figure  # noqa: E402
 
 
@@ -167,6 +170,20 @@ if analysis_mode == "Data-driven market comparison":
         for insight in insights:
             st.markdown(f"- {insight}")
 
+        record_gap_analysis(
+            mode="market",
+            target_role=target_role,
+            match_score=float(gap_result.get("match_score", 0.0)),
+            cv_skills=cv_skills,
+            missing_skills=gap_result.get("missing_skills", []),
+            matched_skills=gap_result.get("matched_skills", []),
+        )
+
+        resources_df = get_resources_for_skills(gap_result.get("missing_skills", []))
+        if not resources_df.empty:
+            st.subheader("Learning Resources for Missing Skills")
+            st.dataframe(resources_df, use_container_width=True)
+
         st.download_button(
             label="Download CV Skill Gap Report",
             data=report_text.encode("utf-8"),
@@ -186,13 +203,15 @@ else:
         "for a field, or when exploring a new career path.",
     )
 
-    ctrl_a, ctrl_b, ctrl_c = st.columns([1.2, 1.2, 0.8])
+    ctrl_a, ctrl_b, ctrl_c, ctrl_d = st.columns([1.1, 1.1, 1.1, 0.8])
     with ctrl_a:
         career_category = st.selectbox("Career Category", options=categories)
     with ctrl_b:
         role_options = get_roles_for_category(career_category)
         target_role = st.selectbox("Target Role", options=role_options or ["No roles found"])
     with ctrl_c:
+        region = st.selectbox("Region", options=list_regions())
+    with ctrl_d:
         analyze_clicked = st.button("Analyze Career Gap", type="primary", use_container_width=True)
 
     left_col, right_col = st.columns([1.45, 1])
@@ -204,9 +223,14 @@ else:
             key="career_cv_text",
         )
     with right_col:
+        regional_profile = get_regional_role_profile(career_category, target_role, region)
         profile_skills = get_target_role_skills(career_category, target_role)
+        if region != "Global" and regional_profile.get("core_skills"):
+            profile_skills = sorted(set(regional_profile.get("core_skills", []) + regional_profile.get("helpful_skills", [])))
         st.markdown(f"**Target role skills ({len(profile_skills)}):**")
         st.write(", ".join(profile_skills) if profile_skills else "No skills listed.")
+        if regional_profile.get("regional_notes"):
+            st.caption(regional_profile["regional_notes"])
 
     if analyze_clicked or cv_text.strip():
         if not cv_text.strip():
@@ -218,7 +242,7 @@ else:
             st.warning("No category skills detected. Try adding role-relevant tools, methods, or soft skills.")
             st.stop()
 
-        gap_result = compute_role_skill_gap(cv_skills, career_category, target_role)
+        gap_result = compute_role_skill_gap(cv_skills, career_category, target_role, region=region)
         match_level = classify_match_level(float(gap_result.get("match_score", 0.0)))
         taxonomy = load_category_skill_taxonomy(career_category)
         actions_df = recommend_career_actions(
@@ -289,6 +313,22 @@ else:
 
         with st.expander("Category skill taxonomy preview"):
             st.dataframe(skill_type_df.head(30), use_container_width=True)
+
+        record_gap_analysis(
+            mode="career_category",
+            target_role=target_role,
+            category=career_category,
+            region=region,
+            match_score=float(gap_result.get("match_score", 0.0)),
+            cv_skills=cv_skills,
+            missing_skills=gap_result.get("missing_skills", []),
+            matched_skills=gap_result.get("matched_skills", []),
+        )
+
+        resources_df = get_resources_for_skills(gap_result.get("missing_skills", []))
+        if not resources_df.empty:
+            st.subheader("Learning Resources for Missing Skills")
+            st.dataframe(resources_df, use_container_width=True)
 
         st.download_button(
             label="Download Career Action Plan",

@@ -1,0 +1,74 @@
+[
+  {
+    "badge_id": "first_gap_analysis",
+    "title": "Gap Spotter",
+    "description": "Complete your first skill gap analysis.",
+    "criteria": "gap_analyses>=1"
+  },
+  {
+    "badge_id": "five_gap_analyses",
+    "title": "Career Tracker",
+    "description": "Complete 5 skill gap analyses.",
+    "criteria": "gap_analyses>=5"
+  },
+  {
+    "badge_id": "skill_growth_10",
+    "title": "Skill Climber",
+    "description": "Achieve 10% skill growth between analyses.",
+    "criteria": "skill_growth>=10"
+  },
+  {
+    "badge_id": "first_job_match",
+    "title": "Job Matcher",
+    "description": "Run your first job description match.",
+    "criteria": "job_matches>=1"
+  },
+  {
+    "badge_id": "first_interview_prep",
+    "title": "Interview Ready",
+    "description": "Generate interview questions for a role.",
+    "criteria": "interview_preps>=1"
+  },
+  {
+    "badge_id": "first_resume_bullets",
+    "title": "Bullet Crafter",
+    "description": "Generate ATS resume bullets.",
+    "criteria": "resume_bullets>=1"
+  },
+  {
+    "badge_id": "first_career_action",
+    "title": "Action Taker",
+    "description": "Mark a career action as completed.",
+    "criteria": "completed_actions>=1"
+  },
+  {
+    "badge_id": "three_completed_actions",
+    "title": "Momentum Builder",
+    "description": "Complete 3 career actions.",
+    "criteria": "completed_actions>=3"
+  },
+  {
+    "badge_id": "cv_comparison",
+    "title": "CV Optimizer",
+    "description": "Compare two CV versions.",
+    "criteria": "cv_comparisons>=1"
+  },
+  {
+    "badge_id": "pdf_export",
+    "title": "Report Pro",
+    "description": "Export a PDF career report.",
+    "criteria": "pdf_exports>=1"
+  },
+  {
+    "badge_id": "multilingual",
+    "title": "Global Explorer",
+    "description": "Switch the UI to Bengali.",
+    "criteria": "language_bn_used>=1"
+  },
+  {
+    "badge_id": "data_import",
+    "title": "Data Curator",
+    "description": "Import job data via CSV or connector.",
+    "criteria": "data_imports>=1"
+  }
+]

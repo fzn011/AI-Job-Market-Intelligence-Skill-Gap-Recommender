@@ -89,12 +89,14 @@ st.subheader("Dashboard Modules")
 
 modules = [
     ("Job Market Overview", "Explore role, company, location, and skill distributions.", "Live", "1_Job_Market_Overview"),
-    ("Skill Demand Analysis", "Top skills, categories, co-occurrence, and role-wise demand.", "Live", "2_Skill_Analysis"),
+    ("Skill Demand Analysis", "Top skills, categories, co-occurrence, and time-series trends.", "Live", "2_Skill_Analysis"),
     ("CV Skill Gap Analyzer", "Compare your CV against market data or curated role profiles.", "Live", "3_CV_Skill_Gap"),
     ("Project & Career Actions", "Portfolio projects plus certifications, case studies, and career tasks.", "Live", "4_Project_Recommendations"),
+    ("Job Match Dashboard", "Paste any job description + CV for instant fit scoring.", "New", "8_Job_Match_Dashboard"),
+    ("Career Toolkit", "Progress tracker, multi-CV compare, interview prep, resume bullets, badges.", "New", "9_Career_Toolkit"),
     ("Role Clustering", "Unsupervised job segmentation with TF-IDF + KMeans.", "Live", "5_Role_Clustering"),
-    ("Data Import", "Upload CSV job data with schema validation.", "Live", "6_Data_Import"),
-    ("Career Explorer", "Browse roles, skills, and preparation plans without job data.", "New", "7_Career_Explorer"),
+    ("Data Import", "Upload CSV job data or fetch from public connectors.", "Live", "6_Data_Import"),
+    ("Career Explorer", "Browse roles, skills, and regional profiles without job data.", "Live", "7_Career_Explorer"),
 ]
 
 row_a, row_b, row_c = st.columns(3)
@@ -102,6 +104,19 @@ for idx, (title, body, badge, _page) in enumerate(modules):
     target = [row_a, row_b, row_c][idx % 3]
     with target:
         render_feature_card(title, body, badge=badge)
+
+st.markdown("---")
+st.subheader("Advanced Features")
+feat_col1, feat_col2, feat_col3 = st.columns(3)
+with feat_col1:
+    render_feature_card("Skill Synonym Engine", "Maps JS→javascript, PowerBI→power bi for smarter extraction.", badge="Built-in")
+    render_feature_card("Learning Resources", "Curated free courses and docs for missing skills.", badge="Built-in")
+with feat_col2:
+    render_feature_card("Regional Profiles", "Bangladesh, UK, US, and Remote role expectations.", badge="Built-in")
+    render_feature_card("PDF Reports", "Download polished career and job-match PDF reports.", badge="Built-in")
+with feat_col3:
+    render_feature_card("Multilingual UI", "English and Bengali interface toggle in the sidebar.", badge="Built-in")
+    render_feature_card("Gamification", "Earn badges for analyses, actions, and milestones.", badge="Built-in")
 
 st.markdown("---")
 st.subheader("Supported Career Fields")
