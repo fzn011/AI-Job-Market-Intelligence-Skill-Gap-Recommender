@@ -12,6 +12,28 @@ if (-not (Test-Path $VenvPython)) {
     exit 1
 }
 
+function Import-CareerCompassSecrets {
+    param([string]$SecretsPath)
+
+    if (-not (Test-Path $SecretsPath)) {
+        return $false
+    }
+
+    $raw = Get-Content -Raw -Path $SecretsPath
+    $loaded = $false
+
+    if ($raw -match 'USAJOBS_API_KEY\s*=\s*"([^"]+)"') {
+        $env:USAJOBS_API_KEY = $Matches[1]
+        $loaded = $true
+    }
+    if ($raw -match 'USAJOBS_USER_EMAIL\s*=\s*"([^"]+)"') {
+        $env:USAJOBS_USER_EMAIL = $Matches[1]
+        $loaded = $true
+    }
+
+    return ($env:USAJOBS_API_KEY -and $env:USAJOBS_USER_EMAIL)
+}
+
 Get-ChildItem -Path $ProjectRoot -Recurse -Directory -Filter "__pycache__" -ErrorAction SilentlyContinue |
     Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
 
@@ -22,11 +44,26 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
 
+$SecretsFile = Join-Path $ProjectRoot ".streamlit\secrets.toml"
+$env:STREAMLIT_SECRETS_FILE = $SecretsFile
+if (Import-CareerCompassSecrets $SecretsFile) {
+    Write-Host "USAJobs credentials loaded from $SecretsFile" -ForegroundColor Green
+} else {
+    Write-Host "WARNING: Could not load USAJobs credentials from $SecretsFile" -ForegroundColor Yellow
+    Write-Host "Create the file with quoted USAJOBS_API_KEY and USAJOBS_USER_EMAIL values." -ForegroundColor Yellow
+}
+
 Write-Host "Verifying CareerCompass..." -ForegroundColor Cyan
 & $VenvPython scripts/verify_app_startup.py
 if ($LASTEXITCODE -ne 0) {
     Write-Host "Fix the errors above, then run .\setup.ps1" -ForegroundColor Red
     exit $LASTEXITCODE
+}
+
+Write-Host "Bootstrapping secrets..." -ForegroundColor Cyan
+& $VenvPython scripts/bootstrap_secrets.py
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "USAJobs bootstrap failed. Data Import connector may use demo data until secrets are fixed." -ForegroundColor Yellow
 }
 
 Write-Host "Checking CV upload dependencies..." -ForegroundColor Cyan
