@@ -29,7 +29,7 @@ from src.progress_tracker_utils import increment_stat  # noqa: E402
 
 st.set_page_config(page_title="Data Import & Dataset Manager", page_icon="📥", layout="wide")
 
-apply_global_theme()
+apply_global_theme(PROJECT_ROOT)
 render_brand_header(
     app_name="CareerCompass · Data Import & Dataset Manager",
     subtitle="Validate and process local CSV job data for dashboard analysis — or use Career Explorer without job data.",
@@ -111,7 +111,7 @@ if uploaded is not None:
 st.markdown("---")
 st.subheader("Public Data Connectors")
 
-render_usajobs_status()
+render_usajobs_status(PROJECT_ROOT)
 
 connectors = list_available_connectors()
 connector = st.selectbox("Connector", options=connectors)

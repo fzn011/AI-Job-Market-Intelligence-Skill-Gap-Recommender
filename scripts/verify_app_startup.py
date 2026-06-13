@@ -96,6 +96,20 @@ def main() -> int:
         warnings.append(f"Company prep check skipped: {exc}")
 
     try:
+        from src.secrets_utils import bootstrap_app_secrets, get_usajobs_diagnostics
+
+        bootstrap_app_secrets(root, force=True)
+        usajobs = get_usajobs_diagnostics(root)
+        if usajobs["configured"]:
+            print(f"USAJobs credentials OK: {usajobs['email']} (source: {usajobs.get('source', 'unknown')})")
+        else:
+            warnings.append(
+                "USAJobs credentials not configured. Add .streamlit/secrets.toml or run scripts/bootstrap_secrets.py"
+            )
+    except Exception as exc:
+        warnings.append(f"USAJobs credential check skipped: {exc}")
+
+    try:
         import docx  # noqa: F401
         import pypdf  # noqa: F401
 

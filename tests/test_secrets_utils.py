@@ -10,6 +10,7 @@ from src.secrets_utils import (  # noqa: E402
     _is_placeholder,
     _normalize_secret,
     _parse_secrets_toml_fallback,
+    bootstrap_app_secrets,
     get_project_root,
     get_secret,
     get_usajobs_credentials,
@@ -49,11 +50,11 @@ def test_parse_secrets_toml_fallback():
     text = """
     # comment
     USAJOBS_API_KEY = "+abc+123="
-    USAJOBS_USER_EMAIL = "user@example.com"
+    USAJOBS_USER_EMAIL = "faiazzahin@gmail.com"
     """
     parsed = _parse_secrets_toml_fallback(text)
     assert parsed["USAJOBS_API_KEY"] == "+abc+123="
-    assert parsed["USAJOBS_USER_EMAIL"] == "user@example.com"
+    assert parsed["USAJOBS_USER_EMAIL"] == "faiazzahin@gmail.com"
 
 
 def test_get_project_root_points_to_repo():
@@ -70,7 +71,16 @@ def test_load_secrets_toml_finds_workspace_file():
 
 
 def test_usajobs_diagnostics_reports_status():
+    bootstrap_app_secrets(force=True)
     status = get_usajobs_diagnostics()
     assert "configured" in status
     assert "checked_paths" in status
     assert isinstance(status["checked_paths"], list)
+
+
+def test_bootstrap_caches_usajobs_credentials():
+    bootstrap_app_secrets(force=True)
+    key, email = get_usajobs_credentials()
+    if key and email:
+        assert len(key) > 10
+        assert "@" in email

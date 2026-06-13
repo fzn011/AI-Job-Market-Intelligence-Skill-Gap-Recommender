@@ -43,7 +43,7 @@ st.set_page_config(
     layout="wide",
 )
 
-apply_global_theme()
+apply_global_theme(PROJECT_ROOT)
 render_sidebar_navigation()
 
 render_brand_header()

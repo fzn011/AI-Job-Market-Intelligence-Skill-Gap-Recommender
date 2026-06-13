@@ -2,23 +2,29 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+
 import streamlit as st
 
-from src.secrets_utils import get_usajobs_diagnostics
+from src.secrets_utils import bootstrap_app_secrets, get_usajobs_diagnostics
 
 
-def render_usajobs_status() -> dict:
+def render_usajobs_status(project_root: Path | None = None) -> dict:
     """Show a compact USAJobs connection status banner."""
-    status = get_usajobs_diagnostics()
+    bootstrap_app_secrets(project_root, force=True)
+    status = get_usajobs_diagnostics(project_root)
     if status["configured"]:
-        source = status.get("source", "secrets.toml")
-        st.success(f"USAJobs ready · {status['email']} · loaded from {source}")
+        st.success(
+            f"USAJobs ready · {status['email']} · key length {status['api_key_length']} · "
+            f"{status.get('source', 'secrets.toml')}"
+        )
     else:
-        st.warning("USAJobs not configured.")
+        st.error("USAJobs credentials were not loaded.")
         hint = status.get("hint")
         if hint:
             st.caption(hint)
         with st.expander("Where CareerCompass looked for secrets"):
             for path in status.get("checked_paths", []):
-                st.code(path)
+                marker = "FOUND" if Path(path).exists() else "missing"
+                st.write(f"- [{marker}] `{path}`")
     return status
