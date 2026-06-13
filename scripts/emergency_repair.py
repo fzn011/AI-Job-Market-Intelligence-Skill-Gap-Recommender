@@ -24,10 +24,12 @@ def main() -> int:
     from src.source_repair import (  # noqa: WPS433
         clear_python_cache,
         ensure_careercompass_sources,
-        file_is_valid,
+        file_has_markers,
         repair_report,
         repair_ui_theme_from_backup,
         repair_with_git,
+        ui_theme_imports_work,
+        ui_theme_is_valid,
     )
 
     print("Before repair:")
@@ -44,7 +46,7 @@ def main() -> int:
 
     clear_python_cache(root)
 
-    if not file_is_valid(root, "src/ui_theme.py"):
+    if not ui_theme_is_valid(root):
         if repair_ui_theme_from_backup(root):
             print("Backup repair: restored src/ui_theme.py from src/_repair/ui_theme.py")
         else:
@@ -63,7 +65,7 @@ def main() -> int:
         return 1
 
     from src.brand_constants import APP_NAME, APP_VERSION  # noqa: WPS433
-    from src.ui_theme import render_app_footer  # noqa: WPS433
+    from src.ui_theme import render_app_footer, render_feature_card  # noqa: WPS433
 
     print()
     print("After repair:")
@@ -71,7 +73,7 @@ def main() -> int:
         print(f"  {line}")
     print()
     print(f"Import check OK: {APP_NAME} ({APP_VERSION})")
-    print(f"UI helpers OK: render_app_footer={callable(render_app_footer)}")
+    print(f"UI helpers OK: render_feature_card={callable(render_feature_card)}")
     print()
     print("Repair complete. Start the app with:")
     print("  .\\run_app.ps1")

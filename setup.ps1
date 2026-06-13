@@ -36,8 +36,8 @@ function Test-RepoUpToDate {
         Write-Host "ERROR: Missing src\ui_theme.py" -ForegroundColor Red
         return $false
     }
-    if (-not (Select-String -Path $UiThemePath -Pattern 'render_app_footer|brand_constants' -Quiet)) {
-        Write-Host "ERROR: src\ui_theme.py is outdated." -ForegroundColor Red
+    if (-not (Select-String -Path $UiThemePath -Pattern 'render_feature_card' -Quiet)) {
+        Write-Host "ERROR: src\ui_theme.py is outdated (missing render_feature_card)." -ForegroundColor Red
         return $false
     }
     if (-not (Test-Path (Join-Path $ProjectRoot "src\brand_constants.py"))) {
