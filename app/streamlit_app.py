@@ -12,11 +12,11 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from src.career_taxonomy_utils import get_roles_for_category, list_career_categories, load_role_profiles  # noqa: E402
+from src.cv_upload_ui import render_cv_upload_input  # noqa: E402
 from src.dashboard_utils import get_active_dataset_label, load_active_jobs_dataset  # noqa: E402
 from src.progress_tracker_utils import record_gap_analysis  # noqa: E402
 from src.quick_start_utils import (  # noqa: E402
     QUICK_START_GOALS,
-    SAMPLE_CV,
     SAMPLE_JOB,
     get_default_category,
     run_explore_quick_start,
@@ -96,9 +96,19 @@ with wiz2:
         qs_roles = get_roles_for_category(qs_category)
         qs_role = st.selectbox("Target role", options=qs_roles or ["Data Analyst"], key="qs_role")
         qs_region = st.selectbox("Region", options=list_regions(), key="qs_region")
-        cv_text = st.text_area("Paste CV (or use sample)", value=SAMPLE_CV, height=100, key="qs_cv_gap")
+        cv_text = render_cv_upload_input(
+            upload_label="Upload CV / Resume",
+            paste_label="Or paste CV text (optional)",
+            paste_height=80,
+            key_prefix="qs_cv_gap",
+        )
     elif goal == "Match my CV to a job description":
-        cv_text = st.text_area("Your CV", value=SAMPLE_CV, height=80, key="qs_cv_job")
+        cv_text = render_cv_upload_input(
+            upload_label="Upload CV / Resume",
+            paste_label="Or paste CV text (optional)",
+            paste_height=80,
+            key_prefix="qs_cv_job",
+        )
         job_text = st.text_area("Job description", value=SAMPLE_JOB, height=80, key="qs_job")
     else:
         qs_category = st.selectbox("Category", options=categories, index=default_category_index, key="qs_cat_explore")
@@ -116,8 +126,14 @@ with wiz3:
 
 if analyze_quick:
     if goal == "Check my skill gap for a role":
+        if not cv_text.strip():
+            st.warning("Please upload a CV file or paste CV text.")
+            st.stop()
         result = run_skill_gap_quick_start(qs_category, qs_role, cv_text, qs_region)
     elif goal == "Match my CV to a job description":
+        if not cv_text.strip():
+            st.warning("Please upload a CV file or paste CV text.")
+            st.stop()
         result = run_job_match_quick_start(job_text, cv_text)
     else:
         result = run_explore_quick_start(qs_category, qs_role, qs_region)
