@@ -61,9 +61,12 @@ if analyze:
         st.stop()
 
     result = compute_job_match(job_description, cv_text)
-    if result.get("message"):
+    if result.get("message") and result.get("job_skill_count", 0) == 0:
         st.info(result["message"])
+        st.stop()
 
+    st.session_state["job_match_result"] = result
+    st.session_state["job_match_title"] = job_title
     increment_stat("job_matches")
     record_gap_analysis(
         mode="job_match",
@@ -73,6 +76,10 @@ if analyze:
         missing_skills=result.get("missing_skills", []),
         matched_skills=result.get("matched_skills", []),
     )
+
+result = st.session_state.get("job_match_result")
+if result:
+    saved_title = st.session_state.get("job_match_title", job_title or "Job Match")
 
     st.markdown("---")
     metrics = st.columns(5)
@@ -93,8 +100,15 @@ if analyze:
             st.plotly_chart(fig, use_container_width=True)
     with chart_col2:
         if not match_df.empty:
-            fig2 = px.bar(match_df, x="job_skill", y=[1] * len(match_df), color="status")
-            fig2.update_layout(showlegend=True, yaxis_visible=False)
+            fig2 = px.bar(
+                match_df.sort_values("status"),
+                y="job_skill",
+                x=[1] * len(match_df),
+                color="status",
+                orientation="h",
+                labels={"x": "", "job_skill": "Skill"},
+            )
+            fig2.update_layout(showlegend=True, xaxis_visible=False)
             style_plotly_figure(fig2)
             st.plotly_chart(fig2, use_container_width=True)
 
@@ -108,13 +122,13 @@ if analyze:
         else:
             st.dataframe(resources, use_container_width=True)
     with tab3:
-        report = generate_job_match_report(result, job_title)
+        report = generate_job_match_report(result, saved_title)
         st.download_button("Download Match Report", data=report.encode("utf-8"), file_name="job_match_report.txt")
         try:
             from src.pdf_report_utils import build_gap_pdf_sections, generate_career_pdf_report
 
             sections = build_gap_pdf_sections(
-                target_role=job_title or "Job Match",
+                target_role=saved_title,
                 match_score=float(result["match_score"]),
                 matched_skills=result.get("matched_skills", []),
                 missing_skills=result.get("missing_skills", []),
@@ -124,6 +138,13 @@ if analyze:
             increment_stat("pdf_exports")
         except ImportError:
             st.caption("Install reportlab for PDF export: pip install reportlab")
+        except Exception as exc:
+            st.error(f"PDF export failed: {exc}")
+
+    if st.button("Clear Match Results"):
+        st.session_state.pop("job_match_result", None)
+        st.session_state.pop("job_match_title", None)
+        st.rerun()
 
 with st.expander("Limitations"):
     st.markdown("- Match score depends on skill dictionary coverage.")

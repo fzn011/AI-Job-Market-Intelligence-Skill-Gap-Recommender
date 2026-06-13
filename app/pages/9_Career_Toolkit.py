@@ -87,19 +87,23 @@ with tool_tab[1]:
         label_b = st.text_input("Label B", value="Updated CV")
         cv_b = st.text_area("CV Version B", height=220, key="cv_b")
 
-    if st.button("Compare CV Versions", type="primary"):
+    if st.button("Compare CV Versions", type="primary", key="compare_cv_btn"):
         if not cv_a.strip() or not cv_b.strip():
             st.warning("Paste both CV versions.")
         else:
             comparison = compare_cv_versions(cv_a, cv_b, label_a, label_b)
             increment_stat("cv_comparisons")
-            comp_df = build_cv_comparison_dataframe(comparison)
-            st.dataframe(comp_df, use_container_width=True)
-            st.download_button(
-                "Download Comparison Report",
-                data=generate_cv_comparison_report(comparison).encode("utf-8"),
-                file_name="cv_comparison_report.txt",
-            )
+            st.session_state["cv_comparison"] = comparison
+
+    if "cv_comparison" in st.session_state:
+        comparison = st.session_state["cv_comparison"]
+        comp_df = build_cv_comparison_dataframe(comparison)
+        st.dataframe(comp_df, use_container_width=True)
+        st.download_button(
+            "Download Comparison Report",
+            data=generate_cv_comparison_report(comparison).encode("utf-8"),
+            file_name="cv_comparison_report.txt",
+        )
 
 with tool_tab[2]:
     st.subheader("Interview Question Generator")
@@ -121,9 +125,15 @@ with tool_tab[2]:
     default_missing = get_regional_target_skills(category, role, region)[:8]
     missing = st.multiselect("Focus skills / gaps", options=default_missing, default=default_missing[:5])
 
-    if st.button("Generate Interview Questions", type="primary"):
+    if st.button("Generate Interview Questions", type="primary", key="interview_btn"):
         q_df = generate_interview_questions(missing, role)
         increment_stat("interview_preps")
+        st.session_state["interview_questions"] = q_df
+        st.session_state["interview_role"] = role
+
+    if "interview_questions" in st.session_state:
+        q_df = st.session_state["interview_questions"]
+        role = st.session_state.get("interview_role", role)
         st.dataframe(q_df, use_container_width=True)
         st.download_button(
             "Download Interview Prep",
@@ -140,11 +150,17 @@ with tool_tab[3]:
     with rc2:
         missing_input = st.text_area("Missing skills (comma-separated)", value="docker, machine learning")
 
-    if st.button("Generate ATS Resume Bullets", type="primary"):
+    if st.button("Generate ATS Resume Bullets", type="primary", key="resume_btn"):
         matched_list = [s.strip().lower() for s in matched.split(",") if s.strip()]
         missing_list = [s.strip().lower() for s in missing_input.split(",") if s.strip()]
         bullets = generate_resume_bullets(matched_list, missing_list, r_role)
         increment_stat("resume_bullets")
+        st.session_state["resume_bullets"] = bullets
+        st.session_state["resume_role"] = r_role
+
+    if "resume_bullets" in st.session_state:
+        bullets = st.session_state["resume_bullets"]
+        r_role = st.session_state.get("resume_role", r_role)
         for item in bullets:
             st.markdown(f"- **{item['bullet_type']}:** {item['bullet']}")
         st.download_button(

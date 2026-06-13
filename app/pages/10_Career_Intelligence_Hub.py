@@ -79,16 +79,28 @@ with tabs[0]:
     with c2:
         role = st.text_input("Target role", value="Data Analyst")
     cv_for_company = st.text_area("Your CV / profile (optional)", height=120)
-    if st.button("Generate Company Prep Pack", type="primary"):
+    if st.button("Generate Company Prep Pack", type="primary", key="company_prep_btn"):
         cv_skills = extract_cv_skills_enhanced(cv_for_company) if cv_for_company.strip() else []
         pack = get_company_pack(company)
         missing = sorted(set(pack.get("hiring_focus", [])) - set(cv_skills))
         summary = build_company_prep_summary(company, role, missing)
-        st.text(summary)
-        if cv_skills:
-            overlap_df = get_company_skill_overlap(company, cv_skills)
+        st.session_state["company_prep"] = {
+            "summary": summary,
+            "company": company,
+            "cv_skills": cv_skills,
+        }
+
+    if "company_prep" in st.session_state:
+        prep = st.session_state["company_prep"]
+        st.text(prep["summary"])
+        if prep["cv_skills"]:
+            overlap_df = get_company_skill_overlap(prep["company"], prep["cv_skills"])
             st.dataframe(overlap_df, use_container_width=True)
-        st.download_button("Download Prep Pack", data=summary.encode("utf-8"), file_name=f"{company.lower()}_prep.txt")
+        st.download_button(
+            "Download Prep Pack",
+            data=prep["summary"].encode("utf-8"),
+            file_name=f"{prep['company'].lower()}_prep.txt",
+        )
 
 with tabs[1]:
     st.subheader("Salary Band Estimator")
@@ -101,8 +113,12 @@ with tabs[1]:
         experience = st.selectbox("Experience", options=["entry", "mid", "senior"])
     with s4:
         match_score = st.slider("Skill match score", 0, 100, 55)
-    if st.button("Estimate Salary Band", type="primary"):
+    if st.button("Estimate Salary Band", type="primary", key="salary_btn"):
         result = estimate_salary_band(salary_role, salary_region, match_score, experience)
+        st.session_state["salary_result"] = result
+
+    if "salary_result" in st.session_state:
+        result = st.session_state["salary_result"]
         if result.get("available"):
             st.metric("Estimated Range", f"{result['estimated_range']} {result['currency']}")
             st.metric("Market Band", f"{result['market_band']} {result['currency']}")
@@ -120,8 +136,13 @@ with tabs[2]:
     li_roles = get_roles_for_category(li_cat)
     li_role_name = st.selectbox("Role profile", options=li_roles or ["General"], key="li_role_name")
     target_skills = get_regional_target_skills(li_cat, li_role_name, "Global") if li_roles else []
-    if st.button("Optimize LinkedIn About", type="primary"):
-        result = optimize_linkedin_about(about, li_role, target_skills)
+    if st.button("Optimize LinkedIn About", type="primary", key="linkedin_btn"):
+        target_role = li_role_name if li_roles else li_role
+        result = optimize_linkedin_about(about, target_role, target_skills)
+        st.session_state["linkedin_result"] = result
+
+    if "linkedin_result" in st.session_state:
+        result = st.session_state["linkedin_result"]
         st.markdown("**Optimized About**")
         st.text_area("Optimized", value=result["optimized_text"], height=220)
         st.markdown("**Suggestions**")
@@ -133,8 +154,12 @@ with tabs[3]:
     peer_cv = st.text_area("Paste CV for benchmark", height=160)
     peer_role = st.text_input("Target role", value="Data Analyst", key="peer_role")
     jobs_df = load_active_jobs_dataset()
-    if st.button("Run Peer Benchmark", type="primary") and peer_cv.strip():
+    if st.button("Run Peer Benchmark", type="primary", key="peer_btn") and peer_cv.strip():
         result = compute_peer_benchmark(peer_cv, peer_role, jobs_df)
+        st.session_state["peer_result"] = result
+
+    if "peer_result" in st.session_state:
+        result = st.session_state["peer_result"]
         if result.get("available"):
             st.metric("Percentile", f"{result['percentile']}%")
             st.success(result["tier_label"])
@@ -201,11 +226,19 @@ with tabs[5]:
     cal_role = st.selectbox("Role", options=roles or ["General"], key="cal_role")
     default_skills = get_regional_target_skills(cat, cal_role, "Global") if roles else []
     missing_skills = st.multiselect("Skills to address", options=default_skills, default=default_skills[:4], key="cal_skills")
-    if st.button("Generate ICS Calendar", type="primary"):
+    if st.button("Generate ICS Calendar", type="primary", key="ics_btn"):
         actions_df = recommend_career_actions(missing_skills, cat, max_actions=4)
         actions = actions_df.to_dict("records") if not actions_df.empty else []
         ics = generate_study_plan_ics(actions, f"CareerCompass Plan — {cal_role}")
-        st.download_button("Download 4-Week Study Plan (.ics)", data=ics.encode("utf-8"), file_name="career_study_plan.ics", mime="text/calendar")
+        st.session_state["ics_calendar"] = ics
+
+    if "ics_calendar" in st.session_state:
+        st.download_button(
+            "Download 4-Week Study Plan (.ics)",
+            data=st.session_state["ics_calendar"].encode("utf-8"),
+            file_name="career_study_plan.ics",
+            mime="text/calendar",
+        )
 
 with tabs[6]:
     st.subheader("Semantic Skill Matching")
@@ -213,12 +246,23 @@ with tabs[6]:
     skill_dict = load_skill_dictionary_for_analysis()
     all_skills = flatten_skill_dictionary(skill_dict) if skill_dict else []
     use_both = st.checkbox("Combine regex + semantic extraction", value=True)
-    if st.button("Run Semantic Analysis", type="primary") and sem_text.strip():
+    if st.button("Run Semantic Analysis", type="primary", key="semantic_btn") and sem_text.strip():
+        if not available:
+            st.warning(f"Semantic model unavailable: {model_info}. Showing regex extraction only.")
         regex_skills = extract_skills_from_text(sem_text, all_skills, use_semantic=False)
-        sem_skills = extract_skills_from_text(sem_text, all_skills, use_semantic=True) if use_both else []
-        scores = get_semantic_match_scores(sem_text, all_skills[:40])
-        st.markdown(f"**Regex skills:** {', '.join(regex_skills) or 'None'}")
-        st.markdown(f"**Combined skills:** {', '.join(sem_skills) or 'None'}")
+        sem_skills = extract_skills_from_text(sem_text, all_skills, use_semantic=True) if use_both and available else []
+        scores = get_semantic_match_scores(sem_text, all_skills[:40]) if available else []
+        st.session_state["semantic_result"] = {
+            "regex_skills": regex_skills,
+            "sem_skills": sem_skills,
+            "scores": scores,
+        }
+
+    if "semantic_result" in st.session_state:
+        sem_result = st.session_state["semantic_result"]
+        st.markdown(f"**Regex skills:** {', '.join(sem_result['regex_skills']) or 'None'}")
+        st.markdown(f"**Combined skills:** {', '.join(sem_result['sem_skills']) or 'None'}")
+        scores = sem_result["scores"]
         if scores:
             score_df = pd.DataFrame(scores[:15])
             fig = px.bar(score_df, x="semantic_score", y="skill", orientation="h")

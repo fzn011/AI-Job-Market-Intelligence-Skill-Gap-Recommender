@@ -112,9 +112,8 @@ if analysis_mode == "Data-driven market comparison":
         )
 
     top_n = 25 if use_top_25 else None
-    run_analysis = analyze_clicked or bool(cv_text.strip())
 
-    if run_analysis:
+    if analyze_clicked:
         if not cv_text.strip():
             st.warning("Please paste your CV or profile text first.")
             st.stop()
@@ -208,7 +207,10 @@ else:
         career_category = st.selectbox("Career Category", options=categories)
     with ctrl_b:
         role_options = get_roles_for_category(career_category)
-        target_role = st.selectbox("Target Role", options=role_options or ["No roles found"])
+        if not role_options:
+            st.warning("No roles found for this category.")
+            st.stop()
+        target_role = st.selectbox("Target Role", options=role_options)
     with ctrl_c:
         region = st.selectbox("Region", options=list_regions())
     with ctrl_d:
@@ -232,7 +234,7 @@ else:
         if regional_profile.get("regional_notes"):
             st.caption(regional_profile["regional_notes"])
 
-    if analyze_clicked or cv_text.strip():
+    if analyze_clicked:
         if not cv_text.strip():
             st.warning("Please paste your CV or profile text first.")
             st.stop()

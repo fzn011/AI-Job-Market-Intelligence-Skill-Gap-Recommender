@@ -131,11 +131,11 @@ with chart_col_1:
     else:
         fig_titles = px.bar(
             top_titles,
-            x="value",
-            y="count",
+            y="value",
+            x="count",
+            orientation="h",
             labels={"value": "Job Title", "count": "Count"},
         )
-        fig_titles.update_layout(xaxis_tickangle=-30)
         style_plotly_figure(fig_titles)
         st.plotly_chart(fig_titles, use_container_width=True)
 
@@ -147,11 +147,11 @@ with chart_col_2:
     else:
         fig_locations = px.bar(
             top_locations,
-            x="value",
-            y="count",
+            y="value",
+            x="count",
+            orientation="h",
             labels={"value": "Location", "count": "Count"},
         )
-        fig_locations.update_layout(xaxis_tickangle=-30)
         style_plotly_figure(fig_locations)
         st.plotly_chart(fig_locations, use_container_width=True)
 
@@ -183,21 +183,20 @@ with chart_col_4:
 
 st.subheader("Top Skills Overall")
 
-filters_applied = len(filtered_df) != len(jobs_df)
-if filters_applied and "extracted_skills" in filtered_df.columns:
+skill_source_df = filtered_df if "extracted_skills" in filtered_df.columns else pd.DataFrame()
+if not skill_source_df.empty and "extracted_skills" in skill_source_df.columns:
     all_skills: list[str] = []
-    for value in filtered_df["extracted_skills"]:
+    for value in skill_source_df["extracted_skills"]:
         all_skills.extend(parse_extracted_skills(value))
     if all_skills:
-        filtered_skill_freq = (
+        skill_freq = (
             pd.Series(all_skills)
             .value_counts()
             .head(15)
             .reset_index()
         )
-        filtered_skill_freq.columns = ["skill", "frequency"]
-        fig_skills = px.bar(filtered_skill_freq, x="skill", y="frequency")
-        fig_skills.update_layout(xaxis_tickangle=-30)
+        skill_freq.columns = ["skill", "frequency"]
+        fig_skills = px.bar(skill_freq, y="skill", x="frequency", orientation="h")
         style_plotly_figure(fig_skills)
         st.plotly_chart(fig_skills, use_container_width=True)
     else:
@@ -230,6 +229,7 @@ if not top_type_df.empty:
 
 insights.append(f"Average skills per job: **{metrics['avg_skills_per_job']}**.")
 
+filters_applied = len(filtered_df) != len(jobs_df)
 if filters_applied and "extracted_skills" in filtered_df.columns:
     all_skills_for_insight: list[str] = []
     for value in filtered_df["extracted_skills"]:

@@ -24,13 +24,11 @@ from src.career_taxonomy_utils import (  # noqa: E402
 from src.dashboard_utils import get_active_dataset_label, load_active_jobs_dataset, load_processed_jobs  # noqa: E402
 from src.project_recommendation_utils import (  # noqa: E402
     TARGET_ROLES,
-    build_project_skill_matrix,
     create_project_roadmap_text,
     generate_project_recommendation_insights,
     get_available_skills_from_market,
     get_difficulty_distribution,
     get_project_template_catalog,
-    get_project_type_distribution,
     get_role_based_skill_options,
     normalize_selected_skills,
     recommend_projects,
@@ -124,7 +122,7 @@ if recommendation_mode == "Technical Portfolio Projects":
 
     generate_clicked = st.button("Generate Project Recommendations", type="primary", use_container_width=True)
 
-    if generate_clicked or selected_skills:
+    if generate_clicked:
         normalized_selected_skills = normalize_selected_skills(selected_skills)
         if not normalized_selected_skills:
             st.warning("Please select at least one skill.")
@@ -143,6 +141,18 @@ if recommendation_mode == "Technical Portfolio Projects":
             selected_skills=normalized_selected_skills,
             recommendations_df=recommendations_df,
         )
+        st.session_state["pr_results"] = {
+            "recommendations_df": recommendations_df,
+            "coverage_summary": coverage_summary,
+            "insights": insights,
+            "roadmap_text": roadmap_text,
+        }
+
+    if "pr_results" in st.session_state:
+        recommendations_df = st.session_state["pr_results"]["recommendations_df"]
+        coverage_summary = st.session_state["pr_results"]["coverage_summary"]
+        insights = st.session_state["pr_results"]["insights"]
+        roadmap_text = st.session_state["pr_results"]["roadmap_text"]
 
         st.markdown("---")
         metric_cols = st.columns(5)
@@ -199,7 +209,10 @@ else:
         career_category = st.selectbox("Career Category", options=categories, key="ca_category")
     with ctrl_b:
         roles = get_roles_for_category(career_category)
-        career_role = st.selectbox("Target Role", options=roles or ["No roles"], key="ca_role")
+        if not roles:
+            st.warning("No roles found for this category.")
+            st.stop()
+        career_role = st.selectbox("Target Role", options=roles, key="ca_role")
     with ctrl_c:
         max_actions = st.slider("Max Actions", min_value=3, max_value=15, value=8)
 
@@ -234,12 +247,24 @@ else:
             missing_skills=normalized_missing,
             recommendations_df=actions_df,
         )
+        st.session_state["ca_actions_df"] = actions_df
+        st.session_state["ca_action_plan"] = action_plan
+        st.session_state["ca_meta"] = {
+            "category": career_category,
+            "role": career_role,
+            "missing_count": len(normalized_missing),
+        }
+
+    if "ca_actions_df" in st.session_state:
+        actions_df = st.session_state["ca_actions_df"]
+        action_plan = st.session_state["ca_action_plan"]
+        meta = st.session_state["ca_meta"]
 
         st.markdown("---")
         metric_cols = st.columns(4)
-        metric_cols[0].metric("Category", career_category)
-        metric_cols[1].metric("Target Role", career_role)
-        metric_cols[2].metric("Missing Skills", len(normalized_missing))
+        metric_cols[0].metric("Category", meta["category"])
+        metric_cols[1].metric("Target Role", meta["role"])
+        metric_cols[2].metric("Missing Skills", meta["missing_count"])
         metric_cols[3].metric("Actions Recommended", len(actions_df))
 
         if actions_df.empty:
@@ -257,16 +282,15 @@ else:
                     for item in row.get("deliverables", []):
                         st.markdown(f"- {item}")
 
-            if not actions_df.empty:
-                fig = px.bar(
-                    actions_df.sort_values("coverage_score"),
-                    x="coverage_score",
-                    y="title",
-                    orientation="h",
-                    color="action_type",
-                )
-                style_plotly_figure(fig)
-                st.plotly_chart(fig, use_container_width=True)
+            fig = px.bar(
+                actions_df.sort_values("coverage_score"),
+                x="coverage_score",
+                y="title",
+                orientation="h",
+                color="action_type",
+            )
+            style_plotly_figure(fig)
+            st.plotly_chart(fig, use_container_width=True)
 
         st.subheader("Suggested 30-Day Plan")
         st.markdown("- **Week 1:** Pick one high-coverage action and gather materials.")

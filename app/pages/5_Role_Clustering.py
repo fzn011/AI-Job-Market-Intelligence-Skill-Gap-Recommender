@@ -92,7 +92,12 @@ if filtered_df.empty:
     st.warning("No jobs match the selected filters. Try widening the filters.")
     st.stop()
 
-run_now = run_clicked or "role_cluster_results" not in st.session_state
+run_now = run_clicked or st.session_state.get("role_cluster_cache_key") != (
+    tuple(sorted(selected_job_types)),
+    tuple(sorted(selected_locations)),
+    selected_clusters,
+    len(filtered_df),
+)
 
 if run_now:
     try:
@@ -101,8 +106,17 @@ if run_now:
             n_clusters=selected_clusters,
             random_state=42,
         )
-    except Exception as exc:  # pragma: no cover
+        st.session_state["role_cluster_cache_key"] = (
+            tuple(sorted(selected_job_types)),
+            tuple(sorted(selected_locations)),
+            selected_clusters,
+            len(filtered_df),
+        )
+    except (ValueError, ImportError) as exc:
         st.error(f"Clustering failed: {exc}")
+        st.stop()
+    except Exception as exc:  # pragma: no cover
+        st.exception(exc)
         st.stop()
 
 results = st.session_state.get("role_cluster_results", {})
