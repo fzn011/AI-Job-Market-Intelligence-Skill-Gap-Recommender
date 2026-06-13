@@ -413,8 +413,6 @@ def render_sidebar_navigation(extra_note: str | None = None) -> str:
         if extra_note:
             st.markdown("---")
             st.caption(extra_note)
-        st.markdown("---")
-        st.caption(f"{APP_VERSION} · Open-source · No paid APIs")
 
     return lang_code
 
