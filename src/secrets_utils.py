@@ -53,7 +53,7 @@ def _read_streamlit_secrets_file(key: str) -> str:
             data = toml.load(secrets_path)
 
         value = data.get(key, "")
-        return str(value).strip() if value is not None else ""
+        return _normalize_secret(str(value)) if value is not None else ""
     except Exception:
         return ""
 
