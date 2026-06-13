@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+
 import plotly.graph_objects as go
 import streamlit as st
 
@@ -433,8 +435,11 @@ def render_app_footer(show_tech_line: bool = True) -> None:
     st.html(html)
 
 
-def apply_global_theme() -> None:
-    """Apply global CSS theme."""
+def apply_global_theme(project_root: Path | None = None) -> None:
+    """Apply global CSS theme and bootstrap local secrets."""
+    from src.secrets_utils import bootstrap_app_secrets
+
+    bootstrap_app_secrets(project_root)
     inject_global_css()
 
 
