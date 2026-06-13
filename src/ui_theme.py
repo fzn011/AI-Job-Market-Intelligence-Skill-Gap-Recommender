@@ -468,10 +468,6 @@ def style_plotly_figure(fig: go.Figure) -> go.Figure:
     for idx, trace in enumerate(fig.data):
         color = ACCENT if idx % 2 == 0 else ACCENT_SOFT
 
-        if hasattr(trace, "marker") and trace.marker is not None:
-            trace.marker.color = color
-            trace.marker.line = {"color": ACCENT, "width": 1}
-
         if trace.type == "pie":
             size = len(trace.labels) if getattr(trace, "labels", None) is not None else 2
             pie_colors = [ACCENT if i % 2 == 0 else ACCENT_SOFT for i in range(size)]
@@ -481,6 +477,10 @@ def style_plotly_figure(fig: go.Figure) -> go.Figure:
             }
             if not getattr(trace, "hole", None):
                 trace.hole = 0.45
+        elif hasattr(trace, "marker") and trace.marker is not None:
+            if getattr(trace.marker, "color", None) is None:
+                trace.marker.color = color
+            trace.marker.line = {"color": ACCENT, "width": 1}
 
         if trace.type == "heatmap":
             trace.colorscale = [
