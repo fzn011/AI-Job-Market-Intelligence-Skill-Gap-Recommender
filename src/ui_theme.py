@@ -426,16 +426,13 @@ def render_app_footer(show_tech_line: bool = True) -> None:
         if show_tech_line
         else ""
     )
-    st.markdown(
-        f"""
-        <div class="cc-footer">
-            {tech_line}
-            © 2026 All rights reserved by
-            <a href="https://fzn011.github.io/portfolio/" target="_blank" rel="noopener noreferrer">Faiaz Zahin</a>
-        </div>
-        """,
-        unsafe_allow_html=True,
+    html = (
+        f'<div class="cc-footer">{tech_line}'
+        "© 2026 All rights reserved by "
+        '<a href="https://fzn011.github.io/portfolio/" target="_blank" rel="noopener noreferrer">Faiaz Zahin</a>'
+        "</div>"
     )
+    st.html(html)
 
 
 def apply_global_theme() -> None:
