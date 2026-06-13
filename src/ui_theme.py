@@ -335,22 +335,42 @@ def render_status_badge(text: str) -> str:
     return f"<span class='cc-badge'>{text}</span>"
 
 
-def render_sidebar_navigation(extra_note: str | None = None) -> None:
-    """Render consistent sidebar navigation copy."""
+def render_sidebar_navigation(extra_note: str | None = None) -> str:
+    """Render sidebar navigation and language selector. Returns language code."""
+    from src.i18n_utils import SUPPORTED_LANGUAGES, get_language_code, t
+    from src.progress_tracker_utils import increment_stat
+
+    if "ui_language_label" not in st.session_state:
+        st.session_state["ui_language_label"] = "English"
+
     with st.sidebar:
-        st.markdown(f"### 🧭 {APP_NAME}")
-        st.caption(APP_TAGLINE)
+        lang_label = st.selectbox(
+            t("language", "en", "Language"),
+            options=list(SUPPORTED_LANGUAGES.keys()),
+            key="ui_language_label",
+        )
+        lang_code = get_language_code(lang_label)
+        if lang_code == "bn":
+            increment_stat("language_bn_used", 0)  # no-op unless first time
+            if not st.session_state.get("_bn_badge_tracked"):
+                increment_stat("language_bn_used", 1)
+                st.session_state["_bn_badge_tracked"] = True
+
+        st.markdown(f"### 🧭 {t('app_name', lang_code, APP_NAME)}")
+        st.caption(t("app_tagline", lang_code, APP_TAGLINE))
         st.markdown("---")
         st.markdown(
-            """
+            f"""
             **Explore**
-            - 🗺️ Job Market Overview
-            - 🔬 Skill Demand Analysis
-            - 📄 CV Skill Gap Analyzer
-            - 🚀 Project & Career Actions
-            - 🧠 Role Clustering
-            - 📥 Data Import
-            - 🌍 Career Explorer
+            - 🗺️ {t('nav_overview', lang_code, 'Job Market Overview')}
+            - 🔬 {t('nav_skills', lang_code, 'Skill Demand Analysis')}
+            - 📄 {t('nav_cv_gap', lang_code, 'CV Skill Gap Analyzer')}
+            - 🚀 {t('nav_recommendations', lang_code, 'Project & Career Actions')}
+            - 🎯 {t('nav_job_match', lang_code, 'Job Match Dashboard')}
+            - 🛠️ {t('nav_toolkit', lang_code, 'Career Toolkit')}
+            - 🧠 {t('nav_clustering', lang_code, 'Role Clustering')}
+            - 📥 {t('nav_import', lang_code, 'Data Import')}
+            - 🌍 {t('nav_explorer', lang_code, 'Career Explorer')}
             """
         )
         if extra_note:
@@ -358,6 +378,8 @@ def render_sidebar_navigation(extra_note: str | None = None) -> None:
             st.caption(extra_note)
         st.markdown("---")
         st.caption(f"{APP_VERSION} · Open-source · No paid APIs")
+
+    return lang_code
 
 
 def apply_global_theme() -> None:

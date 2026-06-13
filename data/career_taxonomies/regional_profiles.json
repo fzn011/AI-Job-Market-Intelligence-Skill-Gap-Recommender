@@ -1,0 +1,166 @@
+{
+  "regions": [
+    "Global",
+    "Bangladesh",
+    "United Kingdom",
+    "United States",
+    "Remote"
+  ],
+  "profiles": {
+    "Bangladesh": {
+      "Data & AI": {
+        "Data Analyst": {
+          "core_skills": [
+            "excel",
+            "sql",
+            "power bi",
+            "python",
+            "communication"
+          ],
+          "helpful_skills": [
+            "statistics",
+            "reporting",
+            "stakeholder management"
+          ],
+          "notes": "Excel and Power BI are especially common in Bangladesh analytics roles."
+        },
+        "Bank Officer": {
+          "core_skills": [
+            "banking operations",
+            "customer onboarding",
+            "excel",
+            "communication",
+            "kyc"
+          ],
+          "helpful_skills": [
+            "financial products",
+            "regulatory compliance"
+          ],
+          "notes": "Retail and corporate banking onboarding workflows are common."
+        }
+      },
+      "Banking & Finance": {
+        "Credit Analyst": {
+          "core_skills": [
+            "financial analysis",
+            "credit analysis",
+            "excel",
+            "risk assessment",
+            "communication"
+          ],
+          "helpful_skills": [
+            "regulatory compliance",
+            "financial reporting"
+          ],
+          "notes": "Credit assessment memos and Excel models are standard deliverables."
+        }
+      }
+    },
+    "United Kingdom": {
+      "Data & AI": {
+        "Data Analyst": {
+          "core_skills": [
+            "sql",
+            "python",
+            "power bi",
+            "data visualization",
+            "stakeholder management"
+          ],
+          "helpful_skills": [
+            "statistics",
+            "a/b testing",
+            "communication"
+          ],
+          "notes": "Stakeholder communication and GDPR-aware reporting are valued."
+        }
+      },
+      "Software & IT": {
+        "Full Stack Developer": {
+          "core_skills": [
+            "javascript",
+            "react",
+            "node.js",
+            "sql",
+            "git"
+          ],
+          "helpful_skills": [
+            "docker",
+            "testing",
+            "agile"
+          ],
+          "notes": "Agile delivery and testing practices are commonly expected."
+        }
+      }
+    },
+    "United States": {
+      "Data & AI": {
+        "Machine Learning Engineer": {
+          "core_skills": [
+            "python",
+            "machine learning",
+            "docker",
+            "aws",
+            "sql"
+          ],
+          "helpful_skills": [
+            "mlflow",
+            "fastapi",
+            "feature engineering"
+          ],
+          "notes": "Cloud deployment and MLOps tooling are frequently listed."
+        }
+      },
+      "Marketing & Sales": {
+        "Digital Marketing Executive": {
+          "core_skills": [
+            "google analytics",
+            "seo",
+            "sem",
+            "content marketing",
+            "crm"
+          ],
+          "helpful_skills": [
+            "copywriting",
+            "conversion optimization"
+          ],
+          "notes": "Performance marketing and analytics integration are common."
+        }
+      }
+    },
+    "Remote": {
+      "Software & IT": {
+        "Frontend Developer": {
+          "core_skills": [
+            "html",
+            "css",
+            "javascript",
+            "react",
+            "git"
+          ],
+          "helpful_skills": [
+            "typescript",
+            "communication",
+            "documentation"
+          ],
+          "notes": "Async communication and documentation skills are critical for remote roles."
+        }
+      },
+      "Customer Support": {
+        "Technical Support Specialist": {
+          "core_skills": [
+            "troubleshooting",
+            "communication",
+            "ticketing systems",
+            "documentation"
+          ],
+          "helpful_skills": [
+            "crm",
+            "product knowledge",
+            "empathy"
+          ],
+          "notes": "Clear written communication across time zones is essential."
+        }
+      }
+    }
+  }
+}

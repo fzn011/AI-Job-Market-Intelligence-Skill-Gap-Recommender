@@ -58,12 +58,18 @@ Career category guidance is rule-based and transparent. No paid AI APIs are used
 ## Current features
 
 - Job data cleaning and validation pipeline
-- Rule-based skill extraction from descriptions
-- Job market overview analytics
+- Rule-based skill extraction from descriptions with **skill synonym engine** (JS→javascript, PowerBI→power bi)
+- Job market overview analytics with **skill demand time-series trends**
 - Skill demand and co-occurrence analysis
-- CV skill gap analysis (market mode + career category mode)
+- CV skill gap analysis (market mode + career category mode + **regional profiles**)
+- **Job Match Dashboard** — paste job description + CV for instant fit score
+- **Career Toolkit** — progress tracker, multi-CV comparison, interview prep, resume bullets, badges
 - Project recommendation engine + career action planner
 - Career Explorer for role browsing without job data
+- **Learning resource links** for missing skills (free courses/docs)
+- **PDF career report export**
+- **Public data connectors** (USAJobs with demo fallback)
+- **Multilingual UI** (English + Bengali)
 - Role segmentation with unsupervised clustering
 - Data Import & Dataset Manager (CSV upload + schema validation)
 - Multi-category skill taxonomies and role profiles
@@ -81,6 +87,8 @@ Career category guidance is rule-based and transparent. No paid AI APIs are used
 5. `app/pages/5_Role_Clustering.py` — Role Segmentation & Job Clustering
 6. `app/pages/6_Data_Import.py` — Data Import & Dataset Manager
 7. `app/pages/7_Career_Explorer.py` — Career Explorer
+8. `app/pages/8_Job_Match_Dashboard.py` — Job Match Dashboard
+9. `app/pages/9_Career_Toolkit.py` — Career Toolkit (progress, badges, interview, resume)
 
 ---
 

@@ -22,6 +22,8 @@ from src.data_collection import (  # noqa: E402
 )
 from src.dashboard_utils import get_active_dataset_label  # noqa: E402
 from src.ui_theme import apply_global_theme, render_brand_header, render_info_box  # noqa: E402
+from src.public_data_connectors import fetch_usajobs_jobs, list_available_connectors  # noqa: E402
+from src.progress_tracker_utils import increment_stat  # noqa: E402
 
 
 st.set_page_config(page_title="Data Import & Dataset Manager", page_icon="📥", layout="wide")
@@ -104,6 +106,28 @@ if uploaded is not None:
 
     except Exception as exc:  # pragma: no cover
         st.error(f"Failed to validate/process uploaded CSV: {exc}")
+
+st.markdown("---")
+st.subheader("Public Data Connectors")
+
+render_info_box(
+    "Legal public APIs",
+    "Connectors use free public APIs where available. USAJobs requires a free API key via developer.usajobs.gov "
+    "(set `USAJOBS_API_KEY` and `USAJOBS_USER_EMAIL` environment variables). Without keys, demo connector data is shown.",
+)
+
+connectors = list_available_connectors()
+connector = st.selectbox("Connector", options=connectors)
+keyword = st.text_input("Search keyword", value="data analyst")
+
+if st.button("Fetch Jobs from Connector", type="primary"):
+    if connector == "usajobs":
+        jobs_df, meta = fetch_usajobs_jobs(keyword=keyword, results_per_page=10)
+        increment_stat("data_imports")
+        st.success(meta.get("message", "Fetch complete"))
+        st.dataframe(jobs_df, use_container_width=True)
+        st.caption(f"Mode: {meta.get('mode', 'unknown')} · Rows: {meta.get('rows', 0)}")
+        st.info("To import into the dashboard, save this data as CSV matching the job schema and upload above.")
 
 st.markdown("---")
 st.subheader("Download CSV Template")

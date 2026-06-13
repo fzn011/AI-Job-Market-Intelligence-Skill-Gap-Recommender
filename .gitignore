@@ -30,6 +30,10 @@ data/processed/*
 !data/raw/.gitkeep
 !data/processed/.gitkeep
 
+# ─── User runtime progress (local/session persistence) ───
+data/user_progress/*
+!data/user_progress/.gitkeep
+
 # ─── Model files ──────────────────────────────────────────
 *.pkl
 *.joblib

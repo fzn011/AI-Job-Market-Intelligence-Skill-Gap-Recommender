@@ -20,6 +20,8 @@ def main() -> int:
         root / "app" / "pages" / "5_Role_Clustering.py",
         root / "app" / "pages" / "6_Data_Import.py",
         root / "app" / "pages" / "7_Career_Explorer.py",
+        root / "app" / "pages" / "8_Job_Match_Dashboard.py",
+        root / "app" / "pages" / "9_Career_Toolkit.py",
     ]
 
     core_modules = [
@@ -32,12 +34,26 @@ def main() -> int:
         root / "src" / "job_clustering.py",
         root / "src" / "ui_theme.py",
         root / "src" / "career_taxonomy_utils.py",
+        root / "src" / "skill_synonym_utils.py",
+        root / "src" / "progress_tracker_utils.py",
+        root / "src" / "job_match_utils.py",
+        root / "src" / "timeseries_utils.py",
+        root / "src" / "gamification_utils.py",
+        root / "src" / "i18n_utils.py",
+        root / "src" / "public_data_connectors.py",
     ]
 
     career_taxonomy_assets = [
         root / "data" / "career_taxonomies",
         root / "data" / "career_taxonomies" / "role_profiles.json",
         root / "data" / "career_taxonomies" / "career_action_templates.json",
+        root / "data" / "career_taxonomies" / "regional_profiles.json",
+        root / "data" / "skill_synonyms.json",
+        root / "data" / "learning_resources.json",
+        root / "data" / "interview_questions.json",
+        root / "data" / "gamification_badges.json",
+        root / "data" / "i18n" / "en.json",
+        root / "data" / "i18n" / "bn.json",
     ]
 
     required_folders = [
@@ -53,6 +69,7 @@ def main() -> int:
         root / "scripts" / "run_project_check.py",
         root / "scripts" / "import_jobs_from_csv.py",
         root / "scripts" / "final_project_audit.py",
+        root / "scripts" / "generate_advanced_features_data.py",
     ]
 
     sample_processed = root / "data" / "processed" / "processed_sample_jobs.csv"
@@ -82,7 +99,7 @@ def main() -> int:
     print("-------------------")
     print(f"Streamlit pages found: {pages_found}/{len(pages)}")
     print(f"Core src modules found: {modules_found}/{len(core_modules)}")
-    print(f"Career taxonomy assets found: {taxonomy_assets_found}/{len(career_taxonomy_assets)}")
+    print(f"Advanced feature assets found: {taxonomy_assets_found}/{len(career_taxonomy_assets)}")
     print(f"Processed sample data: {'Yes' if exists(sample_processed) else 'No'}")
     print(f"Processed imported data: {'Yes' if exists(imported_processed) else 'No'}")
     print(f"Import guide: {'Yes' if exists(import_guide) else 'No'}")

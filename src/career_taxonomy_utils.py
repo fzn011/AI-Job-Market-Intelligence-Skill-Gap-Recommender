@@ -210,10 +210,13 @@ def extract_skills_from_text(text: str, category: str) -> list[str]:
     """Extract category skills from free text using boundary-aware matching."""
     import re
 
+    from src.skill_synonym_utils import expand_text_with_synonyms
+
     if not text or not str(text).strip():
         return []
 
-    normalized_text = f" {str(text).lower()} "
+    expanded = expand_text_with_synonyms(text)
+    normalized_text = f" {str(expanded).lower()} "
     found: set[str] = set()
 
     for skill in flatten_category_skills(category):
@@ -224,12 +227,23 @@ def extract_skills_from_text(text: str, category: str) -> list[str]:
     return sorted(found)
 
 
-def compute_role_skill_gap(cv_skills: list[str], category: str, role: str) -> dict:
-    """Compare CV skills against a role profile."""
+def compute_role_skill_gap(cv_skills: list[str], category: str, role: str, region: str = "Global") -> dict:
+    """Compare CV skills against a role profile, optionally with regional overrides."""
+    from src.regional_profiles_utils import (
+        get_regional_core_skills,
+        get_regional_helpful_skills,
+        get_regional_target_skills,
+    )
+
     cv_set = set(_normalize_skill_list(cv_skills))
-    core_skills = get_role_core_skills(category, role)
-    helpful_skills = get_role_helpful_skills(category, role)
-    target_skills = get_target_role_skills(category, role)
+    if region and region != "Global":
+        core_skills = get_regional_core_skills(category, role, region)
+        helpful_skills = get_regional_helpful_skills(category, role, region)
+        target_skills = get_regional_target_skills(category, role, region)
+    else:
+        core_skills = get_role_core_skills(category, role)
+        helpful_skills = get_role_helpful_skills(category, role)
+        target_skills = get_target_role_skills(category, role)
     target_set = set(target_skills)
 
     matched = sorted(cv_set & target_set)

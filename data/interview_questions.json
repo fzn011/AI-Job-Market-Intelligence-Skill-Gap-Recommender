@@ -1,0 +1,61 @@
+{
+  "python": [
+    "Explain the difference between a list and a tuple in Python.",
+    "How do you handle missing values in a pandas DataFrame?",
+    "Describe a Python project where you improved code performance."
+  ],
+  "sql": [
+    "Write a query to find duplicate records in a table.",
+    "Explain the difference between INNER JOIN and LEFT JOIN.",
+    "How would you optimize a slow SQL query?"
+  ],
+  "machine learning": [
+    "Explain bias-variance tradeoff with an example.",
+    "How do you evaluate a classification model beyond accuracy?",
+    "Describe a time you deployed an ML model to production."
+  ],
+  "communication": [
+    "Tell me about a time you explained a technical result to a non-technical stakeholder.",
+    "How do you handle disagreement in a team project?"
+  ],
+  "excel": [
+    "What Excel functions do you use most for financial analysis?",
+    "How do you build a dynamic dashboard in Excel?"
+  ],
+  "docker": [
+    "Explain the difference between a Docker image and a container.",
+    "How would you dockerize a Python web application?"
+  ],
+  "figma": [
+    "Walk me through your UI design process from research to prototype.",
+    "How do you maintain consistency using design systems in Figma?"
+  ],
+  "customer service": [
+    "Describe a difficult customer situation and how you resolved it.",
+    "How do you prioritize tickets during peak volume?"
+  ],
+  "financial analysis": [
+    "Walk me through a financial ratio analysis you have performed.",
+    "How do you assess credit risk for a new borrower profile?"
+  ],
+  "lesson planning": [
+    "How do you design a lesson for mixed-ability students?",
+    "Describe how you measure learning outcomes after a unit."
+  ],
+  "_role_behavioral": {
+    "Data Analyst": [
+      "Describe a dashboard you built and the business decision it enabled.",
+      "How do you validate data quality before reporting?"
+    ],
+    "Software Developer": [
+      "Describe a bug you debugged under time pressure.",
+      "How do you approach code reviews?"
+    ],
+    "Credit Analyst": [
+      "How do you balance speed and accuracy in credit assessments?"
+    ],
+    "UI/UX Designer": [
+      "Tell me about a design iteration based on user feedback."
+    ]
+  }
+}

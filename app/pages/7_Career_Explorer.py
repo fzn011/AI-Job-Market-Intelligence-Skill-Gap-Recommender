@@ -24,6 +24,7 @@ from src.career_taxonomy_utils import (  # noqa: E402
     load_category_skill_taxonomy,
     recommend_career_actions,
 )
+from src.regional_profiles_utils import get_regional_role_profile, get_regional_target_skills, list_regions  # noqa: E402
 from src.ui_theme import apply_global_theme, render_brand_header, render_info_box, style_plotly_figure  # noqa: E402
 
 
@@ -46,21 +47,23 @@ render_info_box(
     "or do not yet have imported job-post data.",
 )
 
-ctrl_a, ctrl_b = st.columns([1, 1])
+ctrl_a, ctrl_b, ctrl_c = st.columns([1, 1, 1])
 with ctrl_a:
     selected_category = st.selectbox("Career Category", options=categories)
 with ctrl_b:
     roles = get_roles_for_category(selected_category)
     selected_role = st.selectbox("Target Role", options=roles or ["No roles found"])
+with ctrl_c:
+    selected_region = st.selectbox("Region", options=list_regions())
 
 if not roles:
     st.warning("No roles found for this category.")
     st.stop()
 
-profile = get_role_profile(selected_category, selected_role)
+profile = get_regional_role_profile(selected_category, selected_role, selected_region)
 core_skills = profile.get("core_skills", [])
 helpful_skills = profile.get("helpful_skills", [])
-target_skills = get_target_role_skills(selected_category, selected_role)
+target_skills = get_regional_target_skills(selected_category, selected_role, selected_region)
 taxonomy = load_category_skill_taxonomy(selected_category)
 skill_df = build_category_skill_dataframe(selected_category)
 actions_df = recommend_career_actions(missing_skills=target_skills, category=selected_category, max_actions=6)
@@ -86,6 +89,8 @@ with detail_col_1:
     st.subheader("Role Profile")
     st.markdown(f"**Core skills:** {', '.join(core_skills) or 'None listed'}")
     st.markdown(f"**Helpful skills:** {', '.join(helpful_skills) or 'None listed'}")
+    if profile.get("regional_notes"):
+        st.info(profile["regional_notes"])
     st.markdown("**Typical outputs:**")
     for item in profile.get("typical_outputs", []):
         st.markdown(f"- {item}")

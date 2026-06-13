@@ -7,6 +7,7 @@ import re
 import pandas as pd
 
 from src.utils import clean_text, load_json
+from src.skill_synonym_utils import expand_text_with_synonyms, normalize_skill_list
 
 
 def load_skill_dictionary(path: str | Path) -> dict:
@@ -48,7 +49,8 @@ def _build_skill_pattern(skill: str) -> re.Pattern:
 
 def extract_skills_from_text(text: str, skills: list[str]) -> list[str]:
     """Extract matched skills from text using boundary-aware matching."""
-    normalized_text = clean_text(text)
+    expanded_text = expand_text_with_synonyms(text)
+    normalized_text = clean_text(expanded_text)
     if not normalized_text:
         return []
 
@@ -62,7 +64,7 @@ def extract_skills_from_text(text: str, skills: list[str]) -> list[str]:
         if pattern.search(normalized_text):
             matched_skills.add(normalized_skill)
 
-    return sorted(matched_skills)
+    return normalize_skill_list(sorted(matched_skills))
 
 
 def extract_skills_from_dataframe(

@@ -1,0 +1,124 @@
+{
+  "python": [
+    {
+      "title": "Python Official Tutorial",
+      "url": "https://docs.python.org/3/tutorial/",
+      "type": "documentation",
+      "provider": "Python.org"
+    },
+    {
+      "title": "freeCodeCamp Python",
+      "url": "https://www.freecodecamp.org/learn/scientific-computing-with-python/",
+      "type": "course",
+      "provider": "freeCodeCamp"
+    }
+  ],
+  "sql": [
+    {
+      "title": "SQLBolt Interactive Tutorial",
+      "url": "https://sqlbolt.com/",
+      "type": "tutorial",
+      "provider": "SQLBolt"
+    },
+    {
+      "title": "Mode SQL Tutorial",
+      "url": "https://mode.com/sql-tutorial/",
+      "type": "tutorial",
+      "provider": "Mode"
+    }
+  ],
+  "machine learning": [
+    {
+      "title": "scikit-learn User Guide",
+      "url": "https://scikit-learn.org/stable/user_guide.html",
+      "type": "documentation",
+      "provider": "scikit-learn"
+    },
+    {
+      "title": "Google ML Crash Course",
+      "url": "https://developers.google.com/machine-learning/crash-course",
+      "type": "course",
+      "provider": "Google"
+    }
+  ],
+  "power bi": [
+    {
+      "title": "Microsoft Power BI Learning",
+      "url": "https://learn.microsoft.com/en-us/training/powerplatform/power-bi",
+      "type": "course",
+      "provider": "Microsoft"
+    }
+  ],
+  "docker": [
+    {
+      "title": "Docker Getting Started",
+      "url": "https://docs.docker.com/get-started/",
+      "type": "documentation",
+      "provider": "Docker"
+    }
+  ],
+  "fastapi": [
+    {
+      "title": "FastAPI Documentation",
+      "url": "https://fastapi.tiangolo.com/",
+      "type": "documentation",
+      "provider": "FastAPI"
+    }
+  ],
+  "excel": [
+    {
+      "title": "Excel Easy Tutorials",
+      "url": "https://www.excel-easy.com/",
+      "type": "tutorial",
+      "provider": "Excel Easy"
+    }
+  ],
+  "figma": [
+    {
+      "title": "Figma Learn Hub",
+      "url": "https://www.figma.com/resource-library/",
+      "type": "tutorial",
+      "provider": "Figma"
+    }
+  ],
+  "seo": [
+    {
+      "title": "Google Search Central SEO Guide",
+      "url": "https://developers.google.com/search/docs/fundamentals/seo-starter-guide",
+      "type": "documentation",
+      "provider": "Google"
+    }
+  ],
+  "communication": [
+    {
+      "title": "Coursera Communication Skills (Audit Free)",
+      "url": "https://www.coursera.org/courses?query=communication%20skills",
+      "type": "course",
+      "provider": "Coursera"
+    }
+  ],
+  "rag": [
+    {
+      "title": "LangChain RAG Tutorial",
+      "url": "https://python.langchain.com/docs/tutorials/rag/",
+      "type": "tutorial",
+      "provider": "LangChain"
+    }
+  ],
+  "financial analysis": [
+    {
+      "title": "Corporate Finance Institute Free Resources",
+      "url": "https://corporatefinanceinstitute.com/resources/",
+      "type": "tutorial",
+      "provider": "CFI"
+    }
+  ],
+  "customer service": [
+    {
+      "title": "HubSpot Customer Service Training",
+      "url": "https://www.hubspot.com/resources/courses/customer-service",
+      "type": "course",
+      "provider": "HubSpot"
+    }
+  ]
+}
