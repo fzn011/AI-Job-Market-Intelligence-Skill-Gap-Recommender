@@ -50,12 +50,22 @@ def main() -> int:
         print(f"Brand constants OK: {APP_NAME} ({APP_VERSION})")
     except Exception as exc:
         errors.append(f"Cannot import src.brand_constants: {exc}")
-        APP_NAME = ""
 
     try:
-        from src.ui_theme import render_app_footer  # noqa: WPS433
+        from src.ui_theme import (  # noqa: WPS433
+            apply_global_theme,
+            render_app_footer,
+            render_brand_header,
+            render_feature_card,
+            render_path_card,
+            render_sidebar_navigation,
+        )
 
-        print(f"UI theme helpers OK: render_app_footer={callable(render_app_footer)}")
+        print(
+            "UI theme helpers OK: "
+            f"render_feature_card={callable(render_feature_card)}, "
+            f"render_sidebar_navigation={callable(render_sidebar_navigation)}"
+        )
     except Exception as exc:
         errors.append(f"Cannot import src.ui_theme helpers: {exc}")
 

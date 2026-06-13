@@ -11,6 +11,10 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
+from src.source_repair import ensure_careercompass_sources  # noqa: E402
+
+ensure_careercompass_sources(PROJECT_ROOT)
+
 from src.career_taxonomy_utils import get_roles_for_category, list_career_categories, load_role_profiles  # noqa: E402
 from src.dashboard_utils import get_active_dataset_label, load_active_jobs_dataset  # noqa: E402
 from src.progress_tracker_utils import record_gap_analysis  # noqa: E402
