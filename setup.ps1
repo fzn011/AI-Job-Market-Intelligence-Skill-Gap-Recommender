@@ -1,4 +1,4 @@
-# CareerCompass — one-command Windows setup
+# CareerCompass - one-command Windows setup
 # Usage (PowerShell):
 #   Set-ExecutionPolicy -Scope CurrentUser RemoteSigned   # first time only
 #   .\setup.ps1
@@ -55,7 +55,7 @@ function Find-Python {
 $Python = Find-Python
 if (-not $Python) {
     Write-Host "ERROR: Python 3.11+ not found." -ForegroundColor Red
-    Write-Host "Install from https://www.python.org/downloads/ and enable 'Add to PATH'." -ForegroundColor Yellow
+    Write-Host "Install from https://www.python.org/downloads/ and enable Add to PATH." -ForegroundColor Yellow
     exit 1
 }
 
@@ -102,7 +102,7 @@ $SecretsExample = Join-Path $ProjectRoot ".streamlit\secrets.example.toml"
 $SecretsFile = Join-Path $ProjectRoot ".streamlit\secrets.toml"
 if ((Test-Path $SecretsExample) -and -not (Test-Path $SecretsFile)) {
     Copy-Item $SecretsExample $SecretsFile
-    Write-Host "Created .streamlit\secrets.toml from example — add USAJobs/SMTP keys if needed." -ForegroundColor DarkYellow
+    Write-Host 'Created .streamlit\secrets.toml from example - add USAJobs/SMTP keys if needed.' -ForegroundColor DarkYellow
 }
 
 Write-Host ""
