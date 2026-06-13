@@ -94,6 +94,7 @@ modules = [
     ("Project & Career Actions", "Portfolio projects plus certifications, case studies, and career tasks.", "Live", "4_Project_Recommendations"),
     ("Job Match Dashboard", "Paste any job description + CV for instant fit scoring.", "New", "8_Job_Match_Dashboard"),
     ("Career Toolkit", "Progress tracker, multi-CV compare, interview prep, resume bullets, badges.", "New", "9_Career_Toolkit"),
+    ("Career Intelligence Hub", "Company prep, salary, LinkedIn, peer benchmark, voice interview, ICS calendar.", "New", "10_Career_Intelligence_Hub"),
     ("Role Clustering", "Unsupervised job segmentation with TF-IDF + KMeans.", "Live", "5_Role_Clustering"),
     ("Data Import", "Upload CSV job data or fetch from public connectors.", "Live", "6_Data_Import"),
     ("Career Explorer", "Browse roles, skills, and regional profiles without job data.", "Live", "7_Career_Explorer"),

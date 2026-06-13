@@ -1,0 +1,100 @@
+{
+  "Bangladesh": {
+    "Data Analyst": {
+      "entry": "350000-550000",
+      "mid": "550000-900000",
+      "senior": "900000-1400000",
+      "currency": "BDT/year"
+    },
+    "Data Scientist": {
+      "entry": "600000-900000",
+      "mid": "900000-1500000",
+      "senior": "1500000-2500000",
+      "currency": "BDT/year"
+    },
+    "Software Developer": {
+      "entry": "400000-700000",
+      "mid": "700000-1200000",
+      "senior": "1200000-2000000",
+      "currency": "BDT/year"
+    },
+    "Credit Analyst": {
+      "entry": "350000-500000",
+      "mid": "500000-800000",
+      "senior": "800000-1200000",
+      "currency": "BDT/year"
+    },
+    "Digital Marketing Executive": {
+      "entry": "250000-400000",
+      "mid": "400000-650000",
+      "senior": "650000-1000000",
+      "currency": "BDT/year"
+    }
+  },
+  "United States": {
+    "Data Analyst": {
+      "entry": "65000-85000",
+      "mid": "85000-110000",
+      "senior": "110000-140000",
+      "currency": "USD/year"
+    },
+    "Data Scientist": {
+      "entry": "90000-120000",
+      "mid": "120000-160000",
+      "senior": "160000-220000",
+      "currency": "USD/year"
+    },
+    "Software Developer": {
+      "entry": "80000-110000",
+      "mid": "110000-150000",
+      "senior": "150000-200000",
+      "currency": "USD/year"
+    },
+    "Machine Learning Engineer": {
+      "entry": "110000-140000",
+      "mid": "140000-180000",
+      "senior": "180000-250000",
+      "currency": "USD/year"
+    }
+  },
+  "United Kingdom": {
+    "Data Analyst": {
+      "entry": "28000-35000",
+      "mid": "35000-48000",
+      "senior": "48000-65000",
+      "currency": "GBP/year"
+    },
+    "Data Scientist": {
+      "entry": "35000-45000",
+      "mid": "45000-65000",
+      "senior": "65000-90000",
+      "currency": "GBP/year"
+    },
+    "Software Developer": {
+      "entry": "30000-42000",
+      "mid": "42000-60000",
+      "senior": "60000-85000",
+      "currency": "GBP/year"
+    }
+  },
+  "Remote": {
+    "Data Analyst": {
+      "entry": "45000-70000",
+      "mid": "70000-95000",
+      "senior": "95000-130000",
+      "currency": "USD/year"
+    },
+    "Data Scientist": {
+      "entry": "80000-110000",
+      "mid": "110000-150000",
+      "senior": "150000-200000",
+      "currency": "USD/year"
+    },
+    "Frontend Developer": {
+      "entry": "60000-90000",
+      "mid": "90000-120000",
+      "senior": "120000-160000",
+      "currency": "USD/year"
+    }
+  }
+}

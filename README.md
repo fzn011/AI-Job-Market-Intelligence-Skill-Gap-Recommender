@@ -70,6 +70,9 @@ Career category guidance is rule-based and transparent. No paid AI APIs are used
 - **PDF career report export**
 - **Public data connectors** (USAJobs with demo fallback)
 - **Multilingual UI** (English + Bengali)
+- **Career Intelligence Hub** — company prep (Google, bKash, Grameenphone), salary estimator, LinkedIn optimizer, peer benchmark, voice interview simulator, ICS study calendar, semantic skill matching
+- **Weekly email progress digest** (optional SMTP)
+- **USAJobs live connector** (via `.streamlit/secrets.toml` — see `secrets.example.toml`)
 - Role segmentation with unsupervised clustering
 - Data Import & Dataset Manager (CSV upload + schema validation)
 - Multi-category skill taxonomies and role profiles

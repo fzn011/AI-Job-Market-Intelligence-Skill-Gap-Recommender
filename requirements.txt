@@ -30,3 +30,6 @@ pytest>=7.4.0
 
 # PDF export
 reportlab>=4.0.0
+
+# Semantic skill matching (local, no paid API)
+sentence-transformers>=2.2.0

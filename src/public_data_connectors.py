@@ -3,13 +3,14 @@
 from __future__ import annotations
 
 import json
-import os
 import urllib.error
 import urllib.parse
 import urllib.request
 from datetime import UTC, datetime
 
 import pandas as pd
+
+from src.secrets_utils import get_usajobs_credentials
 
 
 USAJOBS_SEARCH_URL = "https://data.usajobs.gov/api/search"
@@ -38,8 +39,8 @@ DEMO_CONNECTOR_JOBS = [
 
 
 def get_usajobs_api_key() -> str:
-    """Read USAJobs API key from environment."""
-    return os.getenv("USAJOBS_API_KEY", "").strip()
+    """Read USAJobs API key from secrets or environment."""
+    return get_usajobs_credentials()[0]
 
 
 def fetch_usajobs_jobs(keyword: str = "data analyst", results_per_page: int = 10) -> tuple[pd.DataFrame, dict]:
@@ -49,8 +50,7 @@ def fetch_usajobs_jobs(keyword: str = "data analyst", results_per_page: int = 10
     Requires free API key: https://developer.usajobs.gov/
     Set environment variable: USAJOBS_API_KEY
     """
-    api_key = get_usajobs_api_key()
-    email = os.getenv("USAJOBS_USER_EMAIL", "user@example.com").strip()
+    api_key, email = get_usajobs_credentials()
 
     if not api_key:
         demo_df = pd.DataFrame(DEMO_CONNECTOR_JOBS)

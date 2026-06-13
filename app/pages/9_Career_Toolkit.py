@@ -21,6 +21,7 @@ from src.interview_question_utils import generate_interview_prep_text, generate_
 from src.progress_tracker_utils import compute_progress_skill_growth, get_gap_history_dataframe, increment_stat  # noqa: E402
 from src.regional_profiles_utils import list_regions  # noqa: E402
 from src.resume_bullet_utils import format_resume_bullets_text, generate_resume_bullets  # noqa: E402
+from src.email_digest_utils import build_weekly_digest_text, send_weekly_digest, smtp_configured  # noqa: E402
 from src.ui_theme import apply_global_theme, render_brand_header, render_info_box, style_plotly_figure  # noqa: E402
 
 
@@ -37,6 +38,7 @@ tool_tab = st.tabs([
     "Multi-CV Comparison",
     "Interview Prep",
     "Resume Bullets",
+    "Email Digest",
     "Badges",
 ])
 
@@ -149,6 +151,26 @@ with tool_tab[3]:
         )
 
 with tool_tab[4]:
+    st.subheader("Weekly Email Progress Digest")
+    render_info_box(
+        "Optional SMTP",
+        "Configure SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASSWORD, and DIGEST_RECIPIENT in `.streamlit/secrets.toml`. "
+        "Use an app password for Gmail. Digest sends a summary of your analyses and badges.",
+    )
+    preview = build_weekly_digest_text()
+    st.text_area("Digest preview", value=preview, height=220)
+    c1, c2 = st.columns(2)
+    with c1:
+        if st.button("Send Weekly Digest", type="primary"):
+            result = send_weekly_digest(dry_run=not smtp_configured())
+            if result.get("sent"):
+                st.success(result["message"])
+            else:
+                st.info(result["message"])
+    with c2:
+        st.caption(f"SMTP configured: {'Yes' if smtp_configured() else 'No — preview only'}")
+
+with tool_tab[5]:
     st.subheader("Gamification Badges")
     badges_df = get_badges_dataframe()
     evaluate_badges()
