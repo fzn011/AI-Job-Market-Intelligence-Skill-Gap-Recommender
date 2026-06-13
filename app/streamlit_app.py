@@ -24,10 +24,8 @@ from src.quick_start_utils import (  # noqa: E402
     run_skill_gap_quick_start,
 )
 from src.regional_profiles_utils import list_regions  # noqa: E402
+from src.brand_constants import APP_NAME, APP_TAGLINE, APP_VERSION  # noqa: E402
 from src.ui_theme import (  # noqa: E402
-    APP_NAME,
-    APP_TAGLINE,
-    APP_VERSION,
     apply_global_theme,
     render_brand_header,
     render_feature_card,
