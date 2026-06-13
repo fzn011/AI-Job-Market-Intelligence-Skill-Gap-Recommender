@@ -37,3 +37,9 @@ def test_style_plotly_figure_preserves_existing_scatter_colors():
     styled = style_plotly_figure(fig)
     styled_colors = [trace.marker.color for trace in styled.data if trace.marker.color]
     assert styled_colors == original_colors
+
+
+def test_apply_global_theme_accepts_optional_project_root():
+    from src.ui_theme import apply_global_theme
+
+    apply_global_theme(None)
