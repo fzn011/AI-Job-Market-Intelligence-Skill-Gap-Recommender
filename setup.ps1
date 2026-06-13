@@ -39,6 +39,28 @@ if ($MissingScripts.Count -gt 0) {
     exit 1
 }
 
+function Clear-PythonCache {
+    Get-ChildItem -Path $ProjectRoot -Recurse -Directory -Filter "__pycache__" -ErrorAction SilentlyContinue |
+        Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
+}
+
+function Test-CareerCompassImports {
+    $UiThemePath = Join-Path $ProjectRoot "src\ui_theme.py"
+    if (-not (Test-Path $UiThemePath)) {
+        Write-Host "ERROR: Missing src\ui_theme.py" -ForegroundColor Red
+        return $false
+    }
+    if (-not (Select-String -Path $UiThemePath -Pattern 'APP_NAME\s*=' -Quiet)) {
+        Write-Host "ERROR: src\ui_theme.py is outdated (missing APP_NAME)." -ForegroundColor Red
+        Write-Host "Run: git fetch origin main" -ForegroundColor Yellow
+        Write-Host "     git reset --hard origin/main" -ForegroundColor Yellow
+        return $false
+    }
+    Clear-PythonCache
+    & $VenvPython -c "from src.ui_theme import APP_NAME; print('Import check OK:', APP_NAME)"
+    return ($LASTEXITCODE -eq 0)
+}
+
 function Find-Python {
     $candidates = @("python", "py", "python3")
     foreach ($cmd in $candidates) {
@@ -103,6 +125,11 @@ $SecretsFile = Join-Path $ProjectRoot ".streamlit\secrets.toml"
 if ((Test-Path $SecretsExample) -and -not (Test-Path $SecretsFile)) {
     Copy-Item $SecretsExample $SecretsFile
     Write-Host 'Created .streamlit\secrets.toml from example - add USAJobs/SMTP keys if needed.' -ForegroundColor DarkYellow
+}
+
+Write-Host "Verifying CareerCompass imports..." -ForegroundColor Yellow
+if (-not (Test-CareerCompassImports)) {
+    exit 1
 }
 
 Write-Host ""
