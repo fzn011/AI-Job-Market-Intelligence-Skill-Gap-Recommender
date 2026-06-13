@@ -33,7 +33,7 @@ st.set_page_config(page_title="Job Market Overview", page_icon="🗺️", layout
 apply_global_theme()
 
 render_brand_header(
-    app_name="EmberScope AI · Job Market Overview",
+    app_name="CareerCompass · Job Market Overview",
     subtitle="Track demand signals across roles, locations, companies, and skills.",
     logo_mark="◜●◝",
 )

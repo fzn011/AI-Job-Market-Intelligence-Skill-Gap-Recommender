@@ -1,8 +1,9 @@
-"""Main Streamlit dashboard entry point."""
+"""Main Streamlit dashboard entry point for CareerCompass."""
 
 import sys
 from pathlib import Path
 import ast
+
 import pandas as pd
 import streamlit as st
 
@@ -11,203 +12,148 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
+from src.career_taxonomy_utils import list_career_categories, load_role_profiles  # noqa: E402
 from src.dashboard_utils import get_active_dataset_label, load_active_jobs_dataset  # noqa: E402
-from src.ui_theme import apply_global_theme, render_brand_header  # noqa: E402
+from src.ui_theme import (  # noqa: E402
+    APP_NAME,
+    APP_TAGLINE,
+    APP_VERSION,
+    apply_global_theme,
+    render_brand_header,
+    render_feature_card,
+    render_info_box,
+    render_path_card,
+    render_sidebar_navigation,
+    render_status_badge,
+)
 
-# ── Page configuration ────────────────────────────────────────────────────────
+
 st.set_page_config(
-    page_title="AI Job Market Intelligence Dashboard",
-    page_icon="📊",
+    page_title=f"{APP_NAME} · Job Market Intelligence",
+    page_icon="🧭",
     layout="wide",
 )
 
-
-def _safe_count_extracted_skills(df: pd.DataFrame) -> int:
-    """Count total extracted skills from the extracted_skills column safely."""
-    if "extracted_skills" not in df.columns:
-        return 0
-
-    total = 0
-    for value in df["extracted_skills"]:
-        if isinstance(value, list):
-            total += len(value)
-        elif isinstance(value, str):
-            value = value.strip()
-            if value.startswith("[") and value.endswith("]"):
-                try:
-                    parsed = ast.literal_eval(value)
-                    if isinstance(parsed, list):
-                        total += len(parsed)
-                except (SyntaxError, ValueError):
-                    continue
-    return total
-
-
 apply_global_theme()
+render_sidebar_navigation()
 
-# ── Sidebar ───────────────────────────────────────────────────────────────────
-with st.sidebar:
-    st.title("EmberScope AI")
-    st.markdown("---")
-    st.markdown(
-        """
-        **Navigation**
+render_brand_header(
+    subtitle="Understand the market. Map your skill gap. Build your next move — for any career path.",
+)
 
-        Use the pages in the sidebar to explore:
-        - 🗺️ Job Market Overview
-        - 🔬 Skill Demand Analysis
-        - 📄 CV Skill Gap Analyzer
-        - 🚀 Project Recommendations
-        - 🧠 Role Segmentation + Job Clustering
-        - 📥 Data Import & Dataset Manager
-        """
+categories = list_career_categories()
+role_profiles = load_role_profiles()
+total_roles = sum(len(roles) for roles in role_profiles.values())
+
+st.markdown("---")
+
+hero_left, hero_right = st.columns([1.35, 1])
+with hero_left:
+    render_info_box(
+        "What CareerCompass does",
+        "This project started as a Data/AI job-market analyzer and has been extended into a broader "
+        "career intelligence platform. It helps you understand skill demand, compare your CV to target roles, "
+        "and get practical next steps — with or without imported job data.",
     )
-    st.markdown("---")
+    st.markdown(
+        f"{render_status_badge('12 career categories')} "
+        f"{render_status_badge(f'{total_roles} role profiles')} "
+        f"{render_status_badge('Rule-based · No paid APIs')}",
+        unsafe_allow_html=True,
+    )
+
+with hero_right:
     dataset_preference = st.selectbox("Dataset source", options=["Auto", "Imported", "Sample"], index=0)
     preferred_mode = dataset_preference.strip().lower()
     st.caption(f"Active dataset: {get_active_dataset_label(preferred=preferred_mode)}")
-    st.markdown("---")
-    st.caption("v0.1.0 · Open-source · Free tools only")
-
-# ── Main content ──────────────────────────────────────────────────────────────
-render_brand_header(
-    app_name="EmberScope AI",
-    subtitle="Understand the market. Map your skill gap. Build your next move.",
-    logo_mark="◜●◝",
-)
 
 st.markdown("---")
+st.subheader("Two Ways to Use CareerCompass")
 
-st.subheader("Project Status")
+path_col_1, path_col_2 = st.columns(2)
+with path_col_1:
+    render_path_card(
+        "Path 1 · Data-driven analysis",
+        "Import or use sample job posts to analyze real market patterns: top skills, gaps, clustering, "
+        "and project recommendations grounded in your dataset.",
+    )
+with path_col_2:
+    render_path_card(
+        "Path 2 · Career category guidance",
+        "No job data? Use curated role profiles and skill taxonomies across Data/AI, Software, Finance, "
+        "Marketing, Design, Teaching, Healthcare, Engineering, and more.",
+    )
+
+st.markdown("---")
+st.subheader("Dashboard Modules")
+
+modules = [
+    ("Job Market Overview", "Explore role, company, location, and skill distributions.", "Live", "1_Job_Market_Overview"),
+    ("Skill Demand Analysis", "Top skills, categories, co-occurrence, and role-wise demand.", "Live", "2_Skill_Analysis"),
+    ("CV Skill Gap Analyzer", "Compare your CV against market data or curated role profiles.", "Live", "3_CV_Skill_Gap"),
+    ("Project & Career Actions", "Portfolio projects plus certifications, case studies, and career tasks.", "Live", "4_Project_Recommendations"),
+    ("Role Clustering", "Unsupervised job segmentation with TF-IDF + KMeans.", "Live", "5_Role_Clustering"),
+    ("Data Import", "Upload CSV job data with schema validation.", "Live", "6_Data_Import"),
+    ("Career Explorer", "Browse roles, skills, and preparation plans without job data.", "New", "7_Career_Explorer"),
+]
+
+row_a, row_b, row_c = st.columns(3)
+for idx, (title, body, badge, _page) in enumerate(modules):
+    target = [row_a, row_b, row_c][idx % 3]
+    with target:
+        render_feature_card(title, body, badge=badge)
+
+st.markdown("---")
+st.subheader("Supported Career Fields")
+
+field_cols = st.columns(4)
+fields = [
+    "Data & AI",
+    "Software & IT",
+    "Banking & Finance",
+    "Business & Admin",
+    "Marketing & Sales",
+    "Design & Creative",
+    "Education & Teaching",
+    "Healthcare",
+    "Engineering",
+    "Customer Support",
+    "Operations & PM",
+    "Entry-Level Jobs",
+]
+for idx, field in enumerate(fields):
+    with field_cols[idx % 4]:
+        st.markdown(f"- {field}")
+
+st.markdown("---")
+st.subheader("Dataset Status")
 
 processed_df = load_active_jobs_dataset(preferred=preferred_mode)
-if not processed_df.empty:
-    try:
-        st.success(f"✅ {get_active_dataset_label(preferred=preferred_mode)} found.")
-        st.write(f"**Number of jobs:** {len(processed_df)}")
-        st.dataframe(processed_df.head(10), use_container_width=True)
+status_cols = st.columns(4)
+status_cols[0].metric("Jobs Loaded", len(processed_df) if not processed_df.empty else 0)
+status_cols[1].metric("Career Categories", len(categories))
+status_cols[2].metric("Role Profiles", total_roles)
+status_cols[3].metric("Dataset Mode", dataset_preference)
 
-        total_skills = _safe_count_extracted_skills(processed_df)
-        if total_skills > 0:
-            st.write(f"**Total extracted skills (rows combined):** {total_skills}")
-    except Exception as exc:
-        st.warning(f"Processed file exists but could not be loaded: {exc}")
+if not processed_df.empty:
+    st.success(f"✅ {get_active_dataset_label(preferred=preferred_mode)} is ready for data-driven pages.")
+    with st.expander("Preview first 10 job rows"):
+        st.dataframe(processed_df.head(10), use_container_width=True)
 else:
     st.info(
-        "No processed dataset found for this selection. Run `python scripts/run_project_check.py` "
-        "or import data via `python scripts/import_jobs_from_csv.py --demo expanded`."
+        "No processed job dataset found for this selection. You can still use **Career Explorer** and "
+        "**Career Category mode** on the CV and Recommendations pages. "
+        "Run `python3 scripts/run_project_check.py` or import data to enable market analytics."
     )
 
-st.info(
-    "✅ The first working dashboard page is **Job Market Overview**. "
-    "Open it from the Streamlit sidebar: `Pages -> 1_Job_Market_Overview`."
-)
-
-st.info(
-    "✅ The second working dashboard page is **Skill Demand Analysis**. "
-    "Open it from the Streamlit sidebar: `Pages -> 2_Skill_Analysis`."
-)
-
-st.info(
-    "✅ The third working dashboard page is **CV Skill Gap Analyzer**. "
-    "Open it from the Streamlit sidebar: `Pages -> 3_CV_Skill_Gap`."
-)
-
-st.info(
-    "✅ The fourth working dashboard page is **Project Recommendation Engine**. "
-    "Open it from the Streamlit sidebar: `Pages -> 4_Project_Recommendations`."
-)
-
-st.info(
-    "✅ The fifth working dashboard page is **Role Segmentation + Job Clustering**. "
-    "Open it from the Streamlit sidebar: `Pages -> 5_Role_Clustering`."
-)
-
-st.info(
-    "✅ The sixth working dashboard page is **Data Import & Dataset Manager**. "
-    "Open it from the Streamlit sidebar: `Pages -> 6_Data_Import`."
-)
-
 st.markdown("---")
+render_info_box(
+    "Honest note",
+    "Default demo job posts are synthetic and realistic — not scraped from job boards. "
+    "Career category guidance uses curated, rule-based profiles. Results are guidance, not hiring guarantees.",
+)
 
 st.markdown(
-    """
-    This tool analyses job descriptions, extracts in-demand skills, and compares them
-    against your profile to recommend exactly what to learn and build next.
-
-    All processing is done locally using open-source Python libraries — no paid APIs required.
-    """
+    f"<div class='cc-footer'>Built with Python · Streamlit · scikit-learn · Plotly · {APP_VERSION}</div>",
+    unsafe_allow_html=True,
 )
-
-st.markdown("---")
-st.subheader("Planned Modules")
-
-col1, col2 = st.columns(2)
-
-with col1:
-    st.info(
-        """
-        **🗺️ 1. Job Market Overview**
-
-        ✅ **Working now**
-
-        Explore role distributions, company/location patterns,
-        skills-per-job, and quick market insights.
-        """
-    )
-    st.info(
-        """
-        **📄 3. CV Skill Gap Analyzer**
-
-        ✅ **Working now**
-
-        Paste or upload your CV.
-        See exactly which skills you have and which you are missing
-        relative to your target roles.
-        """
-    )
-
-with col2:
-    st.info(
-        """
-        **🔬 2. Skill Demand Analysis**
-
-        ✅ **Working now**
-
-        Analyze top skills, category distribution, skill co-occurrence,
-        and role-wise skill demand patterns.
-        """
-    )
-    st.info(
-        """
-        **🚀 4. Project Recommendation Engine**
-
-        ✅ **Working now**
-
-        Get a personalised list of portfolio projects to build
-        in order to close your skill gap efficiently.
-        """
-    )
-    st.info(
-        """
-        **🧠 5. Role Segmentation + Job Clustering**
-
-        ✅ **Working now**
-
-        Group jobs into role segments using unsupervised learning,
-        then explore cluster-level themes, skills, and market patterns.
-        """
-    )
-    st.info(
-        """
-        **📥 6. Data Import & Dataset Manager**
-
-        ✅ **Working now**
-
-        Upload a CSV, validate schema quality, process imported jobs,
-        and generate dashboard-ready outputs.
-        """
-    )
-
-st.markdown("---")
-st.caption("Built with Python · Streamlit · scikit-learn · open-source NLP")

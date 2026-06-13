@@ -1,0 +1,42 @@
+{
+  "technical_skills": [
+    "javascript",
+    "typescript",
+    "python",
+    "java",
+    "html",
+    "css",
+    "react",
+    "node.js",
+    "sql",
+    "git",
+    "docker",
+    "kubernetes",
+    "aws",
+    "rest api",
+    "testing",
+    "linux",
+    "ci/cd",
+    "mongodb",
+    "postgresql",
+    "agile"
+  ],
+  "domain_skills": [
+    "system design",
+    "debugging",
+    "code review",
+    "software architecture",
+    "api design",
+    "security basics",
+    "performance optimization"
+  ],
+  "soft_skills": [
+    "communication",
+    "problem solving",
+    "teamwork",
+    "time management",
+    "documentation",
+    "collaboration",
+    "adaptability"
+  ]
+}

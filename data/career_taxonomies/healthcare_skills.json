@@ -1,0 +1,32 @@
+{
+  "technical_skills": [
+    "patient care",
+    "vital signs monitoring",
+    "medical records",
+    "electronic health records",
+    "lab procedures",
+    "infection control",
+    "medication administration",
+    "first aid",
+    "cpr"
+  ],
+  "domain_skills": [
+    "clinical documentation",
+    "healthcare compliance",
+    "patient safety",
+    "public health basics",
+    "health education",
+    "triage",
+    "care coordination",
+    "medical terminology"
+  ],
+  "soft_skills": [
+    "empathy",
+    "communication",
+    "attention to detail",
+    "teamwork",
+    "stress management",
+    "compassion",
+    "professional ethics"
+  ]
+}

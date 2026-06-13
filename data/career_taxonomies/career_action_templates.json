@@ -1,0 +1,1247 @@
+[
+  {
+    "action_id": "da_dashboard",
+    "title": "Build a Sales Dashboard in Power BI",
+    "category": "Data & AI",
+    "action_type": "Portfolio Project",
+    "difficulty": "Intermediate",
+    "estimated_time": "2-3 weeks",
+    "skills_covered": [
+      "power bi",
+      "sql",
+      "data visualization"
+    ],
+    "description": "Create an end-to-end sales analytics dashboard with KPIs, filters, and executive summary.",
+    "deliverables": [
+      "Power BI file",
+      "SQL queries",
+      "README with screenshots"
+    ],
+    "portfolio_value": "Demonstrates BI and business storytelling skills."
+  },
+  {
+    "action_id": "da_sql",
+    "title": "Complete 30 SQL Query Practice Problems",
+    "category": "Data & AI",
+    "action_type": "Practice Task",
+    "difficulty": "Beginner",
+    "estimated_time": "1-2 weeks",
+    "skills_covered": [
+      "sql",
+      "data analysis"
+    ],
+    "description": "Solve realistic SQL problems covering joins, aggregations, window functions, and filtering.",
+    "deliverables": [
+      "SQL solution notebook",
+      "problem set summary"
+    ],
+    "portfolio_value": "Shows strong analytical SQL fundamentals."
+  },
+  {
+    "action_id": "da_excel",
+    "title": "Build an Excel KPI Tracker",
+    "category": "Data & AI",
+    "action_type": "Portfolio Project",
+    "difficulty": "Beginner",
+    "estimated_time": "1 week",
+    "skills_covered": [
+      "excel",
+      "reporting"
+    ],
+    "description": "Design a dynamic Excel workbook with KPI tabs, charts, and automated summaries.",
+    "deliverables": [
+      "Excel workbook",
+      "usage guide"
+    ],
+    "portfolio_value": "Practical for analyst and business roles."
+  },
+  {
+    "action_id": "ds_ml",
+    "title": "Build an End-to-End ML Classification Project",
+    "category": "Data & AI",
+    "action_type": "Portfolio Project",
+    "difficulty": "Intermediate",
+    "estimated_time": "3-4 weeks",
+    "skills_covered": [
+      "python",
+      "machine learning",
+      "scikit-learn"
+    ],
+    "description": "Train, evaluate, and document a classification model with clear business context.",
+    "deliverables": [
+      "GitHub repo",
+      "model evaluation report"
+    ],
+    "portfolio_value": "Core data science portfolio piece."
+  },
+  {
+    "action_id": "ai_rag",
+    "title": "Build a Document Intelligence RAG System",
+    "category": "Data & AI",
+    "action_type": "Portfolio Project",
+    "difficulty": "Advanced",
+    "estimated_time": "3-5 weeks",
+    "skills_covered": [
+      "rag",
+      "llm",
+      "python",
+      "fastapi"
+    ],
+    "description": "Create a retrieval-augmented QA app over a document collection with API endpoint.",
+    "deliverables": [
+      "GitHub repo",
+      "demo video",
+      "architecture diagram"
+    ],
+    "portfolio_value": "Strong signal for AI engineer roles."
+  },
+  {
+    "action_id": "ai_mlops",
+    "title": "MLOps Experiment Tracking Project",
+    "category": "Data & AI",
+    "action_type": "Portfolio Project",
+    "difficulty": "Advanced",
+    "estimated_time": "2-4 weeks",
+    "skills_covered": [
+      "mlflow",
+      "docker",
+      "python"
+    ],
+    "description": "Track experiments, package a model, and document reproducible training runs.",
+    "deliverables": [
+      "MLflow runs",
+      "Docker setup",
+      "README"
+    ],
+    "portfolio_value": "Shows production-minded ML workflow."
+  },
+  {
+    "action_id": "de_etl",
+    "title": "Build an ETL Pipeline with Validation",
+    "category": "Data & AI",
+    "action_type": "Portfolio Project",
+    "difficulty": "Intermediate",
+    "estimated_time": "2-3 weeks",
+    "skills_covered": [
+      "etl",
+      "python",
+      "sql"
+    ],
+    "description": "Ingest, clean, validate, and load sample data with logging and quality checks.",
+    "deliverables": [
+      "pipeline code",
+      "data quality report"
+    ],
+    "portfolio_value": "Demonstrates data engineering fundamentals."
+  },
+  {
+    "action_id": "sw_frontend",
+    "title": "Build a Responsive Portfolio Website",
+    "category": "Software & IT",
+    "action_type": "Portfolio Project",
+    "difficulty": "Beginner",
+    "estimated_time": "1-2 weeks",
+    "skills_covered": [
+      "html",
+      "css",
+      "javascript",
+      "react"
+    ],
+    "description": "Create a polished personal site with projects, about section, and contact form.",
+    "deliverables": [
+      "Live demo link",
+      "GitHub repo"
+    ],
+    "portfolio_value": "Essential for developer job applications."
+  },
+  {
+    "action_id": "sw_api",
+    "title": "Build a REST API with Authentication",
+    "category": "Software & IT",
+    "action_type": "Portfolio Project",
+    "difficulty": "Intermediate",
+    "estimated_time": "2-3 weeks",
+    "skills_covered": [
+      "python",
+      "rest api",
+      "postgresql",
+      "docker"
+    ],
+    "description": "Implement CRUD endpoints, auth, tests, and deployment-ready structure.",
+    "deliverables": [
+      "API repo",
+      "Postman collection",
+      "README"
+    ],
+    "portfolio_value": "Shows backend engineering capability."
+  },
+  {
+    "action_id": "sw_testing",
+    "title": "Create a Manual + Automated Test Plan",
+    "category": "Software & IT",
+    "action_type": "Case Study",
+    "difficulty": "Beginner",
+    "estimated_time": "1 week",
+    "skills_covered": [
+      "testing",
+      "documentation",
+      "agile"
+    ],
+    "description": "Document test cases and add basic automated checks for a sample web app.",
+    "deliverables": [
+      "Test plan doc",
+      "automation scripts"
+    ],
+    "portfolio_value": "Useful for QA and developer roles."
+  },
+  {
+    "action_id": "sw_devops",
+    "title": "Set Up CI/CD for a Sample App",
+    "category": "Software & IT",
+    "action_type": "Portfolio Project",
+    "difficulty": "Advanced",
+    "estimated_time": "2 weeks",
+    "skills_covered": [
+      "ci/cd",
+      "docker",
+      "git"
+    ],
+    "description": "Configure automated build, test, and deploy pipeline for a small project.",
+    "deliverables": [
+      "Pipeline config",
+      "deployment notes"
+    ],
+    "portfolio_value": "Demonstrates DevOps readiness."
+  },
+  {
+    "action_id": "sw_fullstack",
+    "title": "Build a Full-Stack CRUD Application",
+    "category": "Software & IT",
+    "action_type": "Portfolio Project",
+    "difficulty": "Intermediate",
+    "estimated_time": "3-4 weeks",
+    "skills_covered": [
+      "react",
+      "node.js",
+      "sql",
+      "rest api"
+    ],
+    "description": "Create a complete app with frontend, backend, database, and documentation.",
+    "deliverables": [
+      "GitHub monorepo",
+      "demo deployment"
+    ],
+    "portfolio_value": "Strong full-stack portfolio evidence."
+  },
+  {
+    "action_id": "fin_credit",
+    "title": "Prepare a Credit Risk Case Study",
+    "category": "Banking & Finance",
+    "action_type": "Case Study",
+    "difficulty": "Intermediate",
+    "estimated_time": "1-2 weeks",
+    "skills_covered": [
+      "credit analysis",
+      "financial analysis",
+      "excel"
+    ],
+    "description": "Analyze a hypothetical borrower profile and write a credit recommendation memo.",
+    "deliverables": [
+      "Case study PDF",
+      "Excel model"
+    ],
+    "portfolio_value": "Directly relevant for banking analyst roles."
+  },
+  {
+    "action_id": "fin_excel",
+    "title": "Build an Excel Financial Analysis Workbook",
+    "category": "Banking & Finance",
+    "action_type": "Portfolio Project",
+    "difficulty": "Beginner",
+    "estimated_time": "1 week",
+    "skills_covered": [
+      "excel",
+      "financial reporting",
+      "budgeting"
+    ],
+    "description": "Create income/expense analysis with charts, assumptions, and summary dashboard.",
+    "deliverables": [
+      "Excel file",
+      "methodology notes"
+    ],
+    "portfolio_value": "Practical finance skill demonstration."
+  },
+  {
+    "action_id": "fin_aml",
+    "title": "Create an AML Compliance Checklist",
+    "category": "Banking & Finance",
+    "action_type": "Domain Knowledge",
+    "difficulty": "Intermediate",
+    "estimated_time": "1 week",
+    "skills_covered": [
+      "anti money laundering",
+      "regulatory compliance",
+      "kyc"
+    ],
+    "description": "Document red flags, verification steps, and escalation workflow for AML review.",
+    "deliverables": [
+      "Checklist PDF",
+      "scenario examples"
+    ],
+    "portfolio_value": "Shows compliance awareness."
+  },
+  {
+    "action_id": "fin_model",
+    "title": "Build a 3-Statement Financial Model",
+    "category": "Banking & Finance",
+    "action_type": "Portfolio Project",
+    "difficulty": "Advanced",
+    "estimated_time": "2-3 weeks",
+    "skills_covered": [
+      "financial modeling",
+      "excel",
+      "financial analysis"
+    ],
+    "description": "Link income statement, balance sheet, and cash flow with assumptions tab.",
+    "deliverables": [
+      "Excel model",
+      "assumptions doc"
+    ],
+    "portfolio_value": "High-value finance portfolio artifact."
+  },
+  {
+    "action_id": "fin_onboard",
+    "title": "Prepare a Customer Onboarding Process Summary",
+    "category": "Banking & Finance",
+    "action_type": "Case Study",
+    "difficulty": "Beginner",
+    "estimated_time": "3-5 days",
+    "skills_covered": [
+      "customer onboarding",
+      "banking operations",
+      "communication"
+    ],
+    "description": "Map onboarding steps, required documents, and service standards.",
+    "deliverables": [
+      "Process flow",
+      "SOP document"
+    ],
+    "portfolio_value": "Useful for bank officer applications."
+  },
+  {
+    "action_id": "biz_hr",
+    "title": "Build a Recruitment Tracker in Excel",
+    "category": "Business & Administration",
+    "action_type": "Tool Practice",
+    "difficulty": "Beginner",
+    "estimated_time": "3-5 days",
+    "skills_covered": [
+      "hr operations",
+      "excel",
+      "recruitment support"
+    ],
+    "description": "Track candidates, interview stages, and hiring status with simple dashboards.",
+    "deliverables": [
+      "Excel tracker",
+      "user guide"
+    ],
+    "portfolio_value": "Demonstrates HR operations skills."
+  },
+  {
+    "action_id": "biz_ba",
+    "title": "Prepare a Process Improvement Case Study",
+    "category": "Business & Administration",
+    "action_type": "Case Study",
+    "difficulty": "Intermediate",
+    "estimated_time": "1-2 weeks",
+    "skills_covered": [
+      "business analysis",
+      "process improvement",
+      "communication"
+    ],
+    "description": "Identify bottlenecks, propose improvements, and estimate impact.",
+    "deliverables": [
+      "Case study report",
+      "process map"
+    ],
+    "portfolio_value": "Strong business analyst portfolio piece."
+  },
+  {
+    "action_id": "biz_admin",
+    "title": "Create an Office Operations SOP Pack",
+    "category": "Business & Administration",
+    "action_type": "Resume Improvement",
+    "difficulty": "Beginner",
+    "estimated_time": "1 week",
+    "skills_covered": [
+      "office administration",
+      "organization",
+      "documentation"
+    ],
+    "description": "Document daily office routines, filing, scheduling, and vendor coordination.",
+    "deliverables": [
+      "SOP pack",
+      "checklists"
+    ],
+    "portfolio_value": "Shows operational readiness."
+  },
+  {
+    "action_id": "mkt_seo",
+    "title": "Perform an SEO Audit Case Study",
+    "category": "Marketing & Sales",
+    "action_type": "Case Study",
+    "difficulty": "Intermediate",
+    "estimated_time": "1-2 weeks",
+    "skills_covered": [
+      "seo",
+      "google analytics",
+      "content marketing"
+    ],
+    "description": "Audit a sample website and propose prioritized SEO improvements.",
+    "deliverables": [
+      "Audit report",
+      "action plan"
+    ],
+    "portfolio_value": "Demonstrates digital marketing analysis."
+  },
+  {
+    "action_id": "mkt_campaign",
+    "title": "Run a Mock Digital Campaign",
+    "category": "Marketing & Sales",
+    "action_type": "Portfolio Project",
+    "difficulty": "Beginner",
+    "estimated_time": "1-2 weeks",
+    "skills_covered": [
+      "social media marketing",
+      "content marketing",
+      "canva"
+    ],
+    "description": "Plan, create assets, and report on a hypothetical campaign with metrics framework.",
+    "deliverables": [
+      "Campaign plan",
+      "creative assets",
+      "report"
+    ],
+    "portfolio_value": "Shows campaign execution skills."
+  },
+  {
+    "action_id": "mkt_sales",
+    "title": "Create a Sales Pitch Deck",
+    "category": "Marketing & Sales",
+    "action_type": "Portfolio Project",
+    "difficulty": "Beginner",
+    "estimated_time": "1 week",
+    "skills_covered": [
+      "sales pipeline",
+      "presentation skills",
+      "communication"
+    ],
+    "description": "Design a persuasive pitch deck for a product with objection handling notes.",
+    "deliverables": [
+      "Pitch deck",
+      "talk track"
+    ],
+    "portfolio_value": "Directly useful for sales interviews."
+  },
+  {
+    "action_id": "mkt_crm",
+    "title": "Build a CRM Pipeline Case Study",
+    "category": "Marketing & Sales",
+    "action_type": "Case Study",
+    "difficulty": "Intermediate",
+    "estimated_time": "1 week",
+    "skills_covered": [
+      "crm",
+      "lead generation",
+      "sales pipeline"
+    ],
+    "description": "Simulate lead stages, conversion rates, and follow-up strategy in a CRM-style sheet.",
+    "deliverables": [
+      "Pipeline model",
+      "strategy notes"
+    ],
+    "portfolio_value": "Shows sales operations understanding."
+  },
+  {
+    "action_id": "mkt_content",
+    "title": "Build a 30-Day Content Calendar",
+    "category": "Marketing & Sales",
+    "action_type": "Portfolio Project",
+    "difficulty": "Beginner",
+    "estimated_time": "1 week",
+    "skills_covered": [
+      "content marketing",
+      "social media marketing",
+      "copywriting"
+    ],
+    "description": "Plan themed posts, captions, and channel mix for a brand.",
+    "deliverables": [
+      "Content calendar",
+      "sample posts"
+    ],
+    "portfolio_value": "Practical content marketing artifact."
+  },
+  {
+    "action_id": "des_ui",
+    "title": "Create a Mobile App UI Case Study",
+    "category": "Design & Creative",
+    "action_type": "Portfolio Project",
+    "difficulty": "Intermediate",
+    "estimated_time": "2-3 weeks",
+    "skills_covered": [
+      "figma",
+      "ui design",
+      "ux design",
+      "prototyping"
+    ],
+    "description": "Design user flows, wireframes, and high-fidelity screens with rationale.",
+    "deliverables": [
+      "Figma file",
+      "case study PDF"
+    ],
+    "portfolio_value": "Core UX/UI portfolio deliverable."
+  },
+  {
+    "action_id": "des_brand",
+    "title": "Build a Brand Identity Mock Project",
+    "category": "Design & Creative",
+    "action_type": "Portfolio Project",
+    "difficulty": "Intermediate",
+    "estimated_time": "2 weeks",
+    "skills_covered": [
+      "brand identity",
+      "visual design",
+      "adobe illustrator"
+    ],
+    "description": "Create logo, color palette, typography, and sample brand applications.",
+    "deliverables": [
+      "Brand guide",
+      "mockups"
+    ],
+    "portfolio_value": "Shows branding capability."
+  },
+  {
+    "action_id": "des_landing",
+    "title": "Redesign a Landing Page in Figma",
+    "category": "Design & Creative",
+    "action_type": "Portfolio Project",
+    "difficulty": "Beginner",
+    "estimated_time": "1 week",
+    "skills_covered": [
+      "figma",
+      "web design",
+      "wireframing"
+    ],
+    "description": "Improve layout, hierarchy, and CTA clarity for an existing page concept.",
+    "deliverables": [
+      "Before/after screens",
+      "design notes"
+    ],
+    "portfolio_value": "Quick, high-impact design portfolio piece."
+  },
+  {
+    "action_id": "des_motion",
+    "title": "Create a 30-Second Motion Reel",
+    "category": "Design & Creative",
+    "action_type": "Portfolio Project",
+    "difficulty": "Advanced",
+    "estimated_time": "2-3 weeks",
+    "skills_covered": [
+      "after effects",
+      "visual design",
+      "storyboarding"
+    ],
+    "description": "Produce a short animated reel showcasing transitions and brand motion.",
+    "deliverables": [
+      "Video reel",
+      "project breakdown"
+    ],
+    "portfolio_value": "Differentiates motion design candidates."
+  },
+  {
+    "action_id": "edu_lesson",
+    "title": "Create a Lesson Plan Portfolio",
+    "category": "Education & Teaching",
+    "action_type": "Portfolio Project",
+    "difficulty": "Beginner",
+    "estimated_time": "1-2 weeks",
+    "skills_covered": [
+      "lesson planning",
+      "assessment design",
+      "communication"
+    ],
+    "description": "Prepare structured lesson plans with objectives, activities, and assessments.",
+    "deliverables": [
+      "Lesson plan pack",
+      "rubric samples"
+    ],
+    "portfolio_value": "Essential for teaching applications."
+  },
+  {
+    "action_id": "edu_demo",
+    "title": "Record a 5-Minute Teaching Demo",
+    "category": "Education & Teaching",
+    "action_type": "Interview Preparation",
+    "difficulty": "Beginner",
+    "estimated_time": "3-5 days",
+    "skills_covered": [
+      "communication",
+      "classroom management",
+      "subject knowledge"
+    ],
+    "description": "Record a concise lesson segment demonstrating clarity and engagement.",
+    "deliverables": [
+      "Video demo",
+      "lesson script"
+    ],
+    "portfolio_value": "Strong interview differentiator for teachers."
+  },
+  {
+    "action_id": "edu_assess",
+    "title": "Build a Student Assessment Sheet Pack",
+    "category": "Education & Teaching",
+    "action_type": "Tool Practice",
+    "difficulty": "Beginner",
+    "estimated_time": "1 week",
+    "skills_covered": [
+      "assessment design",
+      "curriculum design",
+      "subject knowledge"
+    ],
+    "description": "Create formative and summative assessments aligned to learning outcomes.",
+    "deliverables": [
+      "Assessment pack",
+      "marking guide"
+    ],
+    "portfolio_value": "Shows assessment design skill."
+  },
+  {
+    "action_id": "edu_online",
+    "title": "Record a Mini Online Course Module",
+    "category": "Education & Teaching",
+    "action_type": "Portfolio Project",
+    "difficulty": "Intermediate",
+    "estimated_time": "2 weeks",
+    "skills_covered": [
+      "online teaching tools",
+      "lesson planning",
+      "presentation tools"
+    ],
+    "description": "Produce one module with slides, quiz, and learner outcomes.",
+    "deliverables": [
+      "Video module",
+      "quiz",
+      "outline"
+    ],
+    "portfolio_value": "Useful for online instructor roles."
+  },
+  {
+    "action_id": "health_care",
+    "title": "Prepare a Patient Care Case Study",
+    "category": "Healthcare",
+    "action_type": "Case Study",
+    "difficulty": "Intermediate",
+    "estimated_time": "1 week",
+    "skills_covered": [
+      "patient care",
+      "clinical documentation",
+      "communication"
+    ],
+    "description": "Document a hypothetical patient scenario with care plan and handover notes.",
+    "deliverables": [
+      "Case study",
+      "care plan template"
+    ],
+    "portfolio_value": "Demonstrates clinical thinking."
+  },
+  {
+    "action_id": "health_compliance",
+    "title": "Build a Clinic Operations Checklist",
+    "category": "Healthcare",
+    "action_type": "Domain Knowledge",
+    "difficulty": "Beginner",
+    "estimated_time": "3-5 days",
+    "skills_covered": [
+      "healthcare compliance",
+      "infection control",
+      "patient safety"
+    ],
+    "description": "Create daily compliance and safety checklist for a clinic setting.",
+    "deliverables": [
+      "Checklist PDF",
+      "SOP notes"
+    ],
+    "portfolio_value": "Shows operational healthcare awareness."
+  },
+  {
+    "action_id": "health_lab",
+    "title": "Create a Lab SOP Sample",
+    "category": "Healthcare",
+    "action_type": "Tool Practice",
+    "difficulty": "Intermediate",
+    "estimated_time": "1 week",
+    "skills_covered": [
+      "lab procedures",
+      "quality control",
+      "documentation"
+    ],
+    "description": "Write standard operating procedure for sample collection and reporting.",
+    "deliverables": [
+      "SOP document",
+      "quality log template"
+    ],
+    "portfolio_value": "Relevant for lab technician roles."
+  },
+  {
+    "action_id": "health_campaign",
+    "title": "Design a Community Health Campaign",
+    "category": "Healthcare",
+    "action_type": "Portfolio Project",
+    "difficulty": "Intermediate",
+    "estimated_time": "2 weeks",
+    "skills_covered": [
+      "public health basics",
+      "health education",
+      "communication"
+    ],
+    "description": "Plan awareness campaign with target audience, channels, and metrics.",
+    "deliverables": [
+      "Campaign plan",
+      "awareness materials"
+    ],
+    "portfolio_value": "Shows public health program skills."
+  },
+  {
+    "action_id": "eng_civil",
+    "title": "Prepare a Structural Design Case Study",
+    "category": "Engineering",
+    "action_type": "Case Study",
+    "difficulty": "Advanced",
+    "estimated_time": "2-3 weeks",
+    "skills_covered": [
+      "structural analysis",
+      "autocad",
+      "project estimation"
+    ],
+    "description": "Analyze loads, propose design approach, and estimate materials.",
+    "deliverables": [
+      "Design report",
+      "CAD sketches"
+    ],
+    "portfolio_value": "Engineering portfolio depth."
+  },
+  {
+    "action_id": "eng_electrical",
+    "title": "Document an Electrical Maintenance Plan",
+    "category": "Engineering",
+    "action_type": "Case Study",
+    "difficulty": "Intermediate",
+    "estimated_time": "1-2 weeks",
+    "skills_covered": [
+      "electrical systems",
+      "maintenance planning",
+      "safety standards"
+    ],
+    "description": "Create preventive maintenance schedule and inspection checklist.",
+    "deliverables": [
+      "Maintenance plan",
+      "checklist"
+    ],
+    "portfolio_value": "Practical electrical engineering artifact."
+  },
+  {
+    "action_id": "eng_quality",
+    "title": "Prepare a Quality Audit Case Study",
+    "category": "Engineering",
+    "action_type": "Case Study",
+    "difficulty": "Intermediate",
+    "estimated_time": "1-2 weeks",
+    "skills_covered": [
+      "quality control",
+      "iso standards",
+      "process improvement"
+    ],
+    "description": "Conduct mock audit, identify defects, and propose corrective actions.",
+    "deliverables": [
+      "Audit report",
+      "CAPA plan"
+    ],
+    "portfolio_value": "Strong for quality engineer roles."
+  },
+  {
+    "action_id": "eng_site",
+    "title": "Create a Daily Site Report Template",
+    "category": "Engineering",
+    "action_type": "Tool Practice",
+    "difficulty": "Beginner",
+    "estimated_time": "3-5 days",
+    "skills_covered": [
+      "site supervision",
+      "construction management",
+      "documentation"
+    ],
+    "description": "Design template for progress, manpower, materials, and safety observations.",
+    "deliverables": [
+      "Report template",
+      "sample entries"
+    ],
+    "portfolio_value": "Useful for site engineer roles."
+  },
+  {
+    "action_id": "cs_templates",
+    "title": "Create a Support Response Template Pack",
+    "category": "Customer Support",
+    "action_type": "Tool Practice",
+    "difficulty": "Beginner",
+    "estimated_time": "3-5 days",
+    "skills_covered": [
+      "customer service",
+      "communication",
+      "email support"
+    ],
+    "description": "Write templates for common inquiries, escalations, and follow-ups.",
+    "deliverables": [
+      "Template pack",
+      "tone guide"
+    ],
+    "portfolio_value": "Directly applicable in support interviews."
+  },
+  {
+    "action_id": "cs_scenarios",
+    "title": "Practice Complaint Resolution Scenarios",
+    "category": "Customer Support",
+    "action_type": "Interview Preparation",
+    "difficulty": "Beginner",
+    "estimated_time": "1 week",
+    "skills_covered": [
+      "complaint handling",
+      "conflict resolution",
+      "empathy"
+    ],
+    "description": "Role-play difficult customer cases and document resolution steps.",
+    "deliverables": [
+      "Scenario scripts",
+      "resolution notes"
+    ],
+    "portfolio_value": "Builds confidence for support interviews."
+  },
+  {
+    "action_id": "cs_kb",
+    "title": "Build a Knowledge Base Article Sample",
+    "category": "Customer Support",
+    "action_type": "Portfolio Project",
+    "difficulty": "Beginner",
+    "estimated_time": "1 week",
+    "skills_covered": [
+      "knowledge base management",
+      "technical documentation",
+      "troubleshooting"
+    ],
+    "description": "Write clear help articles with steps, screenshots, and FAQs.",
+    "deliverables": [
+      "KB articles",
+      "style guide"
+    ],
+    "portfolio_value": "Shows documentation and support skills."
+  },
+  {
+    "action_id": "cs_technical",
+    "title": "Build a Troubleshooting Guide",
+    "category": "Customer Support",
+    "action_type": "Portfolio Project",
+    "difficulty": "Intermediate",
+    "estimated_time": "1-2 weeks",
+    "skills_covered": [
+      "troubleshooting",
+      "technical documentation",
+      "product knowledge"
+    ],
+    "description": "Create tiered troubleshooting flow for common product issues.",
+    "deliverables": [
+      "Troubleshooting guide",
+      "escalation matrix"
+    ],
+    "portfolio_value": "Strong for technical support roles."
+  },
+  {
+    "action_id": "ops_project",
+    "title": "Build a Full Project Plan Case Study",
+    "category": "Operations & Project Management",
+    "action_type": "Case Study",
+    "difficulty": "Intermediate",
+    "estimated_time": "2 weeks",
+    "skills_covered": [
+      "project planning",
+      "risk register",
+      "stakeholder reporting"
+    ],
+    "description": "Define scope, timeline, resources, risks, and communication plan.",
+    "deliverables": [
+      "Project plan",
+      "Gantt chart",
+      "risk log"
+    ],
+    "portfolio_value": "Core PM portfolio deliverable."
+  },
+  {
+    "action_id": "ops_kpi",
+    "title": "Build a KPI Dashboard in Excel",
+    "category": "Operations & Project Management",
+    "action_type": "Tool Practice",
+    "difficulty": "Beginner",
+    "estimated_time": "1 week",
+    "skills_covered": [
+      "kpi tracking",
+      "excel",
+      "operations management"
+    ],
+    "description": "Track operational KPIs with trends, targets, and exception flags.",
+    "deliverables": [
+      "Excel dashboard",
+      "metric definitions"
+    ],
+    "portfolio_value": "Practical operations artifact."
+  },
+  {
+    "action_id": "ops_supply",
+    "title": "Create an Inventory Tracking Model",
+    "category": "Operations & Project Management",
+    "action_type": "Tool Practice",
+    "difficulty": "Intermediate",
+    "estimated_time": "1-2 weeks",
+    "skills_covered": [
+      "inventory tracking",
+      "supply chain basics",
+      "excel"
+    ],
+    "description": "Model stock levels, reorder points, and supplier lead times.",
+    "deliverables": [
+      "Tracking model",
+      "process notes"
+    ],
+    "portfolio_value": "Shows supply chain fundamentals."
+  },
+  {
+    "action_id": "ops_process",
+    "title": "Map an End-to-End Operations Workflow",
+    "category": "Operations & Project Management",
+    "action_type": "Case Study",
+    "difficulty": "Beginner",
+    "estimated_time": "1 week",
+    "skills_covered": [
+      "process mapping",
+      "operations management",
+      "continuous improvement"
+    ],
+    "description": "Document current-state process and identify improvement opportunities.",
+    "deliverables": [
+      "Process map",
+      "improvement plan"
+    ],
+    "portfolio_value": "Demonstrates operational analysis."
+  },
+  {
+    "action_id": "ops_risk",
+    "title": "Create a Project Risk Register Sample",
+    "category": "Operations & Project Management",
+    "action_type": "Tool Practice",
+    "difficulty": "Intermediate",
+    "estimated_time": "1 week",
+    "skills_covered": [
+      "risk register",
+      "project planning",
+      "stakeholder reporting"
+    ],
+    "description": "Identify risks, likelihood, impact, owners, and mitigation actions.",
+    "deliverables": [
+      "Risk register",
+      "mitigation plan"
+    ],
+    "portfolio_value": "Essential PM skill demonstration."
+  },
+  {
+    "action_id": "entry_office",
+    "title": "Create an Office Filing System Guide",
+    "category": "General Entry-Level Jobs",
+    "action_type": "Resume Improvement",
+    "difficulty": "Beginner",
+    "estimated_time": "3-5 days",
+    "skills_covered": [
+      "office support",
+      "organization",
+      "filing systems"
+    ],
+    "description": "Document filing conventions, naming rules, and retrieval process.",
+    "deliverables": [
+      "Filing guide",
+      "folder structure"
+    ],
+    "portfolio_value": "Shows administrative readiness."
+  },
+  {
+    "action_id": "entry_retail",
+    "title": "Practice Customer Service Scenarios",
+    "category": "General Entry-Level Jobs",
+    "action_type": "Interview Preparation",
+    "difficulty": "Beginner",
+    "estimated_time": "3-5 days",
+    "skills_covered": [
+      "customer service",
+      "communication",
+      "retail operations"
+    ],
+    "description": "Prepare responses for common retail customer situations.",
+    "deliverables": [
+      "Scenario Q&A",
+      "service standards"
+    ],
+    "portfolio_value": "Interview prep for retail roles."
+  },
+  {
+    "action_id": "entry_data",
+    "title": "Complete a Data Cleaning Practice Task",
+    "category": "General Entry-Level Jobs",
+    "action_type": "Practice Task",
+    "difficulty": "Beginner",
+    "estimated_time": "1 week",
+    "skills_covered": [
+      "data entry",
+      "excel",
+      "attention to detail"
+    ],
+    "description": "Clean a messy dataset, fix errors, and produce validation summary.",
+    "deliverables": [
+      "Clean dataset",
+      "validation report"
+    ],
+    "portfolio_value": "Demonstrates accuracy and computer skills."
+  },
+  {
+    "action_id": "entry_reception",
+    "title": "Prepare a Front Desk SOP",
+    "category": "General Entry-Level Jobs",
+    "action_type": "Domain Knowledge",
+    "difficulty": "Beginner",
+    "estimated_time": "3-5 days",
+    "skills_covered": [
+      "front desk management",
+      "communication",
+      "scheduling"
+    ],
+    "description": "Document visitor handling, call routing, and appointment management.",
+    "deliverables": [
+      "Front desk SOP",
+      "call script"
+    ],
+    "portfolio_value": "Useful for receptionist roles."
+  },
+  {
+    "action_id": "entry_report",
+    "title": "Prepare a Weekly Report Template",
+    "category": "General Entry-Level Jobs",
+    "action_type": "Tool Practice",
+    "difficulty": "Beginner",
+    "estimated_time": "3-5 days",
+    "skills_covered": [
+      "report writing",
+      "microsoft office",
+      "organization"
+    ],
+    "description": "Create a simple weekly status report format with sections and examples.",
+    "deliverables": [
+      "Report template",
+      "sample report"
+    ],
+    "portfolio_value": "Shows professional communication."
+  },
+  {
+    "action_id": "soft_comm",
+    "title": "Improve Professional Communication Skills",
+    "category": "Business & Administration",
+    "action_type": "Soft Skill Development",
+    "difficulty": "Beginner",
+    "estimated_time": "2 weeks",
+    "skills_covered": [
+      "communication",
+      "presentation skills",
+      "professionalism"
+    ],
+    "description": "Practice email writing, meeting updates, and concise verbal summaries.",
+    "deliverables": [
+      "Email samples",
+      "presentation outline"
+    ],
+    "portfolio_value": "Cross-functional career skill."
+  },
+  {
+    "action_id": "soft_negotiation",
+    "title": "Practice Negotiation Scenarios",
+    "category": "Marketing & Sales",
+    "action_type": "Soft Skill Development",
+    "difficulty": "Intermediate",
+    "estimated_time": "1-2 weeks",
+    "skills_covered": [
+      "negotiation",
+      "persuasion",
+      "communication"
+    ],
+    "description": "Work through salary, vendor, and client negotiation role-play scenarios.",
+    "deliverables": [
+      "Scenario notes",
+      "strategy checklist"
+    ],
+    "portfolio_value": "Useful for sales and business roles."
+  },
+  {
+    "action_id": "cert_excel",
+    "title": "Complete an Excel Certification Prep Plan",
+    "category": "Banking & Finance",
+    "action_type": "Certification",
+    "difficulty": "Beginner",
+    "estimated_time": "3-4 weeks",
+    "skills_covered": [
+      "excel",
+      "financial reporting",
+      "data analysis"
+    ],
+    "description": "Follow structured study plan for Excel proficiency certification.",
+    "deliverables": [
+      "Study plan",
+      "practice exercises"
+    ],
+    "portfolio_value": "Adds credible finance/admin skill proof."
+  },
+  {
+    "action_id": "cert_cloud",
+    "title": "Complete a Cloud Fundamentals Study Plan",
+    "category": "Software & IT",
+    "action_type": "Certification",
+    "difficulty": "Beginner",
+    "estimated_time": "4-6 weeks",
+    "skills_covered": [
+      "aws",
+      "cloud basics",
+      "security basics"
+    ],
+    "description": "Study core cloud concepts with hands-on labs and summary notes.",
+    "deliverables": [
+      "Study notes",
+      "lab screenshots"
+    ],
+    "portfolio_value": "Entry path for cloud/DevOps careers."
+  },
+  {
+    "action_id": "cert_analytics",
+    "title": "Complete a Google Analytics Practice Track",
+    "category": "Marketing & Sales",
+    "action_type": "Certification",
+    "difficulty": "Beginner",
+    "estimated_time": "2-3 weeks",
+    "skills_covered": [
+      "google analytics",
+      "seo",
+      "conversion optimization"
+    ],
+    "description": "Practice analytics setup, reporting, and campaign measurement exercises.",
+    "deliverables": [
+      "Analytics report samples",
+      "study log"
+    ],
+    "portfolio_value": "Digital marketing credential pathway."
+  },
+  {
+    "action_id": "resume_tailor",
+    "title": "Tailor Your Resume for a Target Role",
+    "category": "General Entry-Level Jobs",
+    "action_type": "Resume Improvement",
+    "difficulty": "Beginner",
+    "estimated_time": "3-5 days",
+    "skills_covered": [
+      "communication",
+      "organization",
+      "report writing"
+    ],
+    "description": "Rewrite resume bullets to match target role skills and outputs.",
+    "deliverables": [
+      "Tailored resume",
+      "bullet mapping sheet"
+    ],
+    "portfolio_value": "Immediate job-search impact."
+  },
+  {
+    "action_id": "interview_star",
+    "title": "Prepare STAR Method Interview Answers",
+    "category": "General Entry-Level Jobs",
+    "action_type": "Interview Preparation",
+    "difficulty": "Beginner",
+    "estimated_time": "1 week",
+    "skills_covered": [
+      "communication",
+      "problem solving",
+      "professionalism"
+    ],
+    "description": "Draft structured answers for behavioral interview questions.",
+    "deliverables": [
+      "STAR answer bank",
+      "practice recordings"
+    ],
+    "portfolio_value": "Cross-role interview preparation."
+  },
+  {
+    "action_id": "domain_banking",
+    "title": "Study Core Banking Products Overview",
+    "category": "Banking & Finance",
+    "action_type": "Domain Knowledge",
+    "difficulty": "Beginner",
+    "estimated_time": "1-2 weeks",
+    "skills_covered": [
+      "financial products",
+      "banking operations",
+      "customer onboarding"
+    ],
+    "description": "Summarize savings, loans, cards, and onboarding requirements.",
+    "deliverables": [
+      "Product comparison notes",
+      "quiz sheet"
+    ],
+    "portfolio_value": "Foundation for banking interviews."
+  },
+  {
+    "action_id": "domain_health",
+    "title": "Study Medical Terminology Basics",
+    "category": "Healthcare",
+    "action_type": "Domain Knowledge",
+    "difficulty": "Beginner",
+    "estimated_time": "2 weeks",
+    "skills_covered": [
+      "medical terminology",
+      "patient care",
+      "clinical documentation"
+    ],
+    "description": "Learn common prefixes, suffixes, and clinical terms with flashcards.",
+    "deliverables": [
+      "Flashcard deck",
+      "glossary"
+    ],
+    "portfolio_value": "Entry healthcare knowledge boost."
+  },
+  {
+    "action_id": "domain_edtech",
+    "title": "Explore Educational Technology Tools",
+    "category": "Education & Teaching",
+    "action_type": "Domain Knowledge",
+    "difficulty": "Beginner",
+    "estimated_time": "1-2 weeks",
+    "skills_covered": [
+      "educational technology",
+      "lms",
+      "online teaching tools"
+    ],
+    "description": "Compare LMS platforms and document classroom integration ideas.",
+    "deliverables": [
+      "Tool comparison",
+      "integration plan"
+    ],
+    "portfolio_value": "Modern teaching readiness."
+  }
+]

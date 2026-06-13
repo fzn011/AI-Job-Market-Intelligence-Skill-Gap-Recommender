@@ -1,0 +1,48 @@
+{
+  "technical_skills": [
+    "python",
+    "sql",
+    "pandas",
+    "numpy",
+    "machine learning",
+    "scikit-learn",
+    "power bi",
+    "tableau",
+    "data visualization",
+    "statistics",
+    "nlp",
+    "llm",
+    "rag",
+    "docker",
+    "fastapi",
+    "mlflow",
+    "excel",
+    "etl",
+    "spark",
+    "aws",
+    "feature engineering",
+    "a/b testing",
+    "deep learning",
+    "pytorch",
+    "tensorflow"
+  ],
+  "domain_skills": [
+    "business analysis",
+    "customer analytics",
+    "risk analytics",
+    "product analytics",
+    "forecasting",
+    "experiment design",
+    "data governance",
+    "reporting"
+  ],
+  "soft_skills": [
+    "communication",
+    "problem solving",
+    "stakeholder management",
+    "critical thinking",
+    "collaboration",
+    "storytelling with data",
+    "attention to detail"
+  ]
+}

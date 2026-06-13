@@ -19,6 +19,7 @@ def main() -> int:
         root / "app" / "pages" / "4_Project_Recommendations.py",
         root / "app" / "pages" / "5_Role_Clustering.py",
         root / "app" / "pages" / "6_Data_Import.py",
+        root / "app" / "pages" / "7_Career_Explorer.py",
     ]
 
     core_modules = [
@@ -30,6 +31,13 @@ def main() -> int:
         root / "src" / "project_recommendation_utils.py",
         root / "src" / "job_clustering.py",
         root / "src" / "ui_theme.py",
+        root / "src" / "career_taxonomy_utils.py",
+    ]
+
+    career_taxonomy_assets = [
+        root / "data" / "career_taxonomies",
+        root / "data" / "career_taxonomies" / "role_profiles.json",
+        root / "data" / "career_taxonomies" / "career_action_templates.json",
     ]
 
     required_folders = [
@@ -65,6 +73,7 @@ def main() -> int:
 
     pages_found = sum(1 for p in pages if exists(p))
     modules_found = sum(1 for p in core_modules if exists(p))
+    taxonomy_assets_found = sum(1 for p in career_taxonomy_assets if exists(p))
     folders_ok = all(exists(p) for p in required_folders)
     scripts_ok = all(exists(p) for p in required_scripts)
     packaging_found = sum(1 for p in packaging_docs if exists(p))
@@ -73,6 +82,7 @@ def main() -> int:
     print("-------------------")
     print(f"Streamlit pages found: {pages_found}/{len(pages)}")
     print(f"Core src modules found: {modules_found}/{len(core_modules)}")
+    print(f"Career taxonomy assets found: {taxonomy_assets_found}/{len(career_taxonomy_assets)}")
     print(f"Processed sample data: {'Yes' if exists(sample_processed) else 'No'}")
     print(f"Processed imported data: {'Yes' if exists(imported_processed) else 'No'}")
     print(f"Import guide: {'Yes' if exists(import_guide) else 'No'}")

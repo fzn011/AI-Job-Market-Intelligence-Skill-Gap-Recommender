@@ -1,4 +1,4 @@
-"""CV Skill Gap Analyzer dashboard page."""
+"""CV Skill Gap Analyzer with market and career category modes."""
 
 from __future__ import annotations
 
@@ -14,6 +14,18 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
+from src.career_taxonomy_utils import (  # noqa: E402
+    build_category_skill_dataframe,
+    classify_skill_type,
+    compute_role_skill_gap,
+    extract_skills_from_text,
+    generate_career_action_plan,
+    get_roles_for_category,
+    get_target_role_skills,
+    list_career_categories,
+    load_category_skill_taxonomy,
+    recommend_career_actions,
+)
 from src.cv_gap_utils import (  # noqa: E402
     build_skill_gap_dataframe,
     classify_match_level,
@@ -25,321 +37,273 @@ from src.cv_gap_utils import (  # noqa: E402
     recommend_learning_path,
 )
 from src.dashboard_utils import get_active_dataset_label, load_active_jobs_dataset, load_processed_jobs  # noqa: E402
-from src.skill_analysis_utils import (  # noqa: E402
-    build_skill_category_lookup,
-    load_skill_dictionary_for_analysis,
-)
-from src.ui_theme import apply_global_theme, render_brand_header, style_plotly_figure  # noqa: E402
+from src.skill_analysis_utils import build_skill_category_lookup, load_skill_dictionary_for_analysis  # noqa: E402
+from src.ui_theme import apply_global_theme, render_brand_header, render_info_box, style_plotly_figure  # noqa: E402
 
 
 st.set_page_config(page_title="CV Skill Gap Analyzer", page_icon="📄", layout="wide")
-
 apply_global_theme()
 
 render_brand_header(
-    app_name="EmberScope AI · CV Skill Gap Analyzer",
-    subtitle="Turn your CV into a clear roadmap for role alignment.",
-    logo_mark="◜●◝",
+    app_name="CareerCompass · CV Skill Gap Analyzer",
+    subtitle="Compare your CV against job-market data or curated role profiles across career fields.",
 )
 
-dataset_pref = st.sidebar.selectbox(
-    "Dataset source",
-    options=["Auto", "Imported", "Sample"],
-    key="page3_dataset_source",
+analysis_mode = st.radio(
+    "Analysis Mode",
+    options=["Data-driven market comparison", "Career category comparison"],
+    horizontal=True,
+    help="Market mode uses imported/sample job data. Career mode uses curated role profiles.",
 )
-pref_value = dataset_pref.strip().lower()
 
-jobs_df = load_active_jobs_dataset(preferred=pref_value)
-if jobs_df.empty and pref_value != "auto":
-    st.info(
-        "Selected dataset was not found. Falling back to auto-detection. "
-        "Use Data Import page or CLI import to create imported outputs."
+if analysis_mode == "Data-driven market comparison":
+    dataset_pref = st.sidebar.selectbox(
+        "Dataset source",
+        options=["Auto", "Imported", "Sample"],
+        key="page3_dataset_source",
     )
-    jobs_df = load_processed_jobs()
+    pref_value = dataset_pref.strip().lower()
+    jobs_df = load_active_jobs_dataset(preferred=pref_value)
+    if jobs_df.empty and pref_value != "auto":
+        jobs_df = load_processed_jobs()
 
-if jobs_df.empty:
-    st.warning("Processed job data was not found. Please run: python scripts/run_project_check.py")
-    st.stop()
-
-st.caption(f"Active dataset: {get_active_dataset_label(preferred=pref_value)}")
-
-skill_dictionary = load_skill_dictionary_for_analysis()
-if not skill_dictionary:
-    st.warning("Skill dictionary was not found. Please check data/sample/skills_dictionary.json")
-    st.stop()
-
-category_lookup = build_skill_category_lookup(skill_dictionary)
-
-target_role_options = [
-    "Overall Market",
-    "Data Analyst",
-    "Data Scientist",
-    "Machine Learning Engineer",
-    "AI Engineer",
-    "BI Analyst",
-    "Data Engineer",
-    "GenAI Engineer",
-    "Risk Data Analyst",
-    "Product Data Analyst",
-    "Junior Data Scientist",
-]
-
-st.subheader("Analysis Controls")
-ctrl_col_1, ctrl_col_2, ctrl_col_3 = st.columns([1.2, 1, 0.8])
-with ctrl_col_1:
-    target_role = st.selectbox("Select Target Role", options=target_role_options, index=0)
-with ctrl_col_2:
-    use_top_25 = st.checkbox("Use top 25 market skills only", value=True)
-with ctrl_col_3:
-    analyze_clicked = st.button("Analyze Skill Gap", type="primary", use_container_width=True)
-
-left_col, right_col = st.columns([1.45, 1])
-
-with left_col:
-    cv_text = st.text_area(
-        "Paste CV / Resume / Profile Text",
-        height=340,
-        placeholder="Paste your resume, LinkedIn About section, or project profile here...",
-    )
-
-with right_col:
-    st.subheader("How to use")
-    st.markdown("1. Paste your CV/profile text on the left")
-    st.markdown("2. Select your target role")
-    st.markdown("3. Click **Analyze Skill Gap**")
-
-    with st.expander("Example CV snippet"):
-        st.code(
-            """Data Scientist with hands-on experience in Python, SQL, pandas, scikit-learn,
-Power BI, and A/B testing. Built machine learning models for churn prediction,
-deployed FastAPI endpoints, and tracked experiments with MLflow.""",
-            language="text",
-        )
-
-    with st.expander("What this analyzer checks"):
-        st.markdown("- Skills detected in your CV text")
-        st.markdown("- Top skills demanded in current job-market sample")
-        st.markdown("- Match score, missing skills, and extra profile strengths")
-        st.markdown("- Prioritized learning and project recommendations")
-
-top_n = 25 if use_top_25 else None
-run_analysis = analyze_clicked or bool(cv_text.strip())
-
-if run_analysis:
-    if not cv_text.strip():
-        st.warning("Please paste your CV or profile text first.")
+    if jobs_df.empty:
+        st.warning("Processed job data was not found. Switch to **Career category comparison** or run the data pipeline.")
         st.stop()
 
-    cv_skills = extract_cv_skills(cv_text=cv_text, skill_dictionary=skill_dictionary)
-    if not cv_skills:
-        st.warning(
-            "No known skills were detected from the CV text. Try adding technical skills, tools, projects, or coursework."
-        )
+    st.caption(f"Active dataset: {get_active_dataset_label(preferred=pref_value)}")
+
+    skill_dictionary = load_skill_dictionary_for_analysis()
+    if not skill_dictionary:
+        st.warning("Skill dictionary was not found.")
         st.stop()
 
-    market_skills = get_market_skills_by_target_role(
-        jobs_df=jobs_df,
-        target_role=target_role,
-        top_n=top_n,
-    )
+    category_lookup = build_skill_category_lookup(skill_dictionary)
+    target_role_options = [
+        "Overall Market", "Data Analyst", "Data Scientist", "Machine Learning Engineer",
+        "AI Engineer", "BI Analyst", "Data Engineer", "GenAI Engineer",
+        "Risk Data Analyst", "Product Data Analyst", "Junior Data Scientist",
+    ]
 
-    gap_result = compute_cv_market_gap(cv_skills=cv_skills, market_skills=market_skills)
-    match_level = classify_match_level(float(gap_result.get("match_score", 0.0)))
-    gap_df = build_skill_gap_dataframe(
-        matched_skills=gap_result.get("matched_skills", []),
-        missing_skills=gap_result.get("missing_skills", []),
-        extra_cv_skills=gap_result.get("extra_cv_skills", []),
-        category_lookup=category_lookup,
-    )
-    recommendations = recommend_learning_path(gap_result.get("missing_skills", []))
-    insights = generate_cv_gap_insights(gap_result=gap_result, target_role=target_role)
-    report_text = create_cv_gap_report_text(
-        target_role=target_role,
-        cv_skills=cv_skills,
-        market_skills=market_skills,
-        gap_result=gap_result,
-        recommendations=recommendations,
-    )
+    ctrl_col_1, ctrl_col_2, ctrl_col_3 = st.columns([1.2, 1, 0.8])
+    with ctrl_col_1:
+        target_role = st.selectbox("Select Target Role", options=target_role_options, index=0)
+    with ctrl_col_2:
+        use_top_25 = st.checkbox("Use top 25 market skills only", value=True)
+    with ctrl_col_3:
+        analyze_clicked = st.button("Analyze Skill Gap", type="primary", use_container_width=True)
 
-    st.markdown("---")
-
-    metric_cols = st.columns(6)
-    metric_cols[0].metric("Match Score", f"{gap_result['match_score']:.2f}%")
-    metric_cols[1].metric("Match Level", match_level)
-    metric_cols[2].metric("CV Skills Detected", gap_result["total_cv_skills"])
-    metric_cols[3].metric("Market Skills Compared", gap_result["total_market_skills"])
-    metric_cols[4].metric("Matched Skills", gap_result["matched_count"])
-    metric_cols[5].metric("Missing Skills", gap_result["missing_count"])
-
-    st.markdown("---")
-    st.subheader("Skill Match Visualizations")
-
-    status_counts_df = pd.DataFrame(
-        {
-            "status": ["Matched", "Missing", "Extra in CV"],
-            "count": [
-                gap_result["matched_count"],
-                gap_result["missing_count"],
-                len(gap_result.get("extra_cv_skills", [])),
-            ],
-        }
-    )
-
-    chart_col_1, chart_col_2 = st.columns(2)
-    with chart_col_1:
-        fig_status = px.bar(
-            status_counts_df,
-            x="status",
-            y="count",
-            labels={"status": "Skill Status", "count": "Count"},
+    left_col, right_col = st.columns([1.45, 1])
+    with left_col:
+        cv_text = st.text_area(
+            "Paste CV / Resume / Profile Text",
+            height=320,
+            placeholder="Paste your resume, LinkedIn About section, or project profile here...",
+            key="market_cv_text",
         )
-        style_plotly_figure(fig_status)
-        st.plotly_chart(fig_status, use_container_width=True)
-
-    with chart_col_2:
-        matched_missing_df = status_counts_df[status_counts_df["status"].isin(["Matched", "Missing"])]
-        fig_donut = px.pie(
-            matched_missing_df,
-            names="status",
-            values="count",
-            hole=0.5,
-        )
-        style_plotly_figure(fig_donut)
-        st.plotly_chart(fig_donut, use_container_width=True)
-
-    chart_col_3, chart_col_4 = st.columns(2)
-    with chart_col_3:
-        if gap_df.empty:
-            st.info("No skill gap rows are available to show category breakdown.")
-        else:
-            category_status_df = (
-                gap_df.groupby(["category", "status"], as_index=False).size()
-                .rename(columns={"size": "count"})
-            )
-            fig_category = px.bar(
-                category_status_df,
-                x="category",
-                y="count",
-                color="status",
-                barmode="group",
-                labels={"count": "Count", "category": "Skill Category"},
-            )
-            fig_category.update_layout(xaxis_tickangle=-25)
-            style_plotly_figure(fig_category)
-            st.plotly_chart(fig_category, use_container_width=True)
-
-    with chart_col_4:
-        coverage_rows = [
-            {"market_skill": skill, "covered": 1 if skill in set(gap_result["matched_skills"]) else 0}
-            for skill in market_skills
-        ]
-        coverage_df = pd.DataFrame(coverage_rows)
-        if coverage_df.empty:
-            st.info("No market skills available for coverage view.")
-        else:
-            fig_coverage = px.bar(
-                coverage_df.iloc[::-1],
-                x="covered",
-                y="market_skill",
-                orientation="h",
-                labels={"covered": "Coverage (1=Matched, 0=Missing)", "market_skill": "Market Skill"},
-            )
-            style_plotly_figure(fig_coverage)
-            st.plotly_chart(fig_coverage, use_container_width=True)
-
-    st.markdown("---")
-    st.subheader("Skill Results")
-
-    tab1, tab2, tab3, tab4 = st.tabs(
-        ["Matched Skills", "Missing Skills", "Extra CV Skills", "Full Skill Gap Table"]
-    )
-
-    with tab1:
-        matched = gap_result.get("matched_skills", [])
-        if matched:
-            st.dataframe(pd.DataFrame({"matched_skill": matched}), use_container_width=True)
-        else:
-            st.info("No matched skills identified yet.")
-
-    with tab2:
-        missing = gap_result.get("missing_skills", [])
-        if missing:
-            st.dataframe(pd.DataFrame({"missing_skill": missing}), use_container_width=True)
-            st.caption("These are the highest-priority opportunities for improving role alignment.")
-        else:
-            st.success("Great work—no missing skills in the selected market comparison set.")
-
-    with tab3:
-        extra = gap_result.get("extra_cv_skills", [])
-        if extra:
-            st.dataframe(pd.DataFrame({"extra_skill_in_cv": extra}), use_container_width=True)
-        else:
-            st.info("No extra CV skills relative to the selected market list.")
-        st.caption(
-            "Extra CV skills are not bad; they may still be valuable, even if not top-demanded in this sample."
+    with right_col:
+        render_info_box(
+            "Market comparison mode",
+            "Extracts skills from your CV and compares them to skills found in the active job dataset "
+            "for your selected role filter.",
         )
 
-    with tab4:
-        st.dataframe(gap_df, use_container_width=True)
+    top_n = 25 if use_top_25 else None
+    run_analysis = analyze_clicked or bool(cv_text.strip())
+
+    if run_analysis:
+        if not cv_text.strip():
+            st.warning("Please paste your CV or profile text first.")
+            st.stop()
+
+        cv_skills = extract_cv_skills(cv_text=cv_text, skill_dictionary=skill_dictionary)
+        if not cv_skills:
+            st.warning("No known skills detected. Add tools, methods, or project keywords from the skill dictionary.")
+            st.stop()
+
+        market_skills = get_market_skills_by_target_role(jobs_df=jobs_df, target_role=target_role, top_n=top_n)
+        gap_result = compute_cv_market_gap(cv_skills=cv_skills, market_skills=market_skills)
+        match_level = classify_match_level(float(gap_result.get("match_score", 0.0)))
+        gap_df = build_skill_gap_dataframe(
+            matched_skills=gap_result.get("matched_skills", []),
+            missing_skills=gap_result.get("missing_skills", []),
+            extra_cv_skills=gap_result.get("extra_cv_skills", []),
+            category_lookup=category_lookup,
+        )
+        recommendations = recommend_learning_path(gap_result.get("missing_skills", []))
+        insights = generate_cv_gap_insights(gap_result=gap_result, target_role=target_role)
+        report_text = create_cv_gap_report_text(
+            target_role=target_role,
+            cv_skills=cv_skills,
+            market_skills=market_skills,
+            gap_result=gap_result,
+            recommendations=recommendations,
+        )
+
+        st.markdown("---")
+        metric_cols = st.columns(6)
+        metric_cols[0].metric("Match Score", f"{gap_result['match_score']:.2f}%")
+        metric_cols[1].metric("Match Level", match_level)
+        metric_cols[2].metric("CV Skills Detected", gap_result["total_cv_skills"])
+        metric_cols[3].metric("Market Skills Compared", gap_result["total_market_skills"])
+        metric_cols[4].metric("Matched Skills", gap_result["matched_count"])
+        metric_cols[5].metric("Missing Skills", gap_result["missing_count"])
+
+        tab1, tab2, tab3, tab4 = st.tabs(["Matched", "Missing", "Extra CV Skills", "Full Table"])
+        with tab1:
+            st.dataframe(pd.DataFrame({"matched_skill": gap_result.get("matched_skills", [])}), use_container_width=True)
+        with tab2:
+            st.dataframe(pd.DataFrame({"missing_skill": gap_result.get("missing_skills", [])}), use_container_width=True)
+        with tab3:
+            st.dataframe(pd.DataFrame({"extra_skill": gap_result.get("extra_cv_skills", [])}), use_container_width=True)
+        with tab4:
+            st.dataframe(gap_df, use_container_width=True)
+
+        if recommendations:
+            st.subheader("Recommended Learning Path")
+            st.dataframe(pd.DataFrame(recommendations), use_container_width=True)
+
+        st.subheader("Insights")
+        for insight in insights:
+            st.markdown(f"- {insight}")
+
         st.download_button(
-            label="Download Skill Gap Table",
-            data=gap_df.to_csv(index=False).encode("utf-8"),
-            file_name="cv_skill_gap_table.csv",
-            mime="text/csv",
+            label="Download CV Skill Gap Report",
+            data=report_text.encode("utf-8"),
+            file_name="cv_skill_gap_report.txt",
+            mime="text/plain",
         )
 
-    st.markdown("---")
-    st.subheader("Recommended Learning and Project Path")
+else:
+    categories = list_career_categories()
+    if not categories:
+        st.error("Career taxonomies not found. Run `python3 scripts/generate_career_taxonomies.py`.")
+        st.stop()
 
-    st.caption(
-        "High priority skills are foundational or frequently requested. Medium skills strengthen production readiness. Low priority skills are useful but less urgent."
+    render_info_box(
+        "Career category mode",
+        "Uses curated role profiles and skill taxonomies. Useful when you do not have imported job-post data "
+        "for a field, or when exploring a new career path.",
     )
 
-    if recommendations:
-        recommendations_df = pd.DataFrame(recommendations)
-        priority_order = pd.CategoricalDtype(categories=["High", "Medium", "Low"], ordered=True)
-        recommendations_df["priority"] = recommendations_df["priority"].astype(priority_order)
-        recommendations_df = recommendations_df.sort_values(["priority", "skill"]).reset_index(drop=True)
-        recommendations_df["priority"] = recommendations_df["priority"].astype(str)
-        st.dataframe(
-            recommendations_df[["skill", "priority", "difficulty", "recommendation", "project_idea"]],
-            use_container_width=True,
+    ctrl_a, ctrl_b, ctrl_c = st.columns([1.2, 1.2, 0.8])
+    with ctrl_a:
+        career_category = st.selectbox("Career Category", options=categories)
+    with ctrl_b:
+        role_options = get_roles_for_category(career_category)
+        target_role = st.selectbox("Target Role", options=role_options or ["No roles found"])
+    with ctrl_c:
+        analyze_clicked = st.button("Analyze Career Gap", type="primary", use_container_width=True)
+
+    left_col, right_col = st.columns([1.45, 1])
+    with left_col:
+        cv_text = st.text_area(
+            "Paste CV / Resume / Profile Text",
+            height=320,
+            placeholder="Include skills, tools, projects, certifications, and role-relevant experience...",
+            key="career_cv_text",
         )
-    else:
-        st.success("No missing skills detected, so no immediate learning gaps were found.")
+    with right_col:
+        profile_skills = get_target_role_skills(career_category, target_role)
+        st.markdown(f"**Target role skills ({len(profile_skills)}):**")
+        st.write(", ".join(profile_skills) if profile_skills else "No skills listed.")
 
-    st.markdown("---")
-    st.subheader("Quick Insights")
-    for insight in insights:
-        st.markdown(f"- {insight}")
+    if analyze_clicked or cv_text.strip():
+        if not cv_text.strip():
+            st.warning("Please paste your CV or profile text first.")
+            st.stop()
 
-    st.markdown("---")
-    st.subheader("Download Report")
-    st.download_button(
-        label="Download CV Skill Gap Report",
-        data=report_text.encode("utf-8"),
-        file_name="cv_skill_gap_report.txt",
-        mime="text/plain",
-    )
+        cv_skills = extract_skills_from_text(cv_text, career_category)
+        if not cv_skills:
+            st.warning("No category skills detected. Try adding role-relevant tools, methods, or soft skills.")
+            st.stop()
 
-    with st.expander("How this analyzer works"):
-        st.markdown("- It uses a predefined skill dictionary.")
-        st.markdown("- It extracts skills from pasted CV text using rule-based matching.")
-        st.markdown("- It compares those skills against extracted job-market skills.")
-        st.markdown("- It does not use paid AI APIs.")
-        st.markdown("- It is not a hiring decision.")
-        st.markdown("- Results depend on the current job dataset and skill dictionary.")
+        gap_result = compute_role_skill_gap(cv_skills, career_category, target_role)
+        match_level = classify_match_level(float(gap_result.get("match_score", 0.0)))
+        taxonomy = load_category_skill_taxonomy(career_category)
+        actions_df = recommend_career_actions(
+            missing_skills=gap_result.get("missing_skills", []),
+            category=career_category,
+            max_actions=8,
+        )
+        action_plan = generate_career_action_plan(
+            category=career_category,
+            role=target_role,
+            missing_skills=gap_result.get("missing_skills", []),
+            recommendations_df=actions_df,
+        )
+        skill_type_df = build_category_skill_dataframe(career_category)
 
-    with st.expander("How to improve your score"):
-        st.markdown("- Add missing skills only if you genuinely know them.")
-        st.markdown("- Build projects around missing skills.")
-        st.markdown("- Add tools and methods clearly in CV bullets.")
-        st.markdown("- Use role-specific language.")
-        st.markdown("- Keep project links visible.")
+        st.markdown("---")
+        metric_cols = st.columns(6)
+        metric_cols[0].metric("Core Match Score", f"{gap_result['match_score']:.2f}%")
+        metric_cols[1].metric("Match Level", match_level)
+        metric_cols[2].metric("CV Skills Found", len(cv_skills))
+        metric_cols[3].metric("Missing Core", len(gap_result.get("missing_core_skills", [])))
+        metric_cols[4].metric("Missing Helpful", len(gap_result.get("missing_helpful_skills", [])))
+        metric_cols[5].metric("Soft Skill Gaps", len(gap_result.get("soft_skill_gaps", [])))
 
-    with st.expander("Data Quality Notes"):
-        st.markdown(f"- Number of jobs used: **{len(jobs_df)}**")
-        st.markdown(f"- Selected target role: **{target_role}**")
-        st.markdown(f"- Number of market skills compared: **{len(market_skills)}**")
-        st.markdown(f"- Number of categories in dictionary: **{len(skill_dictionary.keys())}**")
-        st.markdown("- Current limitation: sample/synthetic data until real job data collection is added")
+        chart_col_1, chart_col_2 = st.columns(2)
+        with chart_col_1:
+            status_df = pd.DataFrame(
+                {
+                    "status": ["Matched", "Missing Core", "Missing Helpful", "Extra in CV"],
+                    "count": [
+                        len(gap_result.get("matched_skills", [])),
+                        len(gap_result.get("missing_core_skills", [])),
+                        len(gap_result.get("missing_helpful_skills", [])),
+                        len(gap_result.get("extra_cv_skills", [])),
+                    ],
+                }
+            )
+            fig = px.bar(status_df, x="status", y="count")
+            style_plotly_figure(fig)
+            st.plotly_chart(fig, use_container_width=True)
+
+        with chart_col_2:
+            matched_types = [
+                classify_skill_type(skill, taxonomy) for skill in gap_result.get("matched_skills", [])
+            ]
+            type_counts = pd.Series(matched_types).value_counts().reset_index()
+            type_counts.columns = ["skill_type", "count"]
+            fig2 = px.pie(type_counts, names="skill_type", values="count", hole=0.45)
+            style_plotly_figure(fig2)
+            st.plotly_chart(fig2, use_container_width=True)
+
+        tab1, tab2, tab3, tab4, tab5 = st.tabs(
+            ["Matched", "Missing Core", "Missing Helpful", "Soft Gaps", "Career Actions"]
+        )
+        with tab1:
+            st.dataframe(pd.DataFrame({"skill": gap_result.get("matched_skills", [])}), use_container_width=True)
+        with tab2:
+            st.dataframe(pd.DataFrame({"skill": gap_result.get("missing_core_skills", [])}), use_container_width=True)
+        with tab3:
+            st.dataframe(pd.DataFrame({"skill": gap_result.get("missing_helpful_skills", [])}), use_container_width=True)
+        with tab4:
+            st.dataframe(pd.DataFrame({"skill": gap_result.get("soft_skill_gaps", [])}), use_container_width=True)
+        with tab5:
+            if actions_df.empty:
+                st.info("No career actions matched. Try selecting a different role or adding more CV detail.")
+            else:
+                st.dataframe(actions_df, use_container_width=True)
+
+        with st.expander("Category skill taxonomy preview"):
+            st.dataframe(skill_type_df.head(30), use_container_width=True)
+
+        st.download_button(
+            label="Download Career Action Plan",
+            data=action_plan.encode("utf-8"),
+            file_name="career_action_plan.txt",
+            mime="text/plain",
+        )
+
+with st.expander("How this analyzer works"):
+    st.markdown("- Rule-based skill extraction from text (no paid LLM APIs).")
+    st.markdown("- Market mode compares against job dataset skills.")
+    st.markdown("- Career mode compares against curated role profiles.")
+    st.markdown("- Results are guidance, not hiring decisions.")
+
+with st.expander("Limitations"):
+    st.markdown("- Sample job data is synthetic unless you import your own CSV.")
+    st.markdown("- Curated role profiles are simplified and vary by country/company.")
+    st.markdown("- Skill detection depends on taxonomy coverage and CV wording.")
