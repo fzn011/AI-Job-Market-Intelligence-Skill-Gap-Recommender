@@ -107,9 +107,11 @@ def main() -> int:
             "python scripts/import_jobs_from_csv.py --demo expanded"
         )
 
-        from src.ui_theme import APP_NAME, APP_VERSION  # noqa: WPS433
+        from src.brand_constants import APP_NAME, APP_VERSION  # noqa: WPS433
+        from src.ui_theme import render_app_footer  # noqa: WPS433
 
-        print(f"UI theme loaded: {APP_NAME} ({APP_VERSION})")
+        print(f"Brand constants loaded: {APP_NAME} ({APP_VERSION})")
+        print(f"UI theme helpers loaded: render_app_footer={callable(render_app_footer)}")
 
         return 0
 

@@ -36,8 +36,12 @@ function Test-RepoUpToDate {
         Write-Host "ERROR: Missing src\ui_theme.py" -ForegroundColor Red
         return $false
     }
-    if (-not (Select-String -Path $UiThemePath -Pattern 'APP_NAME\s*=' -Quiet)) {
-        Write-Host "ERROR: src\ui_theme.py is outdated (missing APP_NAME)." -ForegroundColor Red
+    if (-not (Select-String -Path $UiThemePath -Pattern 'render_app_footer|brand_constants' -Quiet)) {
+        Write-Host "ERROR: src\ui_theme.py is outdated." -ForegroundColor Red
+        return $false
+    }
+    if (-not (Test-Path (Join-Path $ProjectRoot "src\brand_constants.py"))) {
+        Write-Host "ERROR: Missing src\brand_constants.py" -ForegroundColor Red
         return $false
     }
     if (-not (Select-String -Path $AppPath -Pattern 'CareerCompass' -Quiet)) {
@@ -73,6 +77,7 @@ $RequiredScripts = @(
     "scripts\generate_premium_features_data.py",
     "scripts\run_project_check.py",
     "scripts\verify_app_startup.py",
+    "scripts\emergency_repair.py",
     "scripts\import_jobs_from_csv.py"
 )
 $MissingScripts = @($RequiredScripts | Where-Object { -not (Test-Path (Join-Path $ProjectRoot $_)) })
@@ -127,27 +132,34 @@ if (-not $Python) {
     exit 1
 }
 
-Write-Host "[1/8] Using: $Python" -ForegroundColor Green
+Write-Host "[1/9] Using: $Python" -ForegroundColor Green
 & $Python --version
+
+Write-Host "[2/9] Repairing outdated source files..." -ForegroundColor Yellow
+& $Python scripts/emergency_repair.py
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "ERROR: Emergency repair failed." -ForegroundColor Red
+    exit 1
+}
 
 $VenvPath = Join-Path $ProjectRoot ".venv"
 $VenvPython = Join-Path $VenvPath "Scripts\python.exe"
 
 if (-not (Test-Path $VenvPython)) {
-    Write-Host "[2/8] Creating virtual environment..." -ForegroundColor Yellow
+    Write-Host "[3/9] Creating virtual environment..." -ForegroundColor Yellow
     & $Python -m venv $VenvPath
     if ($LASTEXITCODE -ne 0) {
         Write-Host "ERROR: Failed to create venv. Close other Python/Streamlit windows and retry." -ForegroundColor Red
         exit 1
     }
 } else {
-    Write-Host "[2/8] Virtual environment already exists." -ForegroundColor Green
+    Write-Host "[3/9] Virtual environment already exists." -ForegroundColor Green
 }
 
-Write-Host "[3/8] Upgrading pip..." -ForegroundColor Yellow
+Write-Host "[4/9] Upgrading pip..." -ForegroundColor Yellow
 & $VenvPython -m pip install --upgrade pip setuptools wheel
 
-Write-Host "[4/8] Installing dependencies (this may take several minutes)..." -ForegroundColor Yellow
+Write-Host "[5/9] Installing dependencies (this may take several minutes)..." -ForegroundColor Yellow
 if ($SkipHeavyPackages) {
     Write-Host "      Lightweight mode: skipping sentence-transformers." -ForegroundColor DarkYellow
     & $VenvPython -m pip install pandas numpy scikit-learn plotly streamlit pyyaml python-dotenv pytest reportlab joblib matplotlib requests
@@ -159,7 +171,7 @@ if ($LASTEXITCODE -ne 0) {
     exit 1
 }
 
-Write-Host "[5/8] Generating career data files..." -ForegroundColor Yellow
+Write-Host "[6/9] Generating career data files..." -ForegroundColor Yellow
 & $VenvPython scripts/generate_career_taxonomies.py
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 & $VenvPython scripts/generate_advanced_features_data.py
@@ -167,14 +179,14 @@ if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 & $VenvPython scripts/generate_premium_features_data.py
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-Write-Host "[6/8] Running health check..." -ForegroundColor Yellow
+Write-Host "[7/9] Running health check..." -ForegroundColor Yellow
 & $VenvPython scripts/run_project_check.py
 if ($LASTEXITCODE -ne 0) {
     Write-Host "Health check reported issues. Review output above." -ForegroundColor Red
     exit $LASTEXITCODE
 }
 
-Write-Host "[7/8] Importing expanded demo jobs (optional)..." -ForegroundColor Yellow
+Write-Host "[8/9] Importing expanded demo jobs (optional)..." -ForegroundColor Yellow
 & $VenvPython scripts/import_jobs_from_csv.py --demo expanded
 if ($LASTEXITCODE -ne 0) {
     Write-Host "WARNING: Demo import failed. Core app will still run with sample data." -ForegroundColor DarkYellow
@@ -187,7 +199,7 @@ if ((Test-Path $SecretsExample) -and -not (Test-Path $SecretsFile)) {
     Write-Host 'Created .streamlit\secrets.toml from example - add USAJobs/SMTP keys if needed.' -ForegroundColor DarkYellow
 }
 
-Write-Host "[8/8] Verifying app startup..." -ForegroundColor Yellow
+Write-Host "[9/9] Verifying app startup..." -ForegroundColor Yellow
 Clear-PythonCache
 & $VenvPython scripts/verify_app_startup.py
 if ($LASTEXITCODE -ne 0) {

@@ -218,18 +218,17 @@ Do not recreate the venv manually if `.venv` already exists. Either run `.\setup
 Check `git log -1 --oneline`. You should see a recent merge including `setup.ps1`. If not, run the reset + pull steps above.
 
 **`ImportError: cannot import name 'APP_NAME' from 'src.ui_theme'`**  
-Your `src/ui_theme.py` is still the old file, or Python is using stale cache from before the upgrade.
+Your checkout is outdated. The app now auto-repairs on startup, but run this once:
 
 ```powershell
 git fetch origin main
-git checkout origin/main -- src/ui_theme.py app/streamlit_app.py
+git reset --hard origin/main
+python scripts/emergency_repair.py
 Get-ChildItem -Recurse -Directory -Filter __pycache__ | Remove-Item -Recurse -Force
-.\.venv\Scripts\Activate.ps1
-python -c "from src.ui_theme import APP_NAME; print(APP_NAME)"
-python -m streamlit run app/streamlit_app.py
+.\run_app.ps1
 ```
 
-You should see `CareerCompass` printed. If `Select-String src\ui_theme.py APP_NAME` returns nothing, the file was not updated — run `git reset --hard origin/main`.
+You should see `Import check OK: CareerCompass`. The repair script restores `src/ui_theme.py` from a bundled backup even if git fails.
 
 ### Manual setup (all platforms)
 

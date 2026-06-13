@@ -15,6 +15,13 @@ if (-not (Test-Path $VenvPython)) {
 Get-ChildItem -Path $ProjectRoot -Recurse -Directory -Filter "__pycache__" -ErrorAction SilentlyContinue |
     Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
 
+Write-Host "Repairing source files..." -ForegroundColor Cyan
+& $VenvPython scripts/emergency_repair.py
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "Emergency repair failed. Run: python scripts/emergency_repair.py" -ForegroundColor Red
+    exit $LASTEXITCODE
+}
+
 Write-Host "Verifying CareerCompass..." -ForegroundColor Cyan
 & $VenvPython scripts/verify_app_startup.py
 if ($LASTEXITCODE -ne 0) {

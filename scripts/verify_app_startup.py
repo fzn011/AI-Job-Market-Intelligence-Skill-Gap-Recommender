@@ -32,19 +32,32 @@ def main() -> int:
     ui_theme_path = root / "src" / "ui_theme.py"
     if ui_theme_path.exists():
         text = ui_theme_path.read_text(encoding="utf-8")
-        if "APP_NAME" not in text:
+        if "render_app_footer" not in text and "brand_constants" not in text:
             errors.append(
-                "src/ui_theme.py is outdated (missing APP_NAME). "
-                "Run: git fetch origin main && git reset --hard origin/main"
+                "src/ui_theme.py is outdated. Run: python scripts/emergency_repair.py"
             )
 
     try:
-        from src.ui_theme import APP_NAME, APP_VERSION  # noqa: WPS433
+        from src.source_repair import ensure_careercompass_sources  # noqa: WPS433
 
-        print(f"UI theme OK: {APP_NAME} ({APP_VERSION})")
+        ensure_careercompass_sources(root)
+    except RuntimeError as exc:
+        errors.append(str(exc))
+
+    try:
+        from src.brand_constants import APP_NAME, APP_VERSION  # noqa: WPS433
+
+        print(f"Brand constants OK: {APP_NAME} ({APP_VERSION})")
     except Exception as exc:
-        errors.append(f"Cannot import src.ui_theme: {exc}")
+        errors.append(f"Cannot import src.brand_constants: {exc}")
         APP_NAME = ""
+
+    try:
+        from src.ui_theme import render_app_footer  # noqa: WPS433
+
+        print(f"UI theme helpers OK: render_app_footer={callable(render_app_footer)}")
+    except Exception as exc:
+        errors.append(f"Cannot import src.ui_theme helpers: {exc}")
 
     try:
         from src.career_taxonomy_utils import list_career_categories  # noqa: WPS433
