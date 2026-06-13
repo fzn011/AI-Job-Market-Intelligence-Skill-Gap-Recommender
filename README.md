@@ -197,6 +197,20 @@ Do not recreate the venv manually if `.venv` already exists. Either run `.\setup
 **App starts but looks like the old version (no CareerCompass pages)**  
 Check `git log -1 --oneline`. You should see a recent merge including `setup.ps1`. If not, run the reset + pull steps above.
 
+**`ImportError: cannot import name 'APP_NAME' from 'src.ui_theme'`**  
+Your `src/ui_theme.py` is still the old file, or Python is using stale cache from before the upgrade.
+
+```powershell
+git fetch origin main
+git checkout origin/main -- src/ui_theme.py app/streamlit_app.py
+Get-ChildItem -Recurse -Directory -Filter __pycache__ | Remove-Item -Recurse -Force
+.\.venv\Scripts\Activate.ps1
+python -c "from src.ui_theme import APP_NAME; print(APP_NAME)"
+python -m streamlit run app/streamlit_app.py
+```
+
+You should see `CareerCompass` printed. If `Select-String src\ui_theme.py APP_NAME` returns nothing, the file was not updated — run `git reset --hard origin/main`.
+
 ### Manual setup (all platforms)
 
 1. Create and activate virtual environment

@@ -107,6 +107,10 @@ def main() -> int:
             "python scripts/import_jobs_from_csv.py --demo expanded"
         )
 
+        from src.ui_theme import APP_NAME, APP_VERSION  # noqa: WPS433
+
+        print(f"UI theme loaded: {APP_NAME} ({APP_VERSION})")
+
         return 0
 
     except FileNotFoundError as exc:
