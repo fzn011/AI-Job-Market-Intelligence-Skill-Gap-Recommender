@@ -1,309 +1,217 @@
-# CareerCompass: Job Market Intelligence & Skill Gap Analyzer
+# CareerCompass
+
+**Job Market Intelligence & Skill Gap Analyzer**
 
 ![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)
-![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?logo=streamlit&logoColor=white)
-![scikit--learn](https://img.shields.io/badge/scikit--learn-ML-F7931E?logo=scikitlearn&logoColor=white)
-![Tests](https://img.shields.io/badge/tests-passing-brightgreen)
+![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-FF4B4B?logo=streamlit&logoColor=white)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-ML-F7931E?logo=scikit-learn&logoColor=white)
+![Tests](https://img.shields.io/badge/tests-150%20passing-brightgreen)
 
-A local-first, open-source career intelligence platform that turns job-posting text and curated role profiles into practical guidance: market trends, skill gaps, project recommendations, and career actions.
+CareerCompass is a local-first, open-source career intelligence app. It turns job-post text and curated role profiles into clear guidance: market trends, skill gaps, project ideas, and next-step career actions.
 
-This project started as a Data/AI job-market analyzer and has been extended into a broader **CareerCompass** platform.
-
----
-
-## Project pitch
-
-CareerCompass helps job seekers understand demand, assess profile alignment, and decide what to build or learn next — using transparent, free, and reproducible workflows.
-
-## Problem statement
-
-Job seekers often receive generic advice, but need role-specific guidance on which skills to prioritize and what actions to take next.
-
-## Why this project matters
-
-- Converts job text into structured skill signals
-- Maps current profile skills vs market demand or curated role profiles
-- Recommends portfolio projects and broader career actions
-- Supports safe, legal CSV import without paid APIs
-- Works even without job data via Career Explorer
+No paid LLM APIs. Rule-based, transparent, and reproducible.
 
 ---
 
-## Universal Career Support
+## Screenshots
 
-The app supports **12 career categories** with curated skill taxonomies and role profiles:
+| Landing & Quick Start | CV Skill Gap |
+|:---:|:---:|
+| ![Landing page](docs/screenshots/01_landing_page.png) | ![CV skill gap dashboard](docs/screenshots/02_cv_skill_gap.png) |
 
-- Data & AI
-- Software & IT
-- Banking & Finance
-- Business & Administration
-- Marketing & Sales
-- Design & Creative
-- Education & Teaching
-- Healthcare
-- Engineering
-- Customer Support
-- Operations & Project Management
-- General Entry-Level Jobs
-
-Users can choose either:
-
-1. **Data-driven analysis** using imported or sample job posts
-2. **Career category guidance** using curated role profiles (no job data required)
-
-Career category guidance is rule-based and transparent. No paid AI APIs are used.
+| Market Analytics | Career Explorer |
+|:---:|:---:|
+| ![Market analytics](docs/screenshots/03_market_analytics.png) | ![Career explorer](docs/screenshots/04_career_explorer.png) |
 
 ---
 
-## Current features
+## What it does
 
-- Job data cleaning and validation pipeline
-- Rule-based skill extraction from descriptions with **skill synonym engine** (JS→javascript, PowerBI→power bi)
-- Job market overview analytics with **skill demand time-series trends**
-- Skill demand and co-occurrence analysis
-- CV skill gap analysis (market mode + career category mode + **regional profiles**)
-- **Job Match Dashboard** — paste job description + CV for instant fit score
-- **Career Toolkit** — progress tracker, multi-CV comparison, interview prep, resume bullets, badges
-- Project recommendation engine + career action planner
-- Career Explorer for role browsing without job data
-- **Learning resource links** for missing skills (free courses/docs)
-- **PDF career report export**
-- **Public data connectors** (USAJobs with demo fallback)
-- **Multilingual UI** (English + Bengali)
-- **Career Intelligence Hub** — company prep (Google, bKash, Grameenphone), salary estimator, LinkedIn optimizer, peer benchmark, voice interview simulator, ICS study calendar, semantic skill matching
-- **Weekly email progress digest** (optional SMTP)
-- **USAJobs live connector** (via `.streamlit/secrets.toml` — see `secrets.example.toml`)
-- Role segmentation with unsupervised clustering
-- Data Import & Dataset Manager (CSV upload + schema validation)
-- Multi-category skill taxonomies and role profiles
-- CLI import script for expanded demo and custom CSV
-- Active dataset loading (`Auto`, `Imported`, `Sample`)
+- Analyzes job posts to surface in-demand skills and role patterns
+- Compares your CV against market data or curated role profiles
+- Scores job-description fit and highlights missing skills
+- Recommends portfolio projects and career actions
+- Works without job data through Career Explorer and category-based guidance
+
+Two modes:
+
+1. **Data-driven** — use sample, imported, or connector-fed job posts
+2. **Category-driven** — use 12 curated career taxonomies when no job data is available
 
 ---
 
-## Dashboard pages
+## Features
 
-1. `app/pages/1_Job_Market_Overview.py` — Job Market Overview
-2. `app/pages/2_Skill_Analysis.py` — Skill Demand Analysis
-3. `app/pages/3_CV_Skill_Gap.py` — CV Skill Gap Analyzer
-4. `app/pages/4_Project_Recommendations.py` — Project & Career Action Recommendations
-5. `app/pages/5_Role_Clustering.py` — Role Segmentation & Job Clustering
-6. `app/pages/6_Data_Import.py` — Data Import & Dataset Manager
-7. `app/pages/7_Career_Explorer.py` — Career Explorer
-8. `app/pages/8_Job_Match_Dashboard.py` — Job Match Dashboard
-9. `app/pages/9_Career_Toolkit.py` — Career Toolkit (progress, badges, interview, resume)
-10. `app/pages/10_Career_Intelligence_Hub.py` — Career Intelligence Hub
+| Area | Capabilities |
+|------|--------------|
+| Data pipeline | CSV validation, cleaning, skill extraction, frequency tables |
+| Market analytics | Overview KPIs, skill trends, co-occurrence, role clustering |
+| Profile analysis | CV skill gap, job match score, regional profiles, synonym engine |
+| Recommendations | Project templates, career action planner, learning resources |
+| Career toolkit | Progress tracker, multi-CV compare, interview prep, resume bullets, badges |
+| Intelligence hub | Company prep packs, salary bands, LinkedIn optimizer, peer benchmark, study calendar |
+| Data import | CSV upload, expanded demo import, USAJobs connector (optional secrets) |
+| Extras | PDF reports, English/Bengali UI, optional email digest, semantic matching |
+
+**Career categories:** Data & AI, Software & IT, Banking & Finance, Business & Admin, Marketing & Sales, Design & Creative, Education & Teaching, Healthcare, Engineering, Customer Support, Operations & PM, Entry-Level.
+
+---
+
+## App pages
+
+| # | Page | Purpose |
+|---|------|---------|
+| Home | `app/streamlit_app.py` | Quick Start wizard, module overview, dataset status |
+| 1 | Job Market Overview | Role, company, location, and skill distributions |
+| 2 | Skill Demand Analysis | Top skills, categories, co-occurrence, time-series |
+| 3 | CV Skill Gap | Market or category-based gap analysis |
+| 4 | Project & Career Actions | Project and action recommendations |
+| 5 | Role Clustering | TF-IDF + KMeans job segmentation |
+| 6 | Data Import | CSV upload, validation, USAJobs connector |
+| 7 | Career Explorer | Browse roles and skills without job data |
+| 8 | Job Match Dashboard | Paste job + CV for instant fit score |
+| 9 | Career Toolkit | Progress, interview prep, resume bullets, badges |
+| 10 | Career Intelligence Hub | Company prep, salary, LinkedIn, voice interview, ICS |
 
 ---
 
 ## Tech stack
 
-- **Language:** Python
-- **Data:** Pandas, NumPy
-- **ML:** scikit-learn
-- **Visualization:** Plotly
-- **App:** Streamlit
-- **Config/IO:** PyYAML, python-dotenv
-- **Testing:** pytest
+Python · Pandas · NumPy · scikit-learn · Plotly · Streamlit · PyYAML · pytest
+
+Optional: `sentence-transformers` for semantic skill matching.
 
 ---
 
-## Architecture overview
+## Quick start
 
-```text
-Raw/Demo/User CSV Data          Career Taxonomies + Role Profiles
-        ↓                                      ↓
-Schema Validation + Standardization    Category Skill Matching
-        ↓                                      ↓
-Data Cleaning                          CV Gap + Career Actions
-        ↓                                      ↓
-Skill Extraction + Frequency           Career Explorer
-        ↓
-Processed Datasets
-        ↓
-Streamlit Analytics Pages (1–7)
-```
-
----
-
-## Job data import
-
-Schema reference:
-
-- `docs/job_data_import_guide.md`
-
-Process expanded synthetic demo data:
-
-- `python3 scripts/import_jobs_from_csv.py --demo expanded`
-
-Process custom CSV data:
-
-- `python3 scripts/import_jobs_from_csv.py --input data/raw/my_jobs.csv`
-
-Default imported outputs:
-
-- `data/processed/processed_imported_jobs.csv`
-- `data/processed/imported_skill_frequency.csv`
-- `reports/generated_reports/import_summary.json`
-
----
-
-## Local setup
-
-### Windows (one command)
+### Fresh clone (recommended)
 
 ```powershell
-Set-ExecutionPolicy -Scope CurrentUser RemoteSigned   # first time only
-cd "E:\Projects\AI Job Market Intelligence + Skill Gap Recommender\ai-job-market-intelligence"
-git fetch origin main
-git reset --hard origin/main
+git clone https://github.com/fzn011/AI-Job-Market-Intelligence-Skill-Gap-Recommender.git
+cd AI-Job-Market-Intelligence-Skill-Gap-Recommender
+
+Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 .\setup.ps1 -RunApp
 ```
 
-After the first successful setup, launch anytime with:
+After the first setup:
 
 ```powershell
 .\run_app.ps1
 ```
 
-This creates `.venv`, installs dependencies, generates career data, runs health checks, verifies imports, and optionally launches Streamlit.
-
-If setup fails on heavy packages (torch / sentence-transformers), use:
+Lightweight install (skips heavy ML packages):
 
 ```powershell
 .\setup.ps1 -SkipHeavyPackages -RunApp
 ```
 
-To force-sync the repo from GitHub before setup:
+### Linux / macOS
 
-```powershell
-.\setup.ps1 -RepairRepo
-.\setup.ps1 -RunApp
+```bash
+git clone https://github.com/fzn011/AI-Job-Market-Intelligence-Skill-Gap-Recommender.git
+cd AI-Job-Market-Intelligence-Skill-Gap-Recommender
+
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+
+python3 scripts/generate_career_taxonomies.py
+python3 scripts/generate_advanced_features_data.py
+python3 scripts/generate_premium_features_data.py
+python3 scripts/run_project_check.py
+
+python3 -m streamlit run app/streamlit_app.py
 ```
 
-#### Windows troubleshooting
+Open: [http://localhost:8501](http://localhost:8501)
 
-**`setup.ps1` not found** or **`generate_career_taxonomies.py` not found**  
-Your folder is still on an old commit. `git pull` probably failed because of local edits. Fix it like this:
-
-```powershell
-cd "E:\Projects\AI Job Market Intelligence + Skill Gap Recommender\ai-job-market-intelligence"
-
-# See what is blocking the update
-git status
-
-# Recommended: discard local edits and match GitHub main exactly
-git fetch origin main
-git reset --hard origin/main
-
-# Or, keep your edits in a stash instead of deleting them
-# git stash push -u -m "backup before CareerCompass upgrade"
-# git pull origin main
-
-# Confirm the new files exist
-dir setup.ps1
-dir scripts\generate_career_taxonomies.py
-
-# Run setup
-.\setup.ps1 -RunApp
-```
-
-**`git pull` says "Your local changes would be overwritten"**  
-You have uncommitted edits in files like `app/streamlit_app.py` or `.streamlit/config.toml`. Use `git reset --hard origin/main` (above) or `git stash` before pulling.
-
-**`python -m venv .venv` fails while venv is active**  
-Do not recreate the venv manually if `.venv` already exists. Either run `.\setup.ps1` (it reuses the existing venv) or deactivate first: `deactivate`, delete `.venv`, then recreate.
-
-**App starts but looks like the old version (no CareerCompass pages)**  
-Check `git log -1 --oneline`. You should see a recent merge including `setup.ps1`. If not, run the reset + pull steps above.
-
-**`ImportError: cannot import name 'APP_NAME' from 'src.ui_theme'`**  
-Your checkout is outdated. The app now auto-repairs on startup, but run this once:
+### If something breaks after an upgrade
 
 ```powershell
 git fetch origin main
 git reset --hard origin/main
 python scripts/emergency_repair.py
-Get-ChildItem -Recurse -Directory -Filter __pycache__ | Remove-Item -Recurse -Force
 .\run_app.ps1
 ```
 
-You should see `Import check OK: CareerCompass`. The repair script restores `src/ui_theme.py` from a bundled backup even if git fails.
+---
 
-### Manual setup (all platforms)
+## Architecture
 
-1. Create and activate virtual environment
-2. Install dependencies from `requirements.txt`
-3. Generate data: `python scripts/generate_career_taxonomies.py` (and advanced/premium scripts)
-4. Run health check
-5. Optionally import expanded demo data
-6. Start Streamlit app
+```text
+CSV / Demo Jobs ──► Clean & Validate ──► Skill Extraction ──► Analytics Pages
+                                              │
+Career Taxonomies ──► Role Profiles ──► CV Gap / Actions / Explorer
+```
+
+Details: [docs/architecture.md](docs/architecture.md)
 
 ---
 
-## Run commands
+## Import job data
 
-- `python3 scripts/run_project_check.py`
-- `python3 scripts/import_jobs_from_csv.py --demo expanded`
-- `python3 scripts/final_project_audit.py`
-- `python3 -m pytest tests/`
-- `python3 -m streamlit run app/streamlit_app.py`
+Guide: [docs/job_data_import_guide.md](docs/job_data_import_guide.md)
 
----
+```bash
+python3 scripts/import_jobs_from_csv.py --demo expanded
+python3 scripts/import_jobs_from_csv.py --input data/raw/my_jobs.csv
+```
 
-## Deployment notes
-
-- Streamlit config: `.streamlit/config.toml`
-- Python runtime pin: `runtime.txt`
-- App is compatible with Streamlit Community Cloud
-- Uploaded/generated files may be temporary in cloud environments
+USAJobs (optional): copy `.streamlit/secrets.example.toml` to `.streamlit/secrets.toml` and add your API key.
 
 ---
 
-## Testing status
+## Commands
 
-- Tests cover cleaning, extraction, recommendations, clustering, import utilities, and career taxonomies
-- Run: `python3 -m pytest tests/`
+```bash
+python3 scripts/run_project_check.py      # health check
+python3 scripts/emergency_repair.py       # fix outdated local files
+python3 scripts/final_project_audit.py    # full audit
+python3 -m pytest tests/ -q               # run tests
+python3 -m streamlit run app/streamlit_app.py
+```
+
+---
+
+## Testing
+
+150 automated tests cover cleaning, extraction, recommendations, clustering, imports, taxonomies, and startup verification.
+
+```bash
+python3 -m pytest tests/ -q
+```
 
 ---
 
 ## Limitations
 
-- Default job data is synthetic unless users import custom CSV
-- Curated role profiles are simplified; expectations vary by country, company, and seniority
-- Skill extraction is rule-based and dictionary-dependent
-- Cluster labels are heuristic
-- No paid LLM APIs are used
-- Outputs are decision-support, not hiring guarantees
+- Default job data is synthetic unless you import your own CSV
+- Role profiles are curated simplifications, not live hiring data
+- Skill extraction is dictionary-based and rule-driven
+- Results are decision support, not hiring guarantees
 
-See also: `docs/limitations.md`
+Full notes: [docs/limitations.md](docs/limitations.md)
 
 ---
 
-## Future improvements
+## Documentation
 
-- Additional legal public-data connectors
-- Better skill synonym normalization
-- Time-based trend tracking on larger datasets
-- User profile persistence and progress tracking
-- Localized role profiles by region
-
----
-
-## Portfolio & Demo Materials
-
-- Recruiter one-pager: `docs/recruiter_one_pager.md`
-- Demo script: `docs/demo/demo_script.md`
-- Demo recording checklist: `docs/demo/demo_recording_checklist.md`
-- LinkedIn launch post draft: `docs/demo/linkedin_launch_post.md`
-- GitHub project description assets: `docs/demo/github_project_description.md`
-- Resume bullet options: `docs/demo/resume_bullets.md`
-- Interview talking points: `docs/demo/interview_talking_points.md`
-- Portfolio website section copy: `docs/demo/portfolio_website_section.md`
-- Screenshot checklist: `docs/screenshots/screenshot_checklist.md`
+- [Recruiter one-pager](docs/recruiter_one_pager.md)
+- [Demo script](docs/demo/demo_script.md)
+- [Portfolio summary](docs/portfolio_summary.md)
+- [Screenshot checklist](docs/screenshots/screenshot_checklist.md)
 
 ---
 
 ## Author
 
-- _Your Name Here_ (replace before final portfolio submission)
+**Faiaz Zahin**
+
+- Portfolio: [https://fzn011.github.io/portfolio/](https://fzn011.github.io/portfolio/)
+- GitHub: [@fzn011](https://github.com/fzn011)
+
+---
+
+© 2026 Faiaz Zahin. All rights reserved.
