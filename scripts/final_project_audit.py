@@ -51,6 +51,7 @@ def main() -> int:
         root / "src" / "voice_interview_utils.py",
         root / "src" / "study_calendar_utils.py",
         root / "src" / "email_digest_utils.py",
+        root / "src" / "quick_start_utils.py",
     ]
 
     career_taxonomy_assets = [

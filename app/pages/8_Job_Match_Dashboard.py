@@ -21,7 +21,7 @@ from src.job_match_utils import (  # noqa: E402
 )
 from src.learning_resource_utils import get_resources_for_skills  # noqa: E402
 from src.progress_tracker_utils import increment_stat, record_gap_analysis  # noqa: E402
-from src.ui_theme import apply_global_theme, render_brand_header, render_info_box, style_plotly_figure  # noqa: E402
+from src.ui_theme import apply_global_theme, render_app_footer, render_brand_header, render_info_box, style_plotly_figure  # noqa: E402
 
 
 st.set_page_config(page_title="Job Match Dashboard", page_icon="🎯", layout="wide")
@@ -129,3 +129,5 @@ with st.expander("Limitations"):
     st.markdown("- Match score depends on skill dictionary coverage.")
     st.markdown("- Synonym expansion helps but cannot capture every job-board wording.")
     st.markdown("- This is guidance, not an official application screening result.")
+
+render_app_footer(show_tech_line=False)

@@ -25,7 +25,7 @@ from src.career_taxonomy_utils import (  # noqa: E402
     recommend_career_actions,
 )
 from src.regional_profiles_utils import get_regional_role_profile, get_regional_target_skills, list_regions  # noqa: E402
-from src.ui_theme import apply_global_theme, render_brand_header, render_info_box, style_plotly_figure  # noqa: E402
+from src.ui_theme import apply_global_theme, render_app_footer, render_brand_header, render_info_box, style_plotly_figure  # noqa: E402
 
 
 st.set_page_config(page_title="Career Explorer", page_icon="🌍", layout="wide")
@@ -146,3 +146,5 @@ with st.expander("Limitations"):
     st.markdown("- Role profiles are curated simplifications, not live hiring data.")
     st.markdown("- Expectations vary by country, company size, and seniority.")
     st.markdown("- Recommendations are rule-based guidance, not guarantees.")
+
+render_app_footer(show_tech_line=False)

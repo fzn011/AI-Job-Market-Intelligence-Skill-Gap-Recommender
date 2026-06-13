@@ -20,7 +20,7 @@ from src.job_clustering import (  # noqa: E402
     generate_cluster_insights,
     run_job_clustering_pipeline,
 )
-from src.ui_theme import apply_global_theme, render_brand_header, style_plotly_figure  # noqa: E402
+from src.ui_theme import apply_global_theme, render_app_footer, render_brand_header, style_plotly_figure  # noqa: E402
 
 
 st.set_page_config(page_title="Role Segmentation + Job Clustering", page_icon="🧠", layout="wide")
@@ -260,3 +260,5 @@ with st.expander("Limitations"):
     st.markdown("- Results depend on dataset size and quality.")
     st.markdown("- Small sample sizes can produce less stable clusters.")
     st.markdown("- Labels are rule-based and should be treated as guidance.")
+
+render_app_footer(show_tech_line=False)

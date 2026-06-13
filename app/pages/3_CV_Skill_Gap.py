@@ -41,7 +41,7 @@ from src.skill_analysis_utils import build_skill_category_lookup, load_skill_dic
 from src.progress_tracker_utils import record_gap_analysis  # noqa: E402
 from src.learning_resource_utils import get_resources_for_skills  # noqa: E402
 from src.regional_profiles_utils import get_regional_role_profile, list_regions  # noqa: E402
-from src.ui_theme import apply_global_theme, render_brand_header, render_info_box, style_plotly_figure  # noqa: E402
+from src.ui_theme import apply_global_theme, render_app_footer, render_brand_header, render_info_box, style_plotly_figure  # noqa: E402
 
 
 st.set_page_config(page_title="CV Skill Gap Analyzer", page_icon="📄", layout="wide")
@@ -347,3 +347,5 @@ with st.expander("Limitations"):
     st.markdown("- Sample job data is synthetic unless you import your own CSV.")
     st.markdown("- Curated role profiles are simplified and vary by country/company.")
     st.markdown("- Skill detection depends on taxonomy coverage and CV wording.")
+
+render_app_footer(show_tech_line=False)

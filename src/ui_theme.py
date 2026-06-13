@@ -242,6 +242,44 @@ def inject_global_css() -> None:
                 color: var(--text-muted);
                 font-size: 0.85rem;
                 margin-top: 1.5rem;
+                padding-top: 1rem;
+                border-top: 1px solid rgba(255, 68, 51, 0.25);
+                text-align: center;
+                line-height: 1.6;
+            }}
+
+            .cc-footer a {{
+                color: var(--text) !important;
+                text-decoration: underline;
+                font-weight: 600;
+            }}
+
+            .cc-footer a:hover {{
+                color: var(--accent) !important;
+            }}
+
+            .cc-wizard-box {{
+                border: 2px solid var(--accent);
+                border-radius: 18px;
+                padding: 1.2rem 1.4rem;
+                margin: 0.5rem 0 1.2rem 0;
+                background: linear-gradient(135deg, rgba(255,68,51,0.14) 0%, rgba(18,6,8,0.95) 60%);
+                box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+            }}
+
+            .cc-wizard-step {{
+                display: inline-block;
+                border: 1px solid var(--accent);
+                border-radius: 999px;
+                padding: 0.2rem 0.75rem;
+                font-size: 0.82rem;
+                margin-right: 0.4rem;
+                background: rgba(255, 68, 51, 0.12);
+            }}
+
+            .cc-wizard-step-active {{
+                background: var(--accent);
+                font-weight: 700;
             }}
         </style>
         """,
@@ -381,6 +419,25 @@ def render_sidebar_navigation(extra_note: str | None = None) -> str:
         st.caption(f"{APP_VERSION} · Open-source · No paid APIs")
 
     return lang_code
+
+
+def render_app_footer(show_tech_line: bool = True) -> None:
+    """Render global app footer with copyright and portfolio link."""
+    tech_line = (
+        f"<div style='margin-bottom:0.35rem; opacity:0.85;'>Built with Python · Streamlit · scikit-learn · Plotly · {APP_VERSION}</div>"
+        if show_tech_line
+        else ""
+    )
+    st.markdown(
+        f"""
+        <div class="cc-footer">
+            {tech_line}
+            © 2026 All rights reserved by
+            <a href="https://fzn011.github.io/portfolio/" target="_blank" rel="noopener noreferrer">Faiaz Zahin</a>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
 
 def apply_global_theme() -> None:

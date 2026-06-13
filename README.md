@@ -92,6 +92,7 @@ Career category guidance is rule-based and transparent. No paid AI APIs are used
 7. `app/pages/7_Career_Explorer.py` — Career Explorer
 8. `app/pages/8_Job_Match_Dashboard.py` — Job Match Dashboard
 9. `app/pages/9_Career_Toolkit.py` — Career Toolkit (progress, badges, interview, resume)
+10. `app/pages/10_Career_Intelligence_Hub.py` — Career Intelligence Hub
 
 ---
 
@@ -149,13 +150,24 @@ Default imported outputs:
 
 ## Local setup
 
+### Windows (one command)
+
+```powershell
+Set-ExecutionPolicy -Scope CurrentUser RemoteSigned   # first time only
+.\setup.ps1
+.\setup.ps1 -RunApp                                    # setup + launch Streamlit
+```
+
+This creates `.venv`, installs dependencies, generates career data, runs the health check, and imports demo jobs.
+
+### Manual setup (all platforms)
+
 1. Create and activate virtual environment
 2. Install dependencies from `requirements.txt`
-3. Generate career taxonomies (if needed): `python3 scripts/generate_career_taxonomies.py`
+3. Generate data: `python scripts/generate_career_taxonomies.py` (and advanced/premium scripts)
 4. Run health check
 5. Optionally import expanded demo data
-6. Run test suite
-7. Start Streamlit app
+6. Start Streamlit app
 
 ---
 

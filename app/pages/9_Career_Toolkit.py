@@ -22,7 +22,7 @@ from src.progress_tracker_utils import compute_progress_skill_growth, get_gap_hi
 from src.regional_profiles_utils import list_regions  # noqa: E402
 from src.resume_bullet_utils import format_resume_bullets_text, generate_resume_bullets  # noqa: E402
 from src.email_digest_utils import build_weekly_digest_text, send_weekly_digest, smtp_configured  # noqa: E402
-from src.ui_theme import apply_global_theme, render_brand_header, render_info_box, style_plotly_figure  # noqa: E402
+from src.ui_theme import apply_global_theme, render_app_footer, render_brand_header, render_info_box, style_plotly_figure  # noqa: E402
 
 
 st.set_page_config(page_title="Career Toolkit", page_icon="🛠️", layout="wide")
@@ -183,3 +183,5 @@ with tool_tab[5]:
         earned_badges = badges_df[badges_df["earned"]]
         for _, row in earned_badges.iterrows():
             st.success(f"🏅 {row['title']} — {row['description']}")
+
+render_app_footer(show_tech_line=False)
