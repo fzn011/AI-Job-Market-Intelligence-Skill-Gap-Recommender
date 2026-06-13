@@ -21,7 +21,9 @@ def _extract_pdf_text(data: bytes) -> str:
     try:
         from pypdf import PdfReader
     except ImportError as exc:
-        raise ValueError("PDF support requires pypdf. Run: pip install pypdf") from exc
+        raise ValueError(
+            "PDF support requires pypdf. Run: pip install pypdf python-docx  OR  .\\setup.ps1"
+        ) from exc
 
     reader = PdfReader(BytesIO(data))
     parts: list[str] = []
@@ -36,7 +38,9 @@ def _extract_docx_text(data: bytes) -> str:
     try:
         from docx import Document
     except ImportError as exc:
-        raise ValueError("DOCX support requires python-docx. Run: pip install python-docx") from exc
+        raise ValueError(
+            "DOCX support requires python-docx. Run: pip install pypdf python-docx  OR  .\\setup.ps1"
+        ) from exc
 
     document = Document(BytesIO(data))
     parts = [paragraph.text.strip() for paragraph in document.paragraphs if paragraph.text.strip()]

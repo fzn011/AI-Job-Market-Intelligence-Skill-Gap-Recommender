@@ -162,7 +162,7 @@ Write-Host "[4/9] Upgrading pip..." -ForegroundColor Yellow
 Write-Host "[5/9] Installing dependencies (this may take several minutes)..." -ForegroundColor Yellow
 if ($SkipHeavyPackages) {
     Write-Host "      Lightweight mode: skipping sentence-transformers." -ForegroundColor DarkYellow
-    & $VenvPython -m pip install pandas numpy scikit-learn plotly streamlit pyyaml python-dotenv pytest reportlab joblib matplotlib requests
+    & $VenvPython -m pip install pandas numpy scikit-learn plotly streamlit pyyaml python-dotenv pytest reportlab joblib matplotlib requests pypdf python-docx
 } else {
     & $VenvPython -m pip install -r requirements.txt
 }
