@@ -22,7 +22,7 @@ from src.data_collection import (  # noqa: E402
 )
 from src.dashboard_utils import get_active_dataset_label  # noqa: E402
 from src.ui_theme import apply_global_theme, render_app_footer, render_brand_header, render_info_box  # noqa: E402
-from src.public_data_connectors import fetch_usajobs_jobs, list_available_connectors  # noqa: E402
+from src.public_data_connectors import fetch_usajobs_jobs, get_usajobs_connection_status, list_available_connectors  # noqa: E402
 from src.progress_tracker_utils import increment_stat  # noqa: E402
 
 
@@ -110,11 +110,30 @@ if uploaded is not None:
 st.markdown("---")
 st.subheader("Public Data Connectors")
 
-render_info_box(
-    "Legal public APIs",
-    "Connectors use free public APIs where available. USAJobs requires a free API key via developer.usajobs.gov "
-    "(set `USAJOBS_API_KEY` and `USAJOBS_USER_EMAIL` environment variables). Without keys, demo connector data is shown.",
-)
+with st.expander("USAJobs API settings", expanded=False):
+    st.text_input(
+        "USAJobs API key",
+        type="password",
+        placeholder="Paste your Authorization-Key",
+        key="usajobs_api_key_input",
+    )
+    st.text_input(
+        "USAJobs account email",
+        placeholder="faiazzahin@gmail.com",
+        key="usajobs_email_input",
+    )
+    status = get_usajobs_connection_status(
+        st.session_state.get("usajobs_api_key_input", ""),
+        st.session_state.get("usajobs_email_input", ""),
+    )
+    if status["configured"]:
+        st.success(f"Credentials loaded for {status['email']}")
+    else:
+        st.warning("USAJobs credentials not configured.")
+    st.caption(
+        "Add credentials to `.streamlit/secrets.toml`, or enter them here for this session. "
+        "The User-Agent email must exactly match the address used at developer.usajobs.gov."
+    )
 
 connectors = list_available_connectors()
 connector = st.selectbox("Connector", options=connectors)
@@ -122,12 +141,21 @@ keyword = st.text_input("Search keyword", value="data analyst")
 
 if st.button("Fetch Jobs from Connector", type="primary"):
     if connector == "usajobs":
-        jobs_df, meta = fetch_usajobs_jobs(keyword=keyword, results_per_page=10)
+        jobs_df, meta = fetch_usajobs_jobs(
+            keyword=keyword,
+            results_per_page=10,
+            api_key_override=st.session_state.get("usajobs_api_key_input", ""),
+            email_override=st.session_state.get("usajobs_email_input", ""),
+        )
         increment_stat("data_imports")
-        st.success(meta.get("message", "Fetch complete"))
+        if meta.get("mode") == "live_api":
+            st.success(meta.get("message", "Fetch complete"))
+        else:
+            st.warning(meta.get("message", "Fetch complete"))
         st.dataframe(jobs_df, use_container_width=True)
         st.caption(f"Mode: {meta.get('mode', 'unknown')} · Rows: {meta.get('rows', 0)}")
-        st.info("To import into the dashboard, save this data as CSV matching the job schema and upload above.")
+        if meta.get("mode") == "live_api":
+            st.info("To import into the dashboard, save this data as CSV matching the job schema and upload above.")
 
 st.markdown("---")
 st.subheader("Download CSV Template")

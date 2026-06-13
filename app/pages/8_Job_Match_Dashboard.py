@@ -1,4 +1,4 @@
-"""Job Match Score Dashboard — paste a job description and CV for instant fit scoring."""
+"""Job Match Score Dashboard — paste or upload a job description and CV for fit scoring."""
 
 from __future__ import annotations
 
@@ -13,6 +13,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
+from src.document_text_utils import extract_text_from_upload, merge_cv_text  # noqa: E402
 from src.job_match_utils import (  # noqa: E402
     build_job_match_dataframe,
     classify_job_match_level,
@@ -29,13 +30,13 @@ apply_global_theme()
 
 render_brand_header(
     app_name="CareerCompass · Job Match Dashboard",
-    subtitle="Paste any job description and your CV to get an instant, transparent fit score.",
+    subtitle="Upload or paste your CV and job description for an instant fit score.",
 )
 
 render_info_box(
     "How it works",
-    "Skills are extracted using the local skill dictionary with synonym expansion (e.g., JS → javascript, PowerBI → power bi). "
-    "No paid AI APIs are used.",
+    "Upload a CV (.pdf, .docx, .txt) or paste text manually. Skills are extracted locally with synonym expansion "
+    "(e.g., JS → javascript, PowerBI → power bi). No paid AI APIs are used.",
 )
 
 job_title = st.text_input("Job Title (optional)", placeholder="e.g., Data Analyst, Frontend Developer")
@@ -47,20 +48,40 @@ with col1:
         placeholder="Paste the full job description here...",
     )
 with col2:
-    cv_text = st.text_area(
-        "Your CV / Profile",
-        height=280,
-        placeholder="Paste your CV, resume, or LinkedIn About section...",
+    cv_upload = st.file_uploader(
+        "Upload CV / Resume",
+        type=["pdf", "docx", "txt"],
+        help="Supported formats: PDF, DOCX, TXT. Uploaded text overrides the paste box below.",
     )
+    uploaded_cv_text = ""
+    if cv_upload is not None:
+        try:
+            uploaded_cv_text = extract_text_from_upload(cv_upload.getvalue(), cv_upload.name)
+            st.success(f"Loaded {len(uploaded_cv_text.split())} words from {cv_upload.name}")
+            with st.expander("Preview extracted CV text"):
+                st.text(uploaded_cv_text[:3000] + ("..." if len(uploaded_cv_text) > 3000 else ""))
+        except ValueError as exc:
+            st.error(str(exc))
+
+    cv_text = st.text_area(
+        "Or paste CV / profile text",
+        height=180,
+        placeholder="Paste your CV, resume, or LinkedIn About section if you are not uploading a file...",
+    )
+
+cv_input = merge_cv_text(uploaded_cv_text, cv_text)
 
 analyze = st.button("Calculate Job Match Score", type="primary", use_container_width=True)
 
 if analyze:
-    if not job_description.strip() or not cv_text.strip():
-        st.warning("Please paste both a job description and CV text.")
+    if not job_description.strip():
+        st.warning("Please paste a job description.")
+        st.stop()
+    if not cv_input.strip():
+        st.warning("Please upload a CV file or paste CV text.")
         st.stop()
 
-    result = compute_job_match(job_description, cv_text)
+    result = compute_job_match(job_description, cv_input)
     if result.get("message") and result.get("job_skill_count", 0) == 0:
         st.info(result["message"])
         st.stop()
@@ -148,6 +169,7 @@ if result:
 
 with st.expander("Limitations"):
     st.markdown("- Match score depends on skill dictionary coverage.")
+    st.markdown("- Uploaded PDFs must contain selectable text (scanned images may not extract well).")
     st.markdown("- Synonym expansion helps but cannot capture every job-board wording.")
     st.markdown("- This is guidance, not an official application screening result.")
 

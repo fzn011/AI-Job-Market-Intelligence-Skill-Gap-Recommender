@@ -46,9 +46,7 @@ st.set_page_config(
 apply_global_theme()
 render_sidebar_navigation()
 
-render_brand_header(
-    subtitle="Understand the market. Map your skill gap. Build your next move — for any career path.",
-)
+render_brand_header()
 
 categories = list_career_categories()
 role_profiles = load_role_profiles()
@@ -69,9 +67,6 @@ st.markdown(
     """
     <div class="cc-wizard-box">
         <div style="font-size:1.25rem; font-weight:800; margin-bottom:0.35rem;">Quick Start Wizard</div>
-        <div style="color:rgba(255,255,255,0.75); font-size:0.95rem;">
-            Three clicks to your first career insight — no need to hunt through pages.
-        </div>
     </div>
     """,
     unsafe_allow_html=True,
