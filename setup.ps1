@@ -19,6 +19,26 @@ Write-Host " CareerCompass Windows Setup" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
 
+$RequiredScripts = @(
+    "scripts\generate_career_taxonomies.py",
+    "scripts\generate_advanced_features_data.py",
+    "scripts\generate_premium_features_data.py",
+    "scripts\run_project_check.py"
+)
+$MissingScripts = @($RequiredScripts | Where-Object { -not (Test-Path (Join-Path $ProjectRoot $_)) })
+if ($MissingScripts.Count -gt 0) {
+    Write-Host "ERROR: This folder is missing CareerCompass files:" -ForegroundColor Red
+    foreach ($item in $MissingScripts) { Write-Host "  - $item" -ForegroundColor Red }
+    Write-Host ""
+    Write-Host "Your git pull likely failed due to local changes. Run:" -ForegroundColor Yellow
+    Write-Host "  git fetch origin main" -ForegroundColor White
+    Write-Host "  git reset --hard origin/main" -ForegroundColor White
+    Write-Host "  .\setup.ps1 -RunApp" -ForegroundColor White
+    Write-Host ""
+    Write-Host "Or stash local edits first: git stash push -u -m backup" -ForegroundColor DarkYellow
+    exit 1
+}
+
 function Find-Python {
     $candidates = @("python", "py", "python3")
     foreach ($cmd in $candidates) {

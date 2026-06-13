@@ -154,11 +154,48 @@ Default imported outputs:
 
 ```powershell
 Set-ExecutionPolicy -Scope CurrentUser RemoteSigned   # first time only
+git pull origin main                                  # get latest code first (see troubleshooting below)
 .\setup.ps1
 .\setup.ps1 -RunApp                                    # setup + launch Streamlit
 ```
 
 This creates `.venv`, installs dependencies, generates career data, runs the health check, and imports demo jobs.
+
+#### Windows troubleshooting
+
+**`setup.ps1` not found** or **`generate_career_taxonomies.py` not found**  
+Your folder is still on an old commit. `git pull` probably failed because of local edits. Fix it like this:
+
+```powershell
+cd "E:\Projects\AI Job Market Intelligence + Skill Gap Recommender\ai-job-market-intelligence"
+
+# See what is blocking the update
+git status
+
+# Recommended: discard local edits and match GitHub main exactly
+git fetch origin main
+git reset --hard origin/main
+
+# Or, keep your edits in a stash instead of deleting them
+# git stash push -u -m "backup before CareerCompass upgrade"
+# git pull origin main
+
+# Confirm the new files exist
+dir setup.ps1
+dir scripts\generate_career_taxonomies.py
+
+# Run setup
+.\setup.ps1 -RunApp
+```
+
+**`git pull` says "Your local changes would be overwritten"**  
+You have uncommitted edits in files like `app/streamlit_app.py` or `.streamlit/config.toml`. Use `git reset --hard origin/main` (above) or `git stash` before pulling.
+
+**`python -m venv .venv` fails while venv is active**  
+Do not recreate the venv manually if `.venv` already exists. Either run `.\setup.ps1` (it reuses the existing venv) or deactivate first: `deactivate`, delete `.venv`, then recreate.
+
+**App starts but looks like the old version (no CareerCompass pages)**  
+Check `git log -1 --oneline`. You should see a recent merge including `setup.ps1`. If not, run the reset + pull steps above.
 
 ### Manual setup (all platforms)
 
