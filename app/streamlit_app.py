@@ -2,7 +2,6 @@
 
 import sys
 from pathlib import Path
-import ast
 
 import pandas as pd
 import streamlit as st
@@ -57,6 +56,16 @@ categories = list_career_categories()
 role_profiles = load_role_profiles()
 total_roles = sum(len(roles) for roles in role_profiles.values())
 
+if not categories:
+    st.error(
+        "Career data files are missing. From the project folder run "
+        "`python scripts/generate_career_taxonomies.py` or `.\setup.ps1`."
+    )
+    st.stop()
+
+default_category = get_default_category()
+default_category_index = categories.index(default_category) if default_category in categories else 0
+
 # ── Quick Start Wizard (3 clicks to first result) ───────────────────────────
 st.markdown(
     """
@@ -89,9 +98,8 @@ with wiz1:
 
 with wiz2:
     st.markdown("**Click 2 — Add details**")
-    default_cat = get_default_category()
     if goal == "Check my skill gap for a role":
-        qs_category = st.selectbox("Category", options=categories, index=categories.index(default_cat) if default_cat in categories else 0, key="qs_cat")
+        qs_category = st.selectbox("Category", options=categories, index=default_category_index, key="qs_cat")
         qs_roles = get_roles_for_category(qs_category)
         qs_role = st.selectbox("Target role", options=qs_roles or ["Data Analyst"], key="qs_role")
         qs_region = st.selectbox("Region", options=list_regions(), key="qs_region")
@@ -100,7 +108,7 @@ with wiz2:
         cv_text = st.text_area("Your CV", value=SAMPLE_CV, height=80, key="qs_cv_job")
         job_text = st.text_area("Job description", value=SAMPLE_JOB, height=80, key="qs_job")
     else:
-        qs_category = st.selectbox("Category", options=categories, index=categories.index(default_cat) if default_cat in categories else 0, key="qs_cat_explore")
+        qs_category = st.selectbox("Category", options=categories, index=default_category_index, key="qs_cat_explore")
         qs_roles = get_roles_for_category(qs_category)
         qs_role = st.selectbox("Role to explore", options=qs_roles or ["Data Analyst"], key="qs_role_explore")
         qs_region = st.selectbox("Region", options=list_regions(), key="qs_region_explore")

@@ -154,12 +154,32 @@ Default imported outputs:
 
 ```powershell
 Set-ExecutionPolicy -Scope CurrentUser RemoteSigned   # first time only
-git pull origin main                                  # get latest code first (see troubleshooting below)
-.\setup.ps1
-.\setup.ps1 -RunApp                                    # setup + launch Streamlit
+cd "E:\Projects\AI Job Market Intelligence + Skill Gap Recommender\ai-job-market-intelligence"
+git fetch origin main
+git reset --hard origin/main
+.\setup.ps1 -RunApp
 ```
 
-This creates `.venv`, installs dependencies, generates career data, runs the health check, and imports demo jobs.
+After the first successful setup, launch anytime with:
+
+```powershell
+.\run_app.ps1
+```
+
+This creates `.venv`, installs dependencies, generates career data, runs health checks, verifies imports, and optionally launches Streamlit.
+
+If setup fails on heavy packages (torch / sentence-transformers), use:
+
+```powershell
+.\setup.ps1 -SkipHeavyPackages -RunApp
+```
+
+To force-sync the repo from GitHub before setup:
+
+```powershell
+.\setup.ps1 -RepairRepo
+.\setup.ps1 -RunApp
+```
 
 #### Windows troubleshooting
 

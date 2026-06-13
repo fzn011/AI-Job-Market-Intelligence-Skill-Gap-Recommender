@@ -104,6 +104,9 @@ with tool_tab[1]:
 with tool_tab[2]:
     st.subheader("Interview Question Generator")
     categories = list_career_categories()
+    if not categories:
+        st.error("Career taxonomies not found. Run: python scripts/generate_career_taxonomies.py or .\\setup.ps1")
+        categories = ["Data & AI"]
     ic1, ic2, ic3 = st.columns(3)
     with ic1:
         category = st.selectbox("Category", options=categories, key="interview_cat")
