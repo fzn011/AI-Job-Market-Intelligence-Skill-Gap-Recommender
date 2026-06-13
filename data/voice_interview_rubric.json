@@ -1,0 +1,16 @@
+{
+  "dimensions": [
+    "clarity",
+    "structure",
+    "technical_depth",
+    "confidence",
+    "relevance"
+  ],
+  "scale": {
+    "1": "Needs improvement",
+    "2": "Developing",
+    "3": "Adequate",
+    "4": "Strong",
+    "5": "Excellent"
+  }
+}

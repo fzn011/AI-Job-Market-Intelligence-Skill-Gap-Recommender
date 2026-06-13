@@ -22,6 +22,7 @@ def main() -> int:
         root / "app" / "pages" / "7_Career_Explorer.py",
         root / "app" / "pages" / "8_Job_Match_Dashboard.py",
         root / "app" / "pages" / "9_Career_Toolkit.py",
+        root / "app" / "pages" / "10_Career_Intelligence_Hub.py",
     ]
 
     core_modules = [
@@ -41,6 +42,15 @@ def main() -> int:
         root / "src" / "gamification_utils.py",
         root / "src" / "i18n_utils.py",
         root / "src" / "public_data_connectors.py",
+        root / "src" / "secrets_utils.py",
+        root / "src" / "semantic_skill_utils.py",
+        root / "src" / "company_prep_utils.py",
+        root / "src" / "salary_estimator_utils.py",
+        root / "src" / "linkedin_optimizer_utils.py",
+        root / "src" / "peer_benchmark_utils.py",
+        root / "src" / "voice_interview_utils.py",
+        root / "src" / "study_calendar_utils.py",
+        root / "src" / "email_digest_utils.py",
     ]
 
     career_taxonomy_assets = [
@@ -54,6 +64,9 @@ def main() -> int:
         root / "data" / "gamification_badges.json",
         root / "data" / "i18n" / "en.json",
         root / "data" / "i18n" / "bn.json",
+        root / "data" / "company_prep_packs.json",
+        root / "data" / "salary_bands.json",
+        root / "data" / "voice_interview_rubric.json",
     ]
 
     required_folders = [
@@ -70,6 +83,7 @@ def main() -> int:
         root / "scripts" / "import_jobs_from_csv.py",
         root / "scripts" / "final_project_audit.py",
         root / "scripts" / "generate_advanced_features_data.py",
+        root / "scripts" / "generate_premium_features_data.py",
     ]
 
     sample_processed = root / "data" / "processed" / "processed_sample_jobs.csv"

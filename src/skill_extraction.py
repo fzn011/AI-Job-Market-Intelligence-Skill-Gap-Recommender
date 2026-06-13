@@ -47,8 +47,8 @@ def _build_skill_pattern(skill: str) -> re.Pattern:
     return re.compile(rf"(?<![a-z0-9]){escaped}(?![a-z0-9])", flags=re.IGNORECASE)
 
 
-def extract_skills_from_text(text: str, skills: list[str]) -> list[str]:
-    """Extract matched skills from text using boundary-aware matching."""
+def extract_skills_from_text(text: str, skills: list[str], use_semantic: bool = False) -> list[str]:
+    """Extract matched skills from text using boundary-aware matching and optional semantic enrichment."""
     expanded_text = expand_text_with_synonyms(text)
     normalized_text = clean_text(expanded_text)
     if not normalized_text:
@@ -64,7 +64,15 @@ def extract_skills_from_text(text: str, skills: list[str]) -> list[str]:
         if pattern.search(normalized_text):
             matched_skills.add(normalized_skill)
 
-    return normalize_skill_list(sorted(matched_skills))
+    regex_results = normalize_skill_list(sorted(matched_skills))
+
+    if use_semantic:
+        from src.semantic_skill_utils import extract_skills_semantic, merge_extraction_results
+
+        semantic_results = extract_skills_semantic(text, skills)
+        return merge_extraction_results(regex_results, semantic_results)
+
+    return regex_results
 
 
 def extract_skills_from_dataframe(

@@ -368,6 +368,7 @@ def render_sidebar_navigation(extra_note: str | None = None) -> str:
             - 🚀 {t('nav_recommendations', lang_code, 'Project & Career Actions')}
             - 🎯 {t('nav_job_match', lang_code, 'Job Match Dashboard')}
             - 🛠️ {t('nav_toolkit', lang_code, 'Career Toolkit')}
+            - 🧠 {t('nav_intelligence', lang_code, 'Career Intelligence Hub')}
             - 🧠 {t('nav_clustering', lang_code, 'Role Clustering')}
             - 📥 {t('nav_import', lang_code, 'Data Import')}
             - 🌍 {t('nav_explorer', lang_code, 'Career Explorer')}
