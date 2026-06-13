@@ -7,6 +7,7 @@ that module is outdated on disk.
 from __future__ import annotations
 
 import importlib
+import inspect
 import shutil
 import subprocess
 import sys
@@ -23,6 +24,10 @@ UI_THEME_EXPORTS = (
     "render_status_badge",
     "render_app_footer",
     "style_plotly_figure",
+)
+UI_THEME_FILE_MARKERS = UI_THEME_EXPORTS + (
+    "bootstrap_app_secrets",
+    "project_root: Path | None",
 )
 
 
@@ -88,7 +93,10 @@ def _ui_theme_imports_ok(root: Path) -> bool:
         module = importlib.import_module("src.ui_theme")
     except Exception:
         return False
-    return all(hasattr(module, name) for name in UI_THEME_EXPORTS)
+    if not all(hasattr(module, name) for name in UI_THEME_EXPORTS):
+        return False
+    params = inspect.signature(module.apply_global_theme).parameters
+    return "project_root" in params
 
 
 def main() -> int:
@@ -109,27 +117,41 @@ def main() -> int:
         "src/brand_constants.py",
         "app/streamlit_app.py",
     ]
-    if _git_restore(root, git_paths):
-        print("Git repair: restored files from origin/main")
-    else:
-        print("Git repair: skipped (no git or fetch failed)")
-
-    _clear_pycache(root)
 
     _restore_from_backup(
         root,
         "src/ui_theme.py",
         "src/_repair/ui_theme.py",
-        ("render_feature_card", "render_app_footer", "brand_constants"),
+        UI_THEME_FILE_MARKERS,
     )
     _restore_from_backup(
         root,
         "src/source_repair.py",
         "src/_repair/source_repair.py",
-        ("file_has_markers", "ui_theme_is_valid"),
+        ("file_has_markers", "ui_theme_is_valid", "UI_THEME_FILE_MARKERS"),
     )
 
     _clear_pycache(root)
+
+    if not _ui_theme_imports_ok(root):
+        if _git_restore(root, git_paths):
+            print("Git repair: restored files from origin/main")
+        _clear_pycache(root)
+        _restore_from_backup(
+            root,
+            "src/ui_theme.py",
+            "src/_repair/ui_theme.py",
+            UI_THEME_FILE_MARKERS,
+        )
+        _restore_from_backup(
+            root,
+            "src/source_repair.py",
+            "src/_repair/source_repair.py",
+            ("file_has_markers", "ui_theme_is_valid", "UI_THEME_FILE_MARKERS"),
+        )
+        _clear_pycache(root)
+    else:
+        print("Repair: bundled backup is current")
 
     if not _ui_theme_imports_ok(root):
         print("\nERROR: ui_theme.py is still broken after repair.")

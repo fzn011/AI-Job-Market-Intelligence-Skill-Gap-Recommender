@@ -21,9 +21,13 @@ UI_THEME_EXPORTS: tuple[str, ...] = (
     "render_app_footer",
     "style_plotly_figure",
 )
+UI_THEME_FILE_MARKERS: tuple[str, ...] = UI_THEME_EXPORTS + (
+    "bootstrap_app_secrets",
+    "project_root: Path | None",
+)
 
 FILE_CHECKS: dict[str, tuple[str, ...]] = {
-    "src/ui_theme.py": UI_THEME_EXPORTS,
+    "src/ui_theme.py": UI_THEME_FILE_MARKERS,
     "src/brand_constants.py": ("APP_NAME", "CareerCompass"),
     "app/streamlit_app.py": ("CareerCompass", "Quick Start Wizard", "render_feature_card"),
 }
@@ -129,8 +133,12 @@ def ensure_careercompass_sources(root: Path | None = None) -> None:
     _repair_running = True
     try:
         clear_python_cache(root)
-        repair_with_git(root)
-        clear_python_cache(root)
+        if not ui_theme_is_valid(root):
+            repair_ui_theme_from_backup(root)
+            clear_python_cache(root)
+        if not ui_theme_is_valid(root):
+            repair_with_git(root)
+            clear_python_cache(root)
         if not ui_theme_is_valid(root):
             repair_ui_theme_from_backup(root)
             clear_python_cache(root)
