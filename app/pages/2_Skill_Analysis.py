@@ -34,7 +34,7 @@ from src.skill_analysis_utils import (  # noqa: E402
     get_top_skills,
     load_skill_dictionary_for_analysis,
 )
-from src.ui_theme import apply_global_theme, render_brand_header, style_plotly_figure  # noqa: E402
+from src.ui_theme import apply_global_theme, render_app_footer, render_brand_header, style_plotly_figure  # noqa: E402
 from src.timeseries_utils import build_skill_timeseries, get_timeseries_summary  # noqa: E402
 
 
@@ -343,3 +343,5 @@ with st.expander("Next Development Steps"):
 # Optional fallback note for frequency file availability
 if skill_freq_df.empty:
     st.info("`sample_skill_frequency.csv` is not available. Run health-check to regenerate it.")
+
+render_app_footer(show_tech_line=False)

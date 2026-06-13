@@ -25,7 +25,7 @@ from src.dashboard_utils import (  # noqa: E402
     parse_extracted_skills,
     prepare_jobs_preview,
 )
-from src.ui_theme import apply_global_theme, render_brand_header, style_plotly_figure  # noqa: E402
+from src.ui_theme import apply_global_theme, render_app_footer, render_brand_header, style_plotly_figure  # noqa: E402
 
 
 st.set_page_config(page_title="Job Market Overview", page_icon="🗺️", layout="wide")
@@ -290,3 +290,5 @@ with st.expander("Next Development Steps"):
     st.markdown("- Add CV skill-gap analyzer")
     st.markdown("- Add role clustering")
     st.markdown("- Add recommendation engine UI")
+
+render_app_footer(show_tech_line=False)

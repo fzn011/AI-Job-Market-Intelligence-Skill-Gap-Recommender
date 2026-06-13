@@ -242,6 +242,20 @@ def inject_global_css() -> None:
                 color: var(--text-muted);
                 font-size: 0.85rem;
                 margin-top: 1.5rem;
+                padding-top: 1rem;
+                border-top: 1px solid rgba(255, 68, 51, 0.25);
+                text-align: center;
+                line-height: 1.6;
+            }}
+
+            .cc-footer a {{
+                color: var(--text) !important;
+                text-decoration: underline;
+                font-weight: 600;
+            }}
+
+            .cc-footer a:hover {{
+                color: var(--accent) !important;
             }}
 
             .cc-wizard-box {{
@@ -405,6 +419,25 @@ def render_sidebar_navigation(extra_note: str | None = None) -> str:
         st.caption(f"{APP_VERSION} · Open-source · No paid APIs")
 
     return lang_code
+
+
+def render_app_footer(show_tech_line: bool = True) -> None:
+    """Render global app footer with copyright and portfolio link."""
+    tech_line = (
+        f"<div style='margin-bottom:0.35rem; opacity:0.85;'>Built with Python · Streamlit · scikit-learn · Plotly · {APP_VERSION}</div>"
+        if show_tech_line
+        else ""
+    )
+    st.markdown(
+        f"""
+        <div class="cc-footer">
+            {tech_line}
+            © 2026 All rights reserved by
+            <a href="https://fzn011.github.io/portfolio/" target="_blank" rel="noopener noreferrer">Faiaz Zahin</a>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
 
 def apply_global_theme() -> None:

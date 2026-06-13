@@ -36,6 +36,7 @@ from src.ui_theme import (  # noqa: E402
     render_path_card,
     render_sidebar_navigation,
     render_status_badge,
+    render_app_footer,
 )
 
 
@@ -309,7 +310,4 @@ render_info_box(
     "Career category guidance uses curated, rule-based profiles. Results are guidance, not hiring guarantees.",
 )
 
-st.markdown(
-    f"<div class='cc-footer'>Built with Python · Streamlit · scikit-learn · Plotly · {APP_VERSION}</div>",
-    unsafe_allow_html=True,
-)
+render_app_footer()

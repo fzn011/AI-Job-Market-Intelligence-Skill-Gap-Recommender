@@ -32,7 +32,7 @@ from src.semantic_skill_utils import get_semantic_match_scores, semantic_model_a
 from src.skill_analysis_utils import load_skill_dictionary_for_analysis  # noqa: E402
 from src.skill_extraction import extract_skills_from_text, flatten_skill_dictionary  # noqa: E402
 from src.study_calendar_utils import generate_study_plan_ics  # noqa: E402
-from src.ui_theme import apply_global_theme, render_brand_header, render_info_box, style_plotly_figure  # noqa: E402
+from src.ui_theme import apply_global_theme, render_app_footer, render_brand_header, render_info_box, style_plotly_figure  # noqa: E402
 from src.voice_interview_utils import create_interview_session, format_session_report, score_interview_session  # noqa: E402
 
 
@@ -215,3 +215,5 @@ with tabs[6]:
             fig = px.bar(score_df, x="semantic_score", y="skill", orientation="h")
             style_plotly_figure(fig)
             st.plotly_chart(fig, use_container_width=True)
+
+render_app_footer(show_tech_line=False)

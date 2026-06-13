@@ -36,7 +36,7 @@ from src.project_recommendation_utils import (  # noqa: E402
     recommend_projects,
     summarize_project_coverage,
 )
-from src.ui_theme import apply_global_theme, render_brand_header, render_info_box, style_plotly_figure  # noqa: E402
+from src.ui_theme import apply_global_theme, render_app_footer, render_brand_header, render_info_box, style_plotly_figure  # noqa: E402
 
 
 st.set_page_config(page_title="Project & Career Action Recommendations", page_icon="🚀", layout="wide")
@@ -285,3 +285,5 @@ with st.expander("How recommendations work"):
     st.markdown("- Project mode scores local technical project templates against selected skills.")
     st.markdown("- Career Action mode scores action templates by missing skill coverage.")
     st.markdown("- All recommendations are rule-based and transparent.")
+
+render_app_footer(show_tech_line=False)
