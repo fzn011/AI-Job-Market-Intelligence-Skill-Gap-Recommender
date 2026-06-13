@@ -23,6 +23,17 @@ def list_salary_regions() -> list[str]:
     return sorted(load_salary_bands().keys())
 
 
+def _find_role_band(region_bands: dict, role: str) -> dict | None:
+    role = role.strip()
+    if role in region_bands:
+        return region_bands[role]
+    role_lower = role.lower()
+    for key, value in region_bands.items():
+        if str(key).strip().lower() == role_lower:
+            return value
+    return None
+
+
 def estimate_salary_band(
     role: str,
     region: str,
@@ -36,7 +47,7 @@ def estimate_salary_band(
     """
     bands = load_salary_bands()
     region_bands = bands.get(region, {})
-    role_band = region_bands.get(role)
+    role_band = _find_role_band(region_bands, role)
 
     if not role_band:
         return {
