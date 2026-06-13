@@ -13,7 +13,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from src.document_text_utils import extract_text_from_upload, merge_cv_text  # noqa: E402
+from src.cv_upload_ui import render_cv_upload_input  # noqa: E402
 from src.job_match_utils import (  # noqa: E402
     build_job_match_dataframe,
     classify_job_match_level,
@@ -48,28 +48,12 @@ with col1:
         placeholder="Paste the full job description here...",
     )
 with col2:
-    cv_upload = st.file_uploader(
-        "Upload CV / Resume",
-        type=["pdf", "docx", "txt"],
-        help="Supported formats: PDF, DOCX, TXT. Uploaded text overrides the paste box below.",
+    cv_input = render_cv_upload_input(
+        upload_label="Upload CV / Resume",
+        paste_label="Or paste CV / profile text",
+        paste_height=180,
+        key_prefix="job_match_cv",
     )
-    uploaded_cv_text = ""
-    if cv_upload is not None:
-        try:
-            uploaded_cv_text = extract_text_from_upload(cv_upload.getvalue(), cv_upload.name)
-            st.success(f"Loaded {len(uploaded_cv_text.split())} words from {cv_upload.name}")
-            with st.expander("Preview extracted CV text"):
-                st.text(uploaded_cv_text[:3000] + ("..." if len(uploaded_cv_text) > 3000 else ""))
-        except ValueError as exc:
-            st.error(str(exc))
-
-    cv_text = st.text_area(
-        "Or paste CV / profile text",
-        height=180,
-        placeholder="Paste your CV, resume, or LinkedIn About section if you are not uploading a file...",
-    )
-
-cv_input = merge_cv_text(uploaded_cv_text, cv_text)
 
 analyze = st.button("Calculate Job Match Score", type="primary", use_container_width=True)
 
