@@ -23,7 +23,6 @@ from src.data_collection import (  # noqa: E402
 from src.dashboard_utils import get_active_dataset_label  # noqa: E402
 from src.ui_theme import apply_global_theme, render_app_footer, render_brand_header, render_info_box  # noqa: E402
 from src.public_data_connectors import fetch_usajobs_jobs, list_available_connectors  # noqa: E402
-from src.usajobs_ui_utils import render_usajobs_status  # noqa: E402
 from src.progress_tracker_utils import increment_stat  # noqa: E402
 
 
@@ -105,8 +104,6 @@ if uploaded is not None:
 
 st.markdown("---")
 st.subheader("Public Data Connectors")
-
-render_usajobs_status(PROJECT_ROOT)
 
 connectors = list_available_connectors()
 connector = st.selectbox("Connector", options=connectors)
