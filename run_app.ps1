@@ -34,19 +34,38 @@ function Import-CareerCompassSecrets {
     return ($env:USAJOBS_API_KEY -and $env:USAJOBS_USER_EMAIL)
 }
 
+function Invoke-Git {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string[]]$GitArgs
+    )
+
+    $previousErrorAction = $ErrorActionPreference
+    $ErrorActionPreference = "Continue"
+    & git -C $ProjectRoot @GitArgs 2>&1 | Out-Null
+    $exitCode = $LASTEXITCODE
+    $ErrorActionPreference = $previousErrorAction
+    return $exitCode
+}
+
 Get-ChildItem -Path $ProjectRoot -Recurse -Directory -Filter "__pycache__" -ErrorAction SilentlyContinue |
     Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
 
 Write-Host "Syncing latest app files from GitHub..." -ForegroundColor Cyan
 if (Test-Path (Join-Path $ProjectRoot ".git")) {
-    git -C $ProjectRoot fetch origin main 2>$null
-    if ($LASTEXITCODE -eq 0) {
-        git -C $ProjectRoot checkout origin/main -- app src/cv_upload_ui.py src/ui_theme.py src/_repair/ui_theme.py 2>$null
-        if ($LASTEXITCODE -eq 0) {
+    $fetchCode = Invoke-Git @("fetch", "origin", "main")
+    if ($fetchCode -eq 0) {
+        $checkoutCode = Invoke-Git @(
+            "checkout", "origin/main", "--",
+            "app", "src/cv_upload_ui.py", "src/ui_theme.py", "src/_repair/ui_theme.py"
+        )
+        if ($checkoutCode -eq 0) {
             Write-Host "App pages synced from origin/main" -ForegroundColor Green
         } else {
-            Write-Host "WARNING: Could not sync from origin/main. Run: git fetch origin main && git reset --hard origin/main" -ForegroundColor Yellow
+            Write-Host "WARNING: Could not sync from origin/main. Run: git fetch origin main; git reset --hard origin/main" -ForegroundColor Yellow
         }
+    } else {
+        Write-Host "WARNING: git fetch failed (offline?). Using local files." -ForegroundColor Yellow
     }
 }
 
