@@ -96,19 +96,9 @@ with wiz2:
         qs_roles = get_roles_for_category(qs_category)
         qs_role = st.selectbox("Target role", options=qs_roles or ["Data Analyst"], key="qs_role")
         qs_region = st.selectbox("Region", options=list_regions(), key="qs_region")
-        cv_text = render_cv_upload_input(
-            upload_label="Upload CV / Resume",
-            paste_label="Or paste CV text (optional)",
-            paste_height=80,
-            key_prefix="qs_cv_gap",
-        )
+        cv_text = render_cv_upload_input(key_prefix="qs_cv_gap")
     elif goal == "Match my CV to a job description":
-        cv_text = render_cv_upload_input(
-            upload_label="Upload CV / Resume",
-            paste_label="Or paste CV text (optional)",
-            paste_height=80,
-            key_prefix="qs_cv_job",
-        )
+        cv_text = render_cv_upload_input(key_prefix="qs_cv_job")
         job_text = st.text_area("Job description", value=SAMPLE_JOB, height=80, key="qs_job")
     else:
         qs_category = st.selectbox("Category", options=categories, index=default_category_index, key="qs_cat_explore")
@@ -127,12 +117,12 @@ with wiz3:
 if analyze_quick:
     if goal == "Check my skill gap for a role":
         if not cv_text.strip():
-            st.warning("Please upload a CV file or paste CV text.")
+            st.warning("Please upload a CV file.")
             st.stop()
         result = run_skill_gap_quick_start(qs_category, qs_role, cv_text, qs_region)
     elif goal == "Match my CV to a job description":
         if not cv_text.strip():
-            st.warning("Please upload a CV file or paste CV text.")
+            st.warning("Please upload a CV file.")
             st.stop()
         result = run_job_match_quick_start(job_text, cv_text)
     else:
@@ -215,8 +205,7 @@ with hero_left:
     )
     st.markdown(
         f"{render_status_badge('12 career categories')} "
-        f"{render_status_badge(f'{total_roles} role profiles')} "
-        f"{render_status_badge('Rule-based · No paid APIs')}",
+        f"{render_status_badge(f'{total_roles} role profiles')}",
         unsafe_allow_html=True,
     )
 
@@ -319,12 +308,5 @@ else:
         "**Career Category mode** on the CV and Recommendations pages. "
         "Run `python3 scripts/run_project_check.py` or import data to enable market analytics."
     )
-
-st.markdown("---")
-render_info_box(
-    "Honest note",
-    "Default demo job posts are synthetic and realistic — not scraped from job boards. "
-    "Career category guidance uses curated, rule-based profiles. Results are guidance, not hiring guarantees.",
-)
 
 render_app_footer()

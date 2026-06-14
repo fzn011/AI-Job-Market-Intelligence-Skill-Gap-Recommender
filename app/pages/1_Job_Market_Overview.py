@@ -284,11 +284,4 @@ with st.expander("Data Quality Notes"):
     st.markdown(f"- Missing locations: **{missing_locations}**")
     st.markdown(f"- Available columns: `{', '.join(filtered_df.columns.tolist())}`")
 
-with st.expander("Next Development Steps"):
-    st.markdown("- Add real job data collection")
-    st.markdown("- Improve skill extraction")
-    st.markdown("- Add CV skill-gap analyzer")
-    st.markdown("- Add role clustering")
-    st.markdown("- Add recommendation engine UI")
-
 render_app_footer(show_tech_line=False)

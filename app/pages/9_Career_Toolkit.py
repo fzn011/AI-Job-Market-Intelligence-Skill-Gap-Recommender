@@ -15,6 +15,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from src.career_taxonomy_utils import get_roles_for_category, list_career_categories  # noqa: E402
+from src.cv_upload_ui import render_cv_upload_input  # noqa: E402
 from src.cv_comparison_utils import build_cv_comparison_dataframe, compare_cv_versions, generate_cv_comparison_report  # noqa: E402
 from src.gamification_utils import evaluate_badges, get_badges_dataframe, get_earned_badge_count  # noqa: E402
 from src.interview_question_utils import generate_interview_prep_text, generate_interview_questions  # noqa: E402
@@ -22,7 +23,7 @@ from src.progress_tracker_utils import compute_progress_skill_growth, get_gap_hi
 from src.regional_profiles_utils import list_regions  # noqa: E402
 from src.resume_bullet_utils import format_resume_bullets_text, generate_resume_bullets  # noqa: E402
 from src.email_digest_utils import build_weekly_digest_text, send_weekly_digest, smtp_configured  # noqa: E402
-from src.ui_theme import apply_global_theme, render_app_footer, render_brand_header, render_info_box, style_plotly_figure  # noqa: E402
+from src.ui_theme import apply_global_theme, render_app_footer, render_brand_header, style_plotly_figure  # noqa: E402
 
 
 st.set_page_config(page_title="Career Toolkit", page_icon="🛠️", layout="wide")
@@ -78,18 +79,17 @@ with tool_tab[0]:
 
 with tool_tab[1]:
     st.subheader("Multi-CV Comparison")
-    render_info_box("Compare versions", "Paste two CV versions to see gained/lost skills side-by-side.")
     c1, c2 = st.columns(2)
     with c1:
         label_a = st.text_input("Label A", value="Original CV")
-        cv_a = st.text_area("CV Version A", height=220, key="cv_a")
+        cv_a = render_cv_upload_input(upload_label="Upload CV Version A", key_prefix="cv_a")
     with c2:
         label_b = st.text_input("Label B", value="Updated CV")
-        cv_b = st.text_area("CV Version B", height=220, key="cv_b")
+        cv_b = render_cv_upload_input(upload_label="Upload CV Version B", key_prefix="cv_b")
 
     if st.button("Compare CV Versions", type="primary", key="compare_cv_btn"):
         if not cv_a.strip() or not cv_b.strip():
-            st.warning("Paste both CV versions.")
+            st.warning("Upload both CV files.")
         else:
             comparison = compare_cv_versions(cv_a, cv_b, label_a, label_b)
             increment_stat("cv_comparisons")
@@ -171,23 +171,14 @@ with tool_tab[3]:
 
 with tool_tab[4]:
     st.subheader("Weekly Email Progress Digest")
-    render_info_box(
-        "Optional SMTP",
-        "Configure SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASSWORD, and DIGEST_RECIPIENT in `.streamlit/secrets.toml`. "
-        "Use an app password for Gmail. Digest sends a summary of your analyses and badges.",
-    )
     preview = build_weekly_digest_text()
     st.text_area("Digest preview", value=preview, height=220)
-    c1, c2 = st.columns(2)
-    with c1:
-        if st.button("Send Weekly Digest", type="primary"):
-            result = send_weekly_digest(dry_run=not smtp_configured())
-            if result.get("sent"):
-                st.success(result["message"])
-            else:
-                st.info(result["message"])
-    with c2:
-        st.caption(f"SMTP configured: {'Yes' if smtp_configured() else 'No — preview only'}")
+    if st.button("Send Weekly Digest", type="primary"):
+        result = send_weekly_digest(dry_run=not smtp_configured())
+        if result.get("sent"):
+            st.success(result["message"])
+        else:
+            st.info(result["message"])
 
 with tool_tab[5]:
     st.subheader("Gamification Badges")

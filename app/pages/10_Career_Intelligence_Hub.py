@@ -22,6 +22,7 @@ from src.company_prep_utils import (  # noqa: E402
     get_company_skill_overlap,
     list_companies,
 )
+from src.cv_upload_ui import render_cv_upload_input  # noqa: E402
 from src.dashboard_utils import load_active_jobs_dataset  # noqa: E402
 from src.job_match_utils import extract_cv_skills_enhanced  # noqa: E402
 from src.linkedin_optimizer_utils import optimize_linkedin_about  # noqa: E402
@@ -32,7 +33,7 @@ from src.semantic_skill_utils import get_semantic_match_scores, semantic_model_a
 from src.skill_analysis_utils import load_skill_dictionary_for_analysis  # noqa: E402
 from src.skill_extraction import extract_skills_from_text, flatten_skill_dictionary  # noqa: E402
 from src.study_calendar_utils import generate_study_plan_ics  # noqa: E402
-from src.ui_theme import apply_global_theme, render_app_footer, render_brand_header, render_info_box, style_plotly_figure  # noqa: E402
+from src.ui_theme import apply_global_theme, render_app_footer, render_brand_header, style_plotly_figure  # noqa: E402
 from src.voice_interview_utils import create_interview_session, format_session_report, score_interview_session  # noqa: E402
 
 
@@ -55,11 +56,6 @@ if not companies:
     companies = ["General"]
 
 available, model_info = semantic_model_available()
-render_info_box(
-    "Semantic skill matching",
-    f"Local sentence-transformers model: {'available' if available else 'unavailable'} ({model_info}). "
-    "Enable on the Semantic Matching tab — no paid AI APIs.",
-)
 
 tabs = st.tabs([
     "Company Prep",
@@ -78,7 +74,7 @@ with tabs[0]:
         company = st.selectbox("Company", options=companies)
     with c2:
         role = st.text_input("Target role", value="Data Analyst")
-    cv_for_company = st.text_area("Your CV / profile (optional)", height=120)
+    cv_for_company = render_cv_upload_input(key_prefix="company_cv")
     if st.button("Generate Company Prep Pack", type="primary", key="company_prep_btn"):
         cv_skills = extract_cv_skills_enhanced(cv_for_company) if cv_for_company.strip() else []
         pack = get_company_pack(company)
@@ -151,7 +147,7 @@ with tabs[2]:
 
 with tabs[3]:
     st.subheader("Peer Comparison Benchmark")
-    peer_cv = st.text_area("Paste CV for benchmark", height=160)
+    peer_cv = render_cv_upload_input(upload_label="Upload CV for benchmark", key_prefix="peer_cv")
     peer_role = st.text_input("Target role", value="Data Analyst", key="peer_role")
     jobs_df = load_active_jobs_dataset()
     if st.button("Run Peer Benchmark", type="primary", key="peer_btn") and peer_cv.strip():
@@ -242,7 +238,7 @@ with tabs[5]:
 
 with tabs[6]:
     st.subheader("Semantic Skill Matching")
-    sem_text = st.text_area("Text to analyze", height=140, placeholder="Paste CV or job description...")
+    sem_text = render_cv_upload_input(upload_label="Upload CV or job description file", key_prefix="semantic_cv")
     skill_dict = load_skill_dictionary_for_analysis()
     all_skills = flatten_skill_dictionary(skill_dict) if skill_dict else []
     use_both = st.checkbox("Combine regex + semantic extraction", value=True)

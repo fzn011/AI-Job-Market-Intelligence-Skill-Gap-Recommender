@@ -22,7 +22,7 @@ from src.job_match_utils import (  # noqa: E402
 )
 from src.learning_resource_utils import get_resources_for_skills  # noqa: E402
 from src.progress_tracker_utils import increment_stat, record_gap_analysis  # noqa: E402
-from src.ui_theme import apply_global_theme, render_app_footer, render_brand_header, render_info_box, style_plotly_figure  # noqa: E402
+from src.ui_theme import apply_global_theme, render_app_footer, render_brand_header, style_plotly_figure  # noqa: E402
 
 
 st.set_page_config(page_title="Job Match Dashboard", page_icon="🎯", layout="wide")
@@ -30,13 +30,7 @@ apply_global_theme()
 
 render_brand_header(
     app_name="CareerCompass · Job Match Dashboard",
-    subtitle="Upload or paste your CV and job description for an instant fit score.",
-)
-
-render_info_box(
-    "How it works",
-    "Upload a CV (.pdf, .docx, .txt) or paste text manually. Skills are extracted locally with synonym expansion "
-    "(e.g., JS → javascript, PowerBI → power bi). No paid AI APIs are used.",
+    subtitle="Upload your CV and job description for an instant fit score.",
 )
 
 job_title = st.text_input("Job Title (optional)", placeholder="e.g., Data Analyst, Frontend Developer")
@@ -48,12 +42,7 @@ with col1:
         placeholder="Paste the full job description here...",
     )
 with col2:
-    cv_input = render_cv_upload_input(
-        upload_label="Upload CV / Resume",
-        paste_label="Or paste CV / profile text",
-        paste_height=180,
-        key_prefix="job_match_cv",
-    )
+    cv_input = render_cv_upload_input(key_prefix="job_match_cv")
 
 analyze = st.button("Calculate Job Match Score", type="primary", use_container_width=True)
 
@@ -62,7 +51,7 @@ if analyze:
         st.warning("Please paste a job description.")
         st.stop()
     if not cv_input.strip():
-        st.warning("Please upload a CV file or paste CV text.")
+        st.warning("Please upload a CV file.")
         st.stop()
 
     result = compute_job_match(job_description, cv_input)
