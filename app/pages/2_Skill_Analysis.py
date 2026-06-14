@@ -317,7 +317,6 @@ with st.expander("How to read this page"):
     st.markdown("- Skill mentions are counted from extracted job-description skills.")
     st.markdown("- One job post can contain multiple skills.")
     st.markdown("- Co-occurrence means two skills appeared in the same job post.")
-    st.markdown("- Current data is sample/synthetic until real job collection is added.")
 
 with st.expander("Data Quality Notes"):
     uncategorized_mentions = 0
@@ -331,14 +330,6 @@ with st.expander("Data Quality Notes"):
     st.markdown(f"- Number of uncategorized skill mentions: **{uncategorized_mentions}**")
     st.markdown(f"- Available skill categories: `{', '.join(available_categories)}`")
     st.markdown(f"- Available columns: `{', '.join(skill_df.columns.tolist())}`")
-
-with st.expander("Next Development Steps"):
-    st.markdown("- Improve skill dictionary")
-    st.markdown("- Add semantic skill extraction")
-    st.markdown("- Add real job data")
-    st.markdown("- Add CV skill-gap analyzer")
-    st.markdown("- Add role clustering")
-    st.markdown("- Add skill trend analysis when date-based real data is available")
 
 # Optional fallback note for frequency file availability
 if skill_freq_df.empty:

@@ -36,6 +36,7 @@ from src.cv_gap_utils import (  # noqa: E402
     get_market_skills_by_target_role,
     recommend_learning_path,
 )
+from src.cv_upload_ui import render_cv_upload_input  # noqa: E402
 from src.dashboard_utils import get_active_dataset_label, load_active_jobs_dataset, load_processed_jobs  # noqa: E402
 from src.skill_analysis_utils import build_skill_category_lookup, load_skill_dictionary_for_analysis  # noqa: E402
 from src.progress_tracker_utils import record_gap_analysis  # noqa: E402
@@ -98,12 +99,7 @@ if analysis_mode == "Data-driven market comparison":
 
     left_col, right_col = st.columns([1.45, 1])
     with left_col:
-        cv_text = st.text_area(
-            "Paste CV / Resume / Profile Text",
-            height=320,
-            placeholder="Paste your resume, LinkedIn About section, or project profile here...",
-            key="market_cv_text",
-        )
+        cv_text = render_cv_upload_input(key_prefix="market_cv")
     with right_col:
         render_info_box(
             "Market comparison mode",
@@ -115,7 +111,7 @@ if analysis_mode == "Data-driven market comparison":
 
     if analyze_clicked:
         if not cv_text.strip():
-            st.warning("Please paste your CV or profile text first.")
+            st.warning("Please upload a CV file first.")
             st.stop()
 
         cv_skills = extract_cv_skills(cv_text=cv_text, skill_dictionary=skill_dictionary)
@@ -218,12 +214,7 @@ else:
 
     left_col, right_col = st.columns([1.45, 1])
     with left_col:
-        cv_text = st.text_area(
-            "Paste CV / Resume / Profile Text",
-            height=320,
-            placeholder="Include skills, tools, projects, certifications, and role-relevant experience...",
-            key="career_cv_text",
-        )
+        cv_text = render_cv_upload_input(key_prefix="career_cv")
     with right_col:
         regional_profile = get_regional_role_profile(career_category, target_role, region)
         profile_skills = get_target_role_skills(career_category, target_role)
@@ -236,7 +227,7 @@ else:
 
     if analyze_clicked:
         if not cv_text.strip():
-            st.warning("Please paste your CV or profile text first.")
+            st.warning("Please upload a CV file first.")
             st.stop()
 
         cv_skills = extract_skills_from_text(cv_text, career_category)
@@ -340,7 +331,6 @@ else:
         )
 
 with st.expander("How this analyzer works"):
-    st.markdown("- Rule-based skill extraction from text (no paid LLM APIs).")
     st.markdown("- Market mode compares against job dataset skills.")
     st.markdown("- Career mode compares against curated role profiles.")
     st.markdown("- Results are guidance, not hiring decisions.")

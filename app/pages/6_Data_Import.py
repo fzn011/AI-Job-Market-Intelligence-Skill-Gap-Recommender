@@ -35,11 +35,6 @@ render_brand_header(
     subtitle="Validate and process local CSV job data for dashboard analysis — or use Career Explorer without job data.",
 )
 
-st.caption(
-    "Note: On Streamlit Community Cloud, uploaded files and generated outputs can be temporary "
-    "for the active session/deployment environment."
-)
-
 sample_processed_path = PROJECT_ROOT / "data" / "processed" / "processed_sample_jobs.csv"
 imported_processed_path = PROJECT_ROOT / "data" / "processed" / "processed_imported_jobs.csv"
 expanded_source_path = PROJECT_ROOT / "data" / "sample" / "expanded_sample_jobs.csv"
