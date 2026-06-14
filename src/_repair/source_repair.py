@@ -24,6 +24,7 @@ UI_THEME_EXPORTS: tuple[str, ...] = (
 UI_THEME_FILE_MARKERS: tuple[str, ...] = UI_THEME_EXPORTS + (
     "bootstrap_app_secrets",
     "project_root: Path | None",
+    "padding-top: 5.5rem",
 )
 
 FILE_CHECKS: dict[str, tuple[str, ...]] = {

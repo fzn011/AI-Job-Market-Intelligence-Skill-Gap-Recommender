@@ -36,6 +36,19 @@ def main() -> int:
             errors.append(
                 "src/ui_theme.py is outdated. Run: python scripts/emergency_repair.py"
             )
+        if "padding-top: 5.5rem" not in text:
+            errors.append(
+                "UI polish not applied (old theme). Run: git fetch origin main && git reset --hard origin/main"
+            )
+
+    cv_upload_path = root / "src" / "cv_upload_ui.py"
+    if cv_upload_path.exists():
+        cv_text = cv_upload_path.read_text(encoding="utf-8")
+        if "paste_label" in cv_text or "st.text_area" in cv_text:
+            errors.append(
+                "CV upload polish not applied (paste fields still present). "
+                "Run: git fetch origin main && git reset --hard origin/main"
+            )
 
     try:
         from src.source_repair import ensure_careercompass_sources  # noqa: WPS433
