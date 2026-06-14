@@ -37,6 +37,19 @@ function Import-CareerCompassSecrets {
 Get-ChildItem -Path $ProjectRoot -Recurse -Directory -Filter "__pycache__" -ErrorAction SilentlyContinue |
     Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
 
+Write-Host "Syncing latest app files from GitHub..." -ForegroundColor Cyan
+if (Test-Path (Join-Path $ProjectRoot ".git")) {
+    git -C $ProjectRoot fetch origin main 2>$null
+    if ($LASTEXITCODE -eq 0) {
+        git -C $ProjectRoot checkout origin/main -- app src/cv_upload_ui.py src/ui_theme.py src/_repair/ui_theme.py 2>$null
+        if ($LASTEXITCODE -eq 0) {
+            Write-Host "App pages synced from origin/main" -ForegroundColor Green
+        } else {
+            Write-Host "WARNING: Could not sync from origin/main. Run: git fetch origin main && git reset --hard origin/main" -ForegroundColor Yellow
+        }
+    }
+}
+
 Write-Host "Repairing source files..." -ForegroundColor Cyan
 & $VenvPython scripts/emergency_repair.py
 if ($LASTEXITCODE -ne 0) {

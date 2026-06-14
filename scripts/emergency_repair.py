@@ -28,6 +28,7 @@ UI_THEME_EXPORTS = (
 UI_THEME_FILE_MARKERS = UI_THEME_EXPORTS + (
     "bootstrap_app_secrets",
     "project_root: Path | None",
+    "padding-top: 5.5rem",
 )
 
 
